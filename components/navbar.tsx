@@ -1,51 +1,67 @@
-"use client"
+// Navbar.tsx
+'use client';
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Zap, Moon, Sun, Home, Briefcase, Users, LayoutDashboard } from 'lucide-react'
-import { useTheme } from "next-themes"
-import { usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { usePathname } from '@/app/i18n/navigation';
+import { Button } from '@/components/ui/button';
+import {
+  Zap,
+  Moon,
+  Sun,
+  Home,
+  Briefcase,
+  Users,
+  LayoutDashboard,
+  Menu,
+} from 'lucide-react';
+import { useTheme } from 'next-themes';
+import { cn } from '@/lib/utils';
+import LocaleSwitcher from './shared/LanguageSwitcher';
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const { theme, setTheme } = useTheme()
-  const pathname = usePathname()
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const pathname = usePathname();
+  const t = useTranslations('navbar');
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
-    }
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navItems = [
-    { name: "Home", href: "/", icon: Home },
-    { name: "Services", href: "/services", icon: Briefcase },
-    { name: "About", href: "/about", icon: Users },
-    { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  ]
+    { name: t('home'), href: '/', icon: Home },
+    { name: t('services'), href: '/services', icon: Briefcase },
+    { name: t('about'), href: '/about', icon: Users },
+    { name: t('dashboard'), href: '/dashboard', icon: LayoutDashboard },
+  ];
 
   return (
     <>
       {/* Top Navigation Bar */}
       <nav
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
           isScrolled
-            ? "bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200/50 dark:bg-gray-900/95 dark:border-gray-700/50"
-            : "bg-transparent",
+            ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200/50 dark:bg-gray-900/95 dark:border-gray-700/50'
+            : 'bg-transparent',
         )}
       >
         <div className="container mx-auto px-4">
-          {/* Desktop Layout - Single Row */}
-          <div className="hidden md:flex items-center justify-between h-16">
+          {/* Desktop and Tablet Layout */}
+          <div className="hidden sm:flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2 group">
               <div className="relative">
-                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                <div
+                  className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200"
+                >
                   <Zap className="w-5 h-5 text-white" />
                 </div>
                 <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
@@ -53,56 +69,64 @@ export default function Navbar() {
               <span className="text-xl font-bold gradient-text">OriginalSMM</span>
             </Link>
 
-            {/* Desktop Navigation */}
-            <div className="flex items-center space-x-8">
+            {/* Desktop/Tablet Navigation */}
+            <div className="flex items-center space-x-6 lg:space-x-8">
               {navItems.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    "text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors duration-200 font-medium relative group",
-                    pathname === item.href && "text-primary dark:text-primary"
+                    'text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors duration-200 font-medium relative group',
+                    pathname === item.href && 'text-primary dark:text-primary',
                   )}
                 >
                   {item.name}
-                  <span className={cn(
-                    "absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-200",
-                    pathname === item.href ? "w-full" : "w-0 group-hover:w-full"
-                  )}></span>
+                  <span
+                    className={cn(
+                      'absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-200',
+                      pathname === item.href ? 'w-full' : 'w-0 group-hover:w-full',
+                    )}
+                  ></span>
                 </Link>
               ))}
             </div>
 
-            {/* Desktop Actions */}
+            {/* Desktop/Tablet Actions */}
             <div className="flex items-center space-x-4">
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                 className="text-gray-700 hover:text-primary dark:text-gray-300"
               >
                 <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                 <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
               </Button>
+              <LocaleSwitcher />
               <Link href="/login">
-                <Button variant="ghost" className="text-gray-700 hover:text-primary dark:text-gray-300">
-                  Login
+                <Button
+                  variant="ghost"
+                  className="text-gray-700 hover:text-primary dark:text-gray-300"
+                >
+                  {t('login')}
                 </Button>
               </Link>
               <Link href="/register">
                 <Button className="bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl transition-all duration-200">
-                  Get Started
+                  {t('getStarted')}
                 </Button>
               </Link>
             </div>
           </div>
 
-          {/* Mobile Top Bar - Logo, Theme Toggle, Login */}
-          <div className="md:hidden flex items-center justify-between h-16">
+          {/* Mobile and Small Tablet Top Bar */}
+          <div className="sm:hidden flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2 group">
               <div className="relative">
-                <div className="w-7 h-7 bg-primary rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                <div
+                  className="w-7 h-7 bg-primary rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200"
+                >
                   <Zap className="w-4 h-4 text-white" />
                 </div>
                 <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse"></div>
@@ -115,57 +139,90 @@ export default function Navbar() {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                 className="text-gray-700 hover:text-primary dark:text-gray-300 h-9 w-9"
               >
                 <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                 <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
               </Button>
-              <Link href="/login">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-gray-700 hover:text-primary dark:text-gray-300 text-sm px-3"
-                >
-                  Login
-                </Button>
-              </Link>
-              <Link href="/register">
-                <Button size="sm" className="bg-primary hover:bg-primary/90 text-white text-sm px-3">
-                  Sign Up
-                </Button>
-              </Link>
+              <LocaleSwitcher />
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="text-gray-700 hover:text-primary dark:text-gray-300 h-9 w-9"
+              >
+                <Menu className="h-5 w-5" />
+              </Button>
             </div>
           </div>
+
+          {/* Mobile/Tablet Dropdown Menu */}
+          {isMobileMenuOpen && (
+            <div className="sm:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200/50 dark:border-gray-700/50">
+              <div className="container mx-auto px-4 py-4 flex flex-col space-y-2">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={cn(
+                      'text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors duration-200 font-medium py-2',
+                      pathname === item.href && 'text-primary dark:text-primary',
+                    )}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+                <Link href="/login">
+                  <Button
+                    variant="ghost"
+                    className="text-gray-700 hover:text-primary dark:text-gray-300 w-full justify-start"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {t('login')}
+                  </Button>
+                </Link>
+                <Link href="/register">
+                  <Button
+                    className="bg-primary hover:bg-primary/90 text-white w-full justify-start"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {t('getStarted')}
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
       </nav>
 
-      {/* Mobile Bottom Navigation - Fixed at Bottom */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-md border-t border-gray-700/50 dark:bg-gray-900/95 dark:border-gray-700/50">
+      {/* Mobile Bottom Navigation */}
+      <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-md border-t border-gray-700/50 dark:bg-gray-900/95 dark:border-gray-700/50">
         <div className="flex items-center justify-around py-2">
           {navItems.map((item) => {
-            const Icon = item.icon
-            const isActive = pathname === item.href
+            const Icon = item.icon;
+            const isActive = pathname === item.href;
             return (
               <Link
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  "flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-all duration-200 min-w-[60px]",
+                  'flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-all duration-200 min-w-[60px]',
                   isActive
-                    ? "text-primary bg-primary/10"
-                    : "text-gray-400 hover:text-white hover:bg-gray-800/50"
+                    ? 'text-primary bg-primary/10'
+                    : 'text-gray-400 hover:text-white hover:bg-gray-800/50',
                 )}
               >
-                <Icon className={cn("w-5 h-5 mb-1", isActive && "text-primary")} />
-                <span className={cn("text-xs font-medium", isActive && "text-primary")}>
+                <Icon className={cn('w-5 h-5 mb-1', isActive && 'text-primary')} />
+                <span className={cn('text-xs font-medium', isActive && 'text-primary')}>
                   {item.name}
                 </span>
               </Link>
-            )
+            );
           })}
         </div>
       </nav>
     </>
-  )
+  );
 }

@@ -1,8 +1,10 @@
-"use client"
+// Features.tsx
+'use client';
 
-import { Card, CardContent } from "@/components/ui/card"
-import { Zap, Shield, Users, Headphones, CreditCard, TrendingUp } from "lucide-react"
-import { mockFeatures } from "@/lib/mock-data"
+import { Card, CardContent } from '@/components/ui/card';
+import { Zap, Shield, Users, Headphones, CreditCard, TrendingUp } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { mockFeatures } from '@/lib/mock-data';
 
 const iconMap = {
   Zap,
@@ -11,24 +13,42 @@ const iconMap = {
   Headphones,
   CreditCard,
   TrendingUp,
-}
+};
 
 export default function Features() {
+  const t = useTranslations('features');
+
+  // Fetch the translated items array
+  const translatedItems = t.raw('items') as Array<{ title: string; description: string }>;
+
+  // Combine mockFeatures icons with translated items
+  const features = mockFeatures.map((feature, index) => ({
+    icon: feature.icon,
+    title: translatedItems[index]?.title || 'Feature Title',
+    description: translatedItems[index]?.description || 'Feature Description',
+  }));
+
   return (
     <section className="py-20 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Why Choose <span className="gradient-text">OriginalSMM</span>?
+            {t('title').split(' ').map((word, index) => (
+              index === 2 ? (
+                <span key={index} className="gradient-text">{word}</span>
+              ) : (
+                <span key={index}>{word} </span>
+              )
+            ))}
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            We provide the highest quality social media marketing services with unmatched reliability and support.
+            {t('description')}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {mockFeatures.map((feature, index) => {
-            const Icon = iconMap[feature.icon as keyof typeof iconMap]
+          {features.map((feature, index) => {
+            const Icon = iconMap[feature.icon as keyof typeof iconMap];
             return (
               <Card
                 key={index}
@@ -44,10 +64,10 @@ export default function Features() {
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{feature.description}</p>
                 </CardContent>
               </Card>
-            )
+            );
           })}
         </div>
       </div>
     </section>
-  )
+  );
 }

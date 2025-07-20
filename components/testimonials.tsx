@@ -1,38 +1,47 @@
-"use client"
+// Testimonials.tsx
+'use client';
 
-import { useState, useEffect } from "react"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react"
-import { mockTestimonials } from "@/lib/mock-data"
+import { useState, useEffect } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { mockTestimonials } from '@/lib/mock-data';
 
 export default function Testimonials() {
-  const [currentIndex, setCurrentIndex] = useState(0)
+  const t = useTranslations('testimonials');
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % mockTestimonials.length)
-    }, 5000)
-    return () => clearInterval(interval)
-  }, [])
+      setCurrentIndex((prev) => (prev + 1) % mockTestimonials.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   const nextTestimonial = () => {
-    setCurrentIndex((prev) => (prev + 1) % mockTestimonials.length)
-  }
+    setCurrentIndex((prev) => (prev + 1) % mockTestimonials.length);
+  };
 
   const prevTestimonial = () => {
-    setCurrentIndex((prev) => (prev - 1 + mockTestimonials.length) % mockTestimonials.length)
-  }
+    setCurrentIndex((prev) => (prev - 1 + mockTestimonials.length) % mockTestimonials.length);
+  };
 
   return (
     <section className="py-20 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            What Our <span className="gradient-text">Customers Say</span>
+            {t('title').split(' ').map((word, index) => (
+              index === 2 ? (
+                <span key={index} className="gradient-text">{word}</span>
+              ) : (
+                <span key={index}>{word} </span>
+              )
+            ))}
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Don't just take our word for it. Here's what our satisfied customers have to say about OriginalSMM.
+            {t('description')}
           </p>
         </div>
 
@@ -53,8 +62,8 @@ export default function Testimonials() {
                         key={i}
                         className={`w-5 h-5 ${
                           i < mockTestimonials[currentIndex].rating
-                            ? "fill-yellow-400 text-yellow-400"
-                            : "text-gray-300"
+                            ? 'fill-yellow-400 text-yellow-400'
+                            : 'text-gray-300'
                         }`}
                       />
                     ))}
@@ -62,7 +71,7 @@ export default function Testimonials() {
 
                   <div className="flex items-center justify-center space-x-4">
                     <img
-                      src={mockTestimonials[currentIndex].avatar || "/placeholder.svg"}
+                      src={mockTestimonials[currentIndex].avatar || '/placeholder.svg'}
                       alt={mockTestimonials[currentIndex].name}
                       className="w-12 h-12 rounded-full"
                     />
@@ -101,7 +110,7 @@ export default function Testimonials() {
                 key={index}
                 onClick={() => setCurrentIndex(index)}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentIndex ? "bg-primary scale-125" : "bg-gray-300 dark:bg-gray-600"
+                  index === currentIndex ? 'bg-primary scale-125' : 'bg-gray-300 dark:bg-gray-600'
                 }`}
               />
             ))}
@@ -109,5 +118,5 @@ export default function Testimonials() {
         </div>
       </div>
     </section>
-  )
+  );
 }

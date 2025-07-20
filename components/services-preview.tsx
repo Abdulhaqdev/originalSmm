@@ -1,48 +1,63 @@
-"use client"
+// ServicesPreview.tsx
+'use client';
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { ArrowRight, Clock, Star } from "lucide-react"
-import Link from "next/link"
-import { mockServices, mockPlatforms } from "@/lib/mock-data"
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { ArrowRight, Clock, Star } from 'lucide-react';
+import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { mockServices, mockPlatforms } from '@/lib/mock-data';
 
 export default function ServicesPreview() {
-  const [selectedPlatform, setSelectedPlatform] = useState("all")
+  const t = useTranslations('services-home');
+  const [selectedPlatform, setSelectedPlatform] = useState('all');
+
+  // Map platform names to lowercase for filtering, keeping original for display
+  const platforms = mockPlatforms.map((platform) => ({
+    ...platform,
+    nameLower: platform.name.toLowerCase(),
+  }));
 
   const filteredServices =
-    selectedPlatform === "all"
+    selectedPlatform === 'all'
       ? mockServices.slice(0, 6)
-      : mockServices.filter((service) => service.platform === selectedPlatform).slice(0, 6)
+      : mockServices.filter((service) => service.platform === selectedPlatform).slice(0, 6);
 
   return (
     <section className="py-20 bg-gray-50 dark:bg-gray-900/50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Our <span className="gradient-text">Premium Services</span>
+            {t('title').split(' ').map((word, index) => (
+              index === 1 ? (
+                <span key={index} className="gradient-text pr-2">{word}</span>
+              ) : (
+                <span key={index}>{word} </span>
+              )
+            ))}
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Choose from our wide range of high-quality social media marketing services across all major platforms.
+            {t('description')}
           </p>
         </div>
 
         {/* Platform Filter */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
           <Button
-            variant={selectedPlatform === "all" ? "default" : "outline"}
-            onClick={() => setSelectedPlatform("all")}
-            className={selectedPlatform === "all" ? "bg-primary hover:bg-primary/90" : ""}
+            variant={selectedPlatform === 'all' ? 'default' : 'outline'}
+            onClick={() => setSelectedPlatform('all')}
+            className={selectedPlatform === 'all' ? 'bg-primary hover:bg-primary/90' : ''}
           >
-            All Platforms
+            {t('allPlatforms')}
           </Button>
-          {mockPlatforms.slice(0, 4).map((platform) => (
+          {platforms.slice(0, 4).map((platform) => (
             <Button
               key={platform.name}
-              variant={selectedPlatform === platform.name.toLowerCase() ? "default" : "outline"}
-              onClick={() => setSelectedPlatform(platform.name.toLowerCase())}
-              className={selectedPlatform === platform.name.toLowerCase() ? "bg-primary hover:bg-primary/90" : ""}
+              variant={selectedPlatform === platform.nameLower ? 'default' : 'outline'}
+              onClick={() => setSelectedPlatform(platform.nameLower)}
+              className={selectedPlatform === platform.nameLower ? 'bg-primary hover:bg-primary/90' : ''}
             >
               {platform.name}
             </Button>
@@ -51,7 +66,7 @@ export default function ServicesPreview() {
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {filteredServices.map((service, index) => (
+          {filteredServices.map((service) => (
             <Card
               key={service.id}
               className="hover-lift group transition-all duration-300 border-0 shadow-lg hover:shadow-2xl"
@@ -68,7 +83,7 @@ export default function ServicesPreview() {
                   </div>
                   <div className="text-right">
                     <div className="text-2xl font-bold text-primary">${service.price}</div>
-                    <div className="text-sm text-gray-500">per 1000</div>
+                    <div className="text-sm text-gray-500">{t('per1000')}</div>
                   </div>
                 </div>
 
@@ -76,17 +91,17 @@ export default function ServicesPreview() {
 
                 <div className="space-y-2 mb-6">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500">Min Order:</span>
+                    <span className="text-gray-500">{t('minOrder')}:</span>
                     <span className="font-medium">{service.minOrder.toLocaleString()}</span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500">Max Order:</span>
+                    <span className="text-gray-500">{t('maxOrder')}:</span>
                     <span className="font-medium">{service.maxOrder.toLocaleString()}</span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-gray-500 flex items-center">
                       <Clock className="w-4 h-4 mr-1" />
-                      Delivery:
+                      {t('delivery')}:
                     </span>
                     <span className="font-medium">{service.deliveryTime}</span>
                   </div>
@@ -98,7 +113,7 @@ export default function ServicesPreview() {
                     <span className="text-sm font-medium">{service.quality}</span>
                   </div>
                   <Button size="sm" className="bg-primary hover:bg-primary/90 text-white">
-                    Order Now
+                    {t('orderNow')}
                   </Button>
                 </div>
               </CardContent>
@@ -110,12 +125,12 @@ export default function ServicesPreview() {
         <div className="text-center">
           <Link href="/services">
             <Button size="lg" className="bg-primary hover:bg-primary/90 text-white group">
-              View All Services
+              {t('viewAllServices')}
               <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
         </div>
       </div>
     </section>
-  )
+  );
 }

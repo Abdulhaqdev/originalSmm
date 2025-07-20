@@ -1,528 +1,441 @@
 {
-  "navbar": {
-    "home": "Bosh sahifa",
-    "service": "Xizmatlar",
-    "about": "Biz haqimizda"
-  },
   "homepage": {
-    "title": "Ijtimoiy tarmoqlarda tez rivojlanish",
-    "description": "Ijtimoiy tarmoqlarda tez va samarali rivojlanish uchun yuqori sifatli xizmatlarimizdan foydalaning. Biz obunachilar, like yoki ko‘rishlar sonini tez va ishonchli oshirishni ta'minlaymiz. Minimal ta'sir bilan haqiqiy auditoriya orqali rivojlanishni bizga ishonib topshiring! Barcha ijtimoiy platformalar uchun qanday ishlashini ko‘ring!",
-    "register": "Hoziroq ro‘yxatdan o‘ting",
-    "loginTitle": "TURBO SMM hisobingiz bilan kiring",
-    "loginSubtitle": "Iltimos, TURBOSMM hisobingiz yordamida kiring. Ijtimoiy tarmoq hisoblaridan foydalanmang.",
-    "usernameLabel": "Foydalanuvchi nomi",
-    "usernamePlaceholder": "Foydalanuvchi nomi",
-    "passwordLabel": "Parol",
-    "passwordPlaceholder": "Parol",
-    "rememberMe": "Meni eslab qol",
-    "forgotPassword": "Parolni unutdingizmi?",
-    "loginButton": "Kirish",
-    "loginLoading": "Kirish jarayoni...",
-    "noAccount": "Hisobingiz yo‘qmi? Ro‘yxatdan o‘ting"
+    "topBadge": "Dunyodagi #1 SMM Paneli",
+    "title": "Bugun Ijtimoiy Tarmoqlardagi Mavqeingizni Oshiring",
+    "description": "Barcha asosiy ijtimoiy tarmoq platformalarida haqiqiy obunachilar, yoqtirishlar, ko'rishlar va ishtirok oling. Tez yetkazib berish, yuqori sifat va 24/7 qo'llab-quvvatlash.",
+    "getStarted": "Hozir Boshlash",
+    "watchDemo": "Demo Ko'rish",
+    "trustIndicator": "50,000+ Baxtli Mijozlar",
+    "liveStats": "Jonli Statistikalar",
+    "stats": {
+      "happyCustomers": "Baxtli Mijozlar",
+      "ordersCompleted": "Bajarilgan Buyurtmalar",
+      "servicesAvailable": "Mavjud Xizmatlar"
+    }
   },
-  "feature": {
-    "title": "O‘zbekiston bo‘ylab ijtimoiy tarmoqlarda rivojlanish uchun ishonchli xizmat",
-    "description": "Qoniqarli mijozlar tarmog‘imizga qo‘shiling. Bizning platformamiz har 100 soniyada bir buyurtmani bajaradi va raqobatbardosh xizmatlarimiz 1000 UZS dan 1000 birlik uchun boshlanadi.",
-    "stat1": "Har bir buyurtma uchun",
-    "stat2": "Bajarilgan buyurtmalar",
-    "stat3": "Narxlar boshlanadi",
-    "socialPlatforms": ["Twitter", "Instagram", "Twitch", "Youtube", "Facebook", "LinkedIn"]
+  "navbar": {
+    "home": "Bosh Sahifa",
+    "services": "Xizmatlar",
+    "about": "Haqida",
+    "dashboard": "Boshqaruv paneli",
+    "login": "Kirish",
+    "getStarted": "Boshlash"
   },
-  "testimonials": {
-    "title": "Mijozlarimiz fikrlari",
-    "description": "Mijozlarimiz xizmatlarimiz haqida nima deyishayotganini ko‘ring. Biz ajoyib natijalar va yuqori mijozlar qoniqishini ta'minlashdan faxrlanamiz.",
+  "stats": {
+    "title": "Minglab Ishonchli Mijozlar",
+    "description": "OriginalSMM'ga ijtimoiy tarmoqlardagi o'sish uchun ishonadigan mamnun mijozlar jamoasiga qo'shiling.",
+    "happyCustomers": "Baxtli Mijozlar",
+    "ordersCompleted": "Bajarilgan Buyurtmalar",
+    "servicesAvailable": "Mavjud Xizmatlar",
+    "satisfactionRate": "Qoniqish Darajasi"
+  },
+  "features": {
+    "title": "Nima uchun OriginalSMM'ni tanlash kerak?",
+    "description": "Biz eng yuqori sifatli ijtimoiy tarmoq marketing xizmatlarini ishonchli va qo'llab-quvvatlash bilan ta'minlaymiz.",
     "items": [
       {
-        "name": "Dildora Karimova",
-        "title": "Mahalliy brend agenti",
-        "quote": "Instagram kontentimni rivojlantirish uchun auditoriya kerak edi. TURBO SMM yordamida haqiqiy mijozlar bizni topdi va savdolarimiz ham oshdi!"
+        "title": "Tez Yetkazib Berish",
+        "description": "Ijtimoiy tarmoq ishtirokingizni tez va samarali yetkazib beramiz."
       },
       {
-        "name": "Jamshed Rakmatullayev",
-        "title": "YouTube kanal yaratuvchisi",
-        "quote": "Kanalimni endigina boshlagandim va video ko‘rishlarini qanday oshirishni bilmasdim. TURBO SMM yordamida organik obunachilar soni sezilarli oshdi!"
+        "title": "Xavfsiz To'lovlar",
+        "description": "Tranzaksiyalaringizni himoya qilish uchun xavfsiz va ishonchli to'lov usullari."
       },
       {
-        "name": "Muhlisa Qodirova",
-        "title": "TikTok blogeri (ovqat va turmush tarzi)",
-        "quote": "TikTok videolarim ko‘rishlarini oshirishni xohlardim, TURBO SMM yordam berdi. Endi videolarim tavsiya qilinmoqda!"
+        "title": "Haqiqiy Ishtirok",
+        "description": "Onlayn mavqeingizni oshirish uchun haqiqiy obunachilar, yoqtirishlar va ko'rishlar."
       },
       {
-        "name": "Sherzod Ismoilov",
-        "title": "Instagram marketing mutaxassisi",
-        "quote": "Mijozlar bazamizni tashkil qilish va rivojlantirish uchun zamonaviy yondashuv kerak edi. TURBO SMM eng yaxshi tanlov bo‘ldi, tez va samarali natijalar bilan!"
+        "title": "24/7 Qo'llab-quvvatlash",
+        "description": "Bizning jamoamiz sizga kechayu kunduz yordam berishga tayyor."
       },
       {
-        "name": "Nosiba Orolava",
-        "title": "Go‘zallik saloni egasi",
-        "quote": "Salonimga yangi mijozlarni jalb qilish uchun yangi usullar kerak edi. TURBO SMM yordamida Instagram obunachilarim va mijozlarim sezilarli oshdi!"
+        "title": "Arzon Narxlar",
+        "description": "Premium ijtimoiy tarmoq xizmatlari uchun raqobatbardosh narxlar."
       },
       {
-        "name": "Bekzod Yoqubov",
-        "title": "Telegram kanal yaratuvchisi",
-        "quote": "Kanalimni boshlaganimda hech kim qo‘shilmadi. TURBO SMM yordamida tezda kerakli obunachilar soniga erishdim, endi organik ravishda o‘smoqda — juda xursandman!"
-      },
-      {
-        "name": "Gulbahor Sobirova",
-        "title": "Moda blogeri (Instagram)",
-        "quote": "Brendlar bilan hamkorlik qilish uchun obunachilar sonini oshirish kerak edi. TURBO SMM yordamida auditoriyam sezilarli oshdi, endi brendlar men bilan ishlashni xohlashadi!"
-      },
-      {
-        "name": "Sanjar Abdudopirov",
-        "title": "Rags studiyasi egasi (TikTok va Instagram)",
-        "quote": "Rags ni darhol ommalashtirish uchun TURBO SMM ga murojaat qildim. Instagram va TikTok da obunachilar soni sezilarli oshdi!"
-      },
-      {
-        "name": "Farangiz Shokirova",
-        "title": "Onlayn do‘kon egasi (aksessuarlar)",
-        "quote": "Savdolarni sezilarli oshirish uchun TURBO SMM xizmatlaridan foydalandim. Endi onlayn do‘konimning savdosi va buyurtmalar hajmi sezilarli oshdi!"
+        "title": "Isbotlangan Natijalar",
+        "description": "Minglab ishonchli mijozlar va muvaffaqiyatli tajriba."
       }
     ]
   },
-  "paymentMethods": {
-    "title": "Xavfsiz va moslashuvchan to‘lov usullari",
-    "description": "Biz xavfsiz va qulay tranzaksiya tajribasini ta'minlash uchun turli xil to‘lov usullarini taklif qilamiz. Kredit va debet kartalari, banklar va boshqa variantlardan tanlang. Sizning qulayligingiz va xavfsizligingiz bizning ustuvor vazifamizdir."
+  "services-home": {
+    "title": "Bizning Premium Xizmatlarimiz",
+    "description": "Barcha asosiy platformalarda yuqori sifatli ijtimoiy tarmoq marketing xizmatlarimizdan tanlang.",
+    "allPlatforms": "Barcha Platformalar",
+    "viewAllServices": "Barcha Xizmatlarni Ko'rish",
+    "per1000": "har 1000 ga",
+    "minOrder": "Minimal Buyurtma",
+    "maxOrder": "Maksimal Buyurtma",
+    "delivery": "Yetkazib Berish",
+    "orderNow": "Hozir Buyurtma Berish"
   },
-  "howItWorks": {
-    "title": "Turbo SMM paneli qanday ishlaydi?",
-    "description": "Biz Instagram, Facebook, Twitter, YouTube va boshqa ijtimoiy tarmoqlar uchun xizmatlar taqdim etamiz. Bizning platformamiz hamma uchun mos, xoh siz influencer, brend yoki kichik biznes bo‘ling.",
-    "features": [
+  "testimonials": {
+    "title": "Mijozlarimiz Nima Deydi",
+    "description": "Faqat bizning so'zimizga ishonmang. Mana bizning mamnun mijozlarimiz OriginalSMM haqida nima deydi."
+  },
+  "faqs": {
+    "title": "Tez-tez So'raladigan Savollar",
+    "description": "Xizmatlarimiz, yetkazib berish vaqtlari va boshqa savollarga javoblarni toping.",
+    "searchPlaceholder": "Tez-tez so'raladigan savollarni qidirish...",
+    "noResults": "Qidiruvingizga mos keladigan savollar topilmadi.",
+    "items": [
       {
-        "title": "Hisob yaratish",
-        "description": "Ro‘yxatdan o‘ting va hisobingiz orqali platformamizga oson kiring."
+        "question": "Natijalarni qanchalik tez ko'raman?",
+        "answer": "Ko'pgina buyurtmalar 1-6 soat ichida qayta ishlanadi va xizmat va miqdorga qarab 24-72 soat ichida yakunlanadi. Instagram yoqtirishlari kabi ba'zi xizmatlar darhol boshlanadi."
       },
       {
-        "title": "Xizmat tanlash",
-        "description": "Mavjud variantlardan ehtiyojlaringizga mos keladigan ideal xizmatni tanlang."
+        "question": "Obunachilar/yoqtirishlar haqiqiy mi?",
+        "answer": "Ha, biz faqat haqiqiy, faol hisoblardan yuqori sifatli ishtirokni ta'minlaymiz. Biz hech qachon botlar yoki soxta profillardan foydalanmaymiz. Barcha xizmatlarimiz platforma qoidalariga mos keladi."
       },
       {
-        "title": "Tasdiqlash va yuborish",
-        "description": "Barcha ma'lumotlar to‘g‘riligini tekshiring va buyurtmangizni joylashtiring."
+        "question": "Mening hisobim uchun bu xavfsizmi?",
+        "answer": "Bizning xizmatlarimiz barcha platforma qoidalariga mos keladi va hisob xavfsizligini ta'minlash uchun asta-sekin yetkazib berish usullaridan foydalanamiz. Yillar davomida hech qanday hisob bloklanmagan."
       },
       {
-        "title": "Jarayonni kuzatish",
-        "description": "Natijalar paydo bo‘lishini kuzating va istalgan vaqtda jarayonni boshqaring, dam olgan holda."
+        "question": "Qanday to'lov usullarini qabul qilasiz?",
+        "answer": "Biz PayPal, kredit kartalari, kriptovalyuta va sizning qulayligingiz uchun mahalliy to'lov usullari kabi turli xil to'lov usullarini qabul qilamiz."
+      },
+      {
+        "question": "Pul qaytarishni taklif qilasizmi?",
+        "answer": "Ha, yetkazib berilmagan buyurtmalar yoki sifatdan qoniqmagan bo'lsangiz, pulni qaytarib beramiz. Iltimos, buyurtmangizdan keyin 30 kun ichida qo'llab-quvvatlash jamoamizga murojaat qiling."
+      },
+      {
+        "question": "Buyurtma jarayonini kuzata olamanmi?",
+        "answer": "Ha! Siz barcha buyurtmalaringizni boshqaruv paneli orqali real vaqtda kuzatishingiz mumkin. Shuningdek, buyurtma holati yangilanishlari haqida elektron pochta orqali xabarnomalar olasiz."
       }
     ]
   },
-  "faqSection": {
-    "title": "Tez-tez beriladigan savollar",
-    "description": "Sizning fikr-mulohazalaringiz biz uchun muhim! Mana, TURBO SMM mijozlaridan ba'zi sharhlar. Yolg'iz shaxslar va kichik hisoblar, shuningdek, bizneslar, tashkilotlar va san'atkorlar ham TURBO SMM ning o'ziga xos dunyosining bir qismidir!",
-    "faqs": [
-      {
-        "question": "TURBO SMM qanday xizmatlarni taklif qiladi?",
-        "answer": "TURBO SMM – bu ijtimoiy tarmoqlarda tez va sifatli rivojlanish uchun xizmat ko‘rsatadigan platforma. Biz Instagram, TikTok, YouTube, Telegram va boshqa platformalar uchun obunachilar, like, ko‘rishlar va boshqa faollik xizmatlarini taklif qilamiz."
+ "footer": {
+    "brandName": "OriginalSMM",
+    "description": "Dunyodagi yetakchi ijtimoiy tarmoq marketing paneli. Barcha asosiy platformalarda haqiqiy obunachilar, yoqtirishlar, ko'rishlar va ishtirokni tez yetkazib berish va yuqori sifat bilan oling.",
+    "contact": {
+      "email": "support@originalsmm.com",
+      "phone": "+998 91 234 56 78",
+      "address": "Toshkent, O'zbekiston"
+    },
+    "links": {
+      "services": {
+        "title": "Xizmatlar",
+        "items": [
+          { "name": "Instagram Xizmatlari", "href": "/services?platform=instagram" },
+          { "name": "YouTube Xizmatlari", "href": "/services?platform=youtube" },
+          { "name": "TikTok Xizmatlari", "href": "/services?platform=tiktok" },
+          { "name": "Facebook Xizmatlari", "href": "/services?platform=facebook" }
+        ]
       },
-      {
-        "question": "Xizmatlaringiz xavfsizmi?",
-        "answer": "Ha, bizning xizmatlarimiz xavfsiz va foydalanuvchilar hisobiga zarar yetkazmaydi. Biz shaxsiy ma'lumotlarni talab qilmaymiz va faqat organik hamda bot-free xizmatlarni taqdim etamiz."
+      "company": {
+        "title": "Kompaniya",
+        "items": [
+          { "name": "Biz Haqimizda", "href": "/about" },
+          { "name": "Aloqa", "href": "/contact" },
+          { "name": "Xizmat Ko'rsatish Shartlari", "href": "/terms" },
+          { "name": "Maxfiylik Siyosati", "href": "/privacy" }
+        ]
       },
-      {
-        "question": "Buyurtma qilingan xizmat qancha vaqtda bajariladi?",
-        "answer": "Buyurtma qilingan xizmat turi va miqdoriga qarab bajarilish vaqti farq qilishi mumkin. Ko‘pgina buyurtmalar 1-5 daqiqa ichida boshlanadi va 1-20 daqiqa ichida tugatiladi."
-      },
-      {
-        "question": "Xizmat narxlari qancha?",
-        "answer": "Xizmatlarimiz narxi turli platformalar va paketlarga qarab farqlanadi. Eng arzon narxlardan foydalanish uchun saytda ro‘yxatdan o‘tib, narxlar bo‘limini tekshirishingiz mumkin."
-      },
-      {
-        "question": "To‘lov qanday amalga oshiriladi?",
-        "answer": "To‘lovlar kartalar, elektron hamyonlar orqali qabul qilinadi. To‘lov tizimlarimiz tez va xavfsiz ishlaydi."
-      },
-      {
-        "question": "SMM xizmatlaridan foydalanish ijtimoiy tarmoqlar qoidalariga zid emasmi?",
-        "answer": "Yo'q, bizning xizmatlarimiz tabiiy ko'rinishda bo'lib, ijtimoiy tarmoqlar algoritmlariga zarar yetkazmaydi. Shunga qaramay, har bir foydalanuvchi xizmatlardan foydalanishdan avval platformalar qoidalari bilan tanishib chiqishi tavsiya etiladi."
-      },
-      {
-        "question": "Agar buyurtma bajarilmasa yoki xatolik yuz bersa, nima qilish kerak?",
-        "answer": "Agar buyurtma bajarilmasa yoki biron muammo yuzaga kelsa, mijozlarga xizmat ko‘rsatish bo‘limiga murojaat qilishingiz mumkin. Biz tezkor yechim topish va pullaringizni qaytarish yoki xizmatni to‘g‘ri yetkazib berish uchun harakat qilamiz."
-      },
-      {
-        "question": "Bir necha marta xizmat sotib olish mumkinmi?",
-        "answer": "Ha, siz bir necha marta turli xizmatlardan foydalana olasiz va hisobingizni tez rivojlantirish imkoniyatiga ega bo‘lasiz."
-      },
-      {
-        "question": "Mijozlar qo‘llab-quvvatlash xizmati qanday ishlaydi?",
-        "answer": "Mijozlar qo‘llab-quvvatlash xizmati 24/7 rejimida ishlaydi. Agar sizga yordam kerak bo‘lsa, Telegram chat yoki email orqali biz bilan bog‘lanishingiz mumkin."
-      },
-      {
-        "question": "TURBO SMM xizmatlari orqali biznesimni rivojlantirishim mumkinmi?",
-        "answer": "Albatta! Bizning xizmatlarimiz brendingizning ommaviyligini oshirish, mahsulot va xizmatlaringizni ko‘proq odamlarga yetkazish uchun ajoyib vositadir. Ko‘p biznes egalari ijtimoiy tarmoqlar orqali auditoriya jalb qilish uchun bizning xizmatlarimizdan foydalanadi."
+      "support": {
+        "title": "Qo'llab-quvvatlash",
+        "items": [
+          { "name": "Yordam Markazi", "href": "/help" },
+          { "name": "TSS", "href": "/#faq" },
+          { "name": "Jonli Chat", "href": "/chat" },
+          { "name": "Holat Sahifasi", "href": "/status" }
+        ]
       }
-    ]
-  },
-  "footer": {
-    "description": "TURBO SMM tomonidan yaratilgan, toza dizayn va yuqori sifatli komponentlar va shablonlar bilan. SMM panelingiz uchun ideal tanlov.",
-    "quickLinks": {
-      "title": "Tez havolalar",
-      "home": "Bosh sahifa",
-      "signUp": "Ro‘yxatdan o‘tish",
-      "services": "Xizmatlar"
     },
-    "company": {
-      "title": "Kompaniya",
-      "serviceTerms": "Xizmat shartlari",
-      "aboutUs": "Biz haqimizda",
-      "support": "Qo‘llab-quvvatlash"
-    },
-    "developers": {
-      "title": "Dasturchilar",
-      "api": "API"
-    },
-    "pages": {
-      "title": "Sahifalar",
-      "home": "Bosh sahifa",
-      "service": "Xizmat",
-      "aboutUs": "Biz haqimizda"
-    },
-    "copyright": "© 2024 TURBO SMM Barcha huquqlar himoyalangan.",
-    "legal": {
-      "privacyPolicy": "Maxfiylik siyosati",
-      "updateList": "Yangilanishlar ro‘yxati"
+    "socialLinks": [
+      { "label": "Facebook", "href": "#" },
+      { "label": "Twitter", "href": "#" },
+      { "label": "Instagram", "href": "#" },
+      { "label": "Youtube", "href": "#" }
+    ],
+    "copyright": "© 2024 OriginalSMM. Barcha huquqlar himoyalangan.",
+    "newsletter": {
+      "title": "Yangiliklardan Xabardor Bo'ling",
+      "description": "So'nggi yangilanishlar va eksklyuziv takliflar uchun yangiliklarimizga obuna bo'ling.",
+      "placeholder": "Elektron pochtangizni kiriting",
+      "button": "Obuna bo'lish",
+      "successMessage": "Yangiliklarimizga obuna bo'lganingiz uchun rahmat!"
     }
   },
-  "heroAboutus": {
+  "about": {
     "hero": {
-      "title": {
-        "part1": "Biz bilan bugun",
-        "part2": "Ijtimoiy tarmoqlardagi",
-        "part3": "profilingizni yaxshilang!"
-      },
-      "description": "Veb-saytimizga xush kelibsiz! Biz bu yerda biznesingizni raqamli dunyoda rivojlanishi uchun yordam beramiz. Saytimizda ijtimoiy tarmoqlarda o'sish uchun juda arzon narxlarda sotib olishingiz mumkin bo'lgan ko'plab xizmatlar mavjud."
+      "badge": "OriginalSMM Haqida",
+      "title": "Ijtimoiy Tarmoq Marketingining Kelajagi",
+      "description": "Tashkil topganimizdan beri OriginalSMM ijtimoiy tarmoq marketingi innovatsiyalarining yetakchisi bo'lib kelmoqda. Biz minglab biznes va shaxslarga yuqori sifatli xizmatlar, ilg'or texnologiyalar va tengsiz mijozlarni qo'llab-quvvatlash orqali ijtimoiy tarmoq maqsadlariga erishishda yordam berdik.",
+      "exploreServices": "Xizmatlarimizni Ko'rib Chiqish",
+      "getStarted": "Bugun Boshlash"
     },
-    "marketing": {
-      "title": "Ijtimoiy tarmoqlardagi ajoyib marketing xizmatlarimizni kashf eting!",
-      "description": "Ijtimoiy tarmoqlardagi marketing xizmatlarimiz brendingizning onlayn obro'sini oshirish uchun yaratilgan. Biz kampaniyalaringizga muvaffaqiyatli bo'lishi uchun sifat, tezlik va xavfsizlikka e'tibor beramiz."
-    }
-  },
-  "heroSupport": {
-    "title": "Mijozlarni qo'llab-quvvatlash – sizning ishonchli yordamchingiz!",
-    "description": "Bizning jamoamiz har qanday savolingizga javob berish uchun 24/7 rejimida ishlaydi. Qo'shimcha ma'lumot kerakmi? Muammo yoki savol tug'ildimi? Biz sizga yordam berishga tayyormiz!",
-    "button": "Biz bilan bog'lanish"
-  },
-  "heroTestimonials": {
-    "title": "Mijozlarimizdan eshiting",
-    "description": "Bizning mijozlarimiz xizmatlarimiz haqida nima deb aytishini ko'ring. Biz ajoyib natijalar va yuqori mijozlar mamnuniyatini ta'minlashda faxrlanamiz.",
-    "testimonials": {
-      "0": {
-        "name": "Dildora Karimova",
-        "title": "Mahalliy brend agenti",
-        "quote": "Instagram'da kontentni rivojlantirish uchun auditoriya kerak edi. TURBO SMM yordamida haqiqiy mijozlar bizni topdi va bizlar sotuvlar ham oshdi!"
-      },
-      "1": {
-        "name": "Jamshed Rakmatullayev",
-        "title": "YouTube kanali yaratuvchisi",
-        "quote": "Kanalimni yangi ochganimda, lekin videolar ko'rishlarini qanday oshirishni bilmasdim. TURBO SMM yordamida organik obunachilarimiz miqdori sezilarli darajada oshdi!"
-      },
-      "2": {
-        "name": "Muhlisa Qodirova",
-        "title": "TikTok blogeri (ovqat va turmush tarzi)",
-        "quote": "TikTok'da videolarimni ko'rishlarini oshirish uchun TURBO SMM ko'mak olishni xohladim. Endi videolarim rekomendatsiyaga tushayapti!"
+    "achievements": {
+      "title": "Yutuqlarimiz",
+      "items": [
+        {
+          "title": "50,000+ Mijozlar",
+          "description": "Dunyo bo'ylab minglab biznes va shaxslar tomonidan ishonchli"
+        },
+        {
+          "title": "99.8% Muvaffaqiyat Darajasi",
+          "description": "Barcha buyurtmalar uchun sohada yetakchi yakunlash darajasi"
+        },
+        {
+          "title": "24/7 Qo'llab-quvvatlash",
+          "description": "Kechayu kunduz mijozlarga xizmat ko'rsatish va texnik yordam"
+        },
+        {
+          "title": "100% Xavfsiz",
+          "description": "Barcha xizmatlar platforma qoidalari va siyosatlariga mos keladi"
+        }
+      ]
+    },
+    "story": {
+      "title": "Bizning Hikoyamiz",
+      "subtitle": "Kamtar boshlangan joydan soha yetakchiligigacha",
+      "heading": "Ijtimoiy Tarmoq Mutaxassislari Tomonidan Yaratilgan",
+      "description1": "OriginalSMM ijtimoiy tarmoqlarda haqiqiy mavjudlikni shakllantirishda bizneslar duch keladigan muammolarni tushungan ijtimoiy tarmoq marketingi mutaxassislari jamoasi tomonidan tashkil etilgan. Biz hisob xavfsizligini buzmasdan haqiqiy natijalarni ta'minlay oladigan ishonchli, yuqori sifatli xizmatga ehtiyojni ko'rdik.",
+      "description2": "Kichik operatsiya sifatida boshlangan narsa dunyodagi eng ishonchli SMM panellaridan biriga aylandi, premium xizmatlar va tengsiz ishonchlilik bilan butun dunyo bo'ylab mijozlarga xizmat ko'rsatmoqda.",
+      "metrics": {
+        "founded": "2019",
+        "foundedLabel": "Tashkil etilgan",
+        "customers": "50K+",
+        "customersLabel": "Mijozlar",
+        "orders": "125K+",
+        "ordersLabel": "Buyurtmalar",
+        "satisfaction": "Mijozlar Qoniqishi",
+        "satisfactionValue": "99.8%",
+        "successRate": "Buyurtma Muvaffaqiyat Darajasi",
+        "successRateValue": "99.9%"
       }
+    },
+    "values": {
+      "title": "Bizning Qadriyatlarimiz",
+      "description": "Ushbu asosiy tamoyillar biz qilayotgan hamma narsani boshqaradi va mijozlarimizga qanday xizmat ko'rsatishimizni shakllantiradi.",
+      "items": [
+        {
+          "title": "Birinchi Navbatda Sifat",
+          "description": "Biz hech qachon sifatdan voz kechmaymiz. Har bir xizmat ijtimoiy tarmoq o'sishi uchun haqiqiy, doimiy natijalarni ta'minlash uchun eng yuqori standartlar bilan yetkazib beriladi."
+        },
+        {
+          "title": "Chaqsadek Tez",
+          "description": "Vaqt - bu pul. Bizning optimallashtirilgan tizimlarimiz tez buyurtma qayta ishlash va yetkazib berishni ta'minlaydi, sizga eng kerak bo'lgan paytda natijalarni beradi."
+        },
+        {
+          "title": "Haqiqiy O'sish",
+          "description": "Biz vaqt o'tishi bilan yo'qoladigan yuzaki ko'rsatkichlarga emas, balki haqiqiy biznes natijalarini olib keladigan haqiqiy ishtirokchilikka e'tibor qaratamiz."
+        },
+        {
+          "title": "Global Qamrov",
+          "description": "Turli bozorlar va ijtimoiy tarmoq landshaftlarini tushunish bilan mahalliy qo'llab-quvvatlash orqali butun dunyo bo'ylab mijozlarga xizmat ko'rsatish."
+        }
+      ]
     },
     "cta": {
-      "title": "Keling, ijtimoiy tarmoqlardagi sahifangizni yaxshilaymiz!",
-      "description": "Bizga qo'shiling va ijtimoiy tarmoqlardagi mavqeingizni yaxshilang - muvaffaqiyat sari yo'l oling!",
-      "button": "Boshlash"
+      "title": "Ijtimoiy Tarmoq Mavqeingizni Oshirishga Tayyormisiz?",
+      "description": "OriginalSMM'ga ijtimoiy tarmoq marketingi ehtiyojlari uchun ishonadigan minglab mamnun mijozlar qatoriga qo'shiling.",
+      "browseServices": "Xizmatlarni Ko'rib Chiqish",
+      "getStarted": "Hozir Boshlash"
     }
   },
-  "login": {
-    "title": "Tizimga kirish",
-    "description": "Hisobingizga kirish uchun ma'lumotlarni kiriting.",
-    "username": "Foydalanuvchi nomi",
-    "usernamePlaceholder": "Foydalanuvchi nomingizni kiriting",
-    "password": "Parol",
-    "passwordPlaceholder": "Parolingizni kiriting",
-    "rememberMe": "Meni eslab qol",
-    "registerLink": "Ro'yxatdan o'tish",
-    "errors": {
-      "username": "Foydalanuvchi nomi kamida 3 ta belgi bo'lishi kerak",
-      "password": "Parol kamida 6 ta belgi bo'lishi kerak",
-      "noServices": "Faol xizmatlar topilmadi",
-      "serviceFetchFailed": "Xizmatlarni yuklashda xatolik yuz berdi"
+  "services": {
+    "hero": {
+      "title": "Bizning Premium Xizmatlarimiz",
+      "description": "Ijtimoiy tarmoq marketing xizmatlarining keng doirasidan tanlang. Barcha xizmatlar yuqori sifat, tez yetkazib berish va 24/7 qo'llab-quvvatlash bilan ta'minlanadi."
     },
-    "submit": "Kirish",
-    "loading": "Yuklanmoqda..."
-  },
-  "register": {
-    "title": "Hisob yaratish",
-    "description": "Ma'lumotlaringizni kiriting va hisobingizni yarating",
-    "firstName": "Ism",
-    "lastName": "Familiya",
-    "username": "Foydalanuvchi nomi",
-    "email": "Elektron pochta",
-    "emailPlaceholder": "ism@namuna.com",
-    "phone": "Telefon raqami",
-    "phonePlaceholder": "901234567",
-    "password": "Parol",
-    "submit": "Hisobni yaratish",
-    "loading": "Yaratilmoqda...",
-    "loginLink": "Kirish",
-    "errors": {
-      "firstName": "Ism majburiy maydon",
-      "lastName": "Familiya majburiy maydon",
-      "username": "Foydalanuvchi nomi kamida 3 ta belgi bo'lishi kerak",
-      "email": "To'g'ri elektron pochta manzilini kiriting",
-      "phone": "Telefon raqami 7 dan 15 tagacha bo'lishi kerak",
-      "password": "Parol kamida 6 ta belgi bo'lishi kerak",
-      "general": "Server bilan bog'lanishda xatolik yuz berdi!"
-    },
-    "passwordHint": "Kamida 6 ta belgi"
-  },
-    "newOrder": {
-      "title": "Yangi Buyurtma",
-      "categories": "Kategoriyalar",
-      "services": "Xizmatlar",
-      "link": "Havola",
-      "quantity": "Miqdor",
-      "orderSummary": "Buyurtma xulosasi",
-      "category": "Kategoriya",
-      "service": "Xizmat",
-      "description": "Tavsif",
-      "time": "Vaqt",
-      "price": "Narx",
-      "totalPrice": "Umumiy narx",
-      "submitOrder": "Buyurtmani yuborish",
-      "selectCategory": "Kategoriyani tanlang",
-      "selectService": "Xizmatni tanlang",
-      "servicesLoading": "Xizmatlar yuklanmoqda...",
-      "selectCategoryFirst": "Avval kategoriyani tanlang",
-      "noServicesAvailable": "Xizmatlar mavjud emas",
-      "enterLink": "Havolani kiriting (masalan, https://example.com)",
-      "enterQuantity": "Miqdorni kiriting",
-      "quantityRequired": "Miqdor kiritilishi shart",
-      "quantityInvalid": "Miqdor haqiqiy raqam bo‘lishi kerak",
-      "serviceNotSelected": "Xizmat tanlanmagan, miqdor tekshirib bo‘lmaydi",
-      "quantityMin": "Miqdor kamida {min} bo‘lishi kerak",
-      "quantityMax": "Miqdor {max} dan oshmasligi kerak",
-      "selectServiceFirst": "Avval xizmatni tanlang",
-      "linkRequired": "Havola kiritilishi shart",
-      "invalidLink": "Iltimos, haqiqiy URL kiriting",
-      "noUserData": "Xatolik: Foydalanuvchi ma'lumotlari mavjud emas. Buyurtma berish uchun tizimga kiring.",
-      "insufficientBalance": "Sizning balansingiz {balance} lekin bu buyurtma {totalPrice} turadi. Davom etish uchun pul qo‘shing.",
-      "orderSuccess": "Buyurtma muvaffaqiyatli joylashtirildi! {quantity} dona uchun buyurtmangiz joylashtirildi.",
-      "orderError": "Xatolik yuz berdi. Iltimos, keyinroq qayta urinib ko‘ring.",
-      "selectServiceForSummary": "Buyurtma xulosasini ko‘rish uchun xizmatni tanlang",
-      "invalidService": "Noto‘g‘ri xizmat tanlandi.",
-      "dataFetchError": "Ma'lumotlarni yuklashda xatolik yuz berdi."
-    },
-    "services": {
-    "title": "Xizmatlar",
-    "searchPlaceholder": "Xizmatlarni qidirish...",
-    "filters": "Filtrlar",
-    "clearFilters": "Filtrlarni tozalash",
-    "categoryLabel": "Kategoriyalar",
-    "allCategories": "Barcha kategoriyalar",
-    "noServicesFound": "Qidiruvga mos xizmatlar topilmadi.",
-    "table": {
-      "number": "#",
-      "service": "Xizmat",
-      "category": "Kategoriya",
-      "minMax": "Min-Max",
-      "ratePer1000": "1000 uchun narx",
-      "averageTime": "O‘rtacha vaqt",
-      "action": "Harakat"
-    },
-    "card": {
-      "minOrder": "Min buyurtma",
-      "maxOrder": "Max buyurtma",
-      "ratePer1000": "1000 uchun narx",
-      "averageTime": "O‘rtacha vaqt"
-    },
-    "buyNow": "Hoziroq sotib olish",
-    "loadingError": "Ma'lumotlarni yuklashda xatolik yuz berdi.",
-    "authError": "Tizimga kirish kerak!",
-    "toast": {
-      "errorTitle": "Xatolik",
-      "errorDescription": "Serverdan ma'lumotlarni yuklab bo‘lmadi."
-    }
-  },
-
-    "addFunds": {
-      "title": "Hisobni to'ldirish",
-      "currentBalance": "Joriy balans",
-      "currentBalanceDescription": "Sizning joriy hisobingiz",
-      "addFundsTitle": "Hisobni to'ldirish",
-      "addFundsDescription": "Miqdorni kiriting va to'lov usulini tanlang",
-      "amountLabel": "Miqdor (UZS)",
-      "amountPlaceholder": "10000",
-      "amountEstimate": "Taxminiy: {amount} UZS",
-      "paymentMethodLabel": "To'lov usuli",
-      "maintenance": "Texnik ishlar",
-      "submitButton": "Hisobni to'ldirish",
-      "submitProcessing": "Jarayonda...",
-      "transactionHistory": "Tranzaksiyalar tarixi",
-      "transactionHistoryDescription": "Sizning so'nggi moliyaviy operatsiyalaringiz",
-      "noTransactions": "Hali tranzaksiyalar yo'q",
-      "transactionStatus": {
-        "active": "Muvaffaqiyatli",
-        "pending": "Kutilmoqda"
+    "filters": {
+      "searchPlaceholder": "Xizmatlarni qidirish...",
+      "platformLabel": "Platformani tanlang",
+      "allPlatforms": "Barcha Platformalar",
+      "categoryLabel": "Kategoriyani tanlang",
+      "allCategories": "Barcha Kategoriyalar",
+      "sortLabel": "Saralash",
+      "sortOptions": {
+        "name": "Nomi bo'yicha",
+        "price": "Narxi bo'yicha"
       },
-      "toast": {
-        "maintenanceErrorTitle": "Texnik ishlar",
-        "maintenanceErrorDescription": "Hozircha Octobank orqali to'lov amalga oshirib bo'lmaydi. Iltimos, boshqa usuldan foydalaning.",
-        "formErrorTitle": "To'ldirilmagan forma",
-        "formErrorDescription": "Iltimos, miqdorni kiriting va to'lov usulini tanlang.",
-        "invalidAmountTitle": "Noto'g'ri miqdor",
-        "invalidAmountDescription": "Iltimos, 0 dan katta bo'lgan miqdorni kiriting.",
-        "unknownMethodTitle": "Noma'lum to'lov usuli",
-        "unknownMethodDescription": "Iltimos, Click yoki Payme tanlang.",
-        "errorTitle": "Xatolik yuz berdi",
-        "errorDescription": "Noma'lum xato",
-        "paymentHistoryErrorTitle": "Xatolik",
-        "paymentHistoryErrorDescription": "Tranzaksiyalar tarixini yuklab bo‘lmadi."
+      "showingServices": "{count} ta xizmat ko'rsatilmoqda",
+      "filterSummary": {
+        "sortedBy": "{sortBy} bo'yicha saralangan",
+        "noServices": "Sizning mezonlaringizga mos keladigan xizmatlar topilmadi."
       }
+    },
+    "categories": [
+      { "value": "all", "label": "Barcha Kategoriyalar" },
+      { "value": "followers", "label": "Obunachilar" },
+      { "value": "likes", "label": "Yoqtirishlar" },
+      { "value": "views", "label": "Ko'rishlar" },
+      { "value": "subscribers", "label": "Obunachilar" }
+    ],
+    "serviceDetails": {
+      "per1000": "har 1000 ga",
+      "minOrder": "Minimal Buyurtma",
+      "maxOrder": "Maksimal Buyurtma",
+      "delivery": "Yetkazib Berish",
+      "orderNow": "Hozir Buyurtma Berish"
+    },
+    "mockPlatforms": [
+      { "name": "Instagram" },
+      { "name": "YouTube" },
+      { "name": "TikTok" },
+      { "name": "Facebook" },
+      { "name": "Twitter" }
+    ],
+    "mockServices": [
+      {
+        "id": 1,
+        "name": "Instagram Obunachilari",
+        "description": "Haqiqiy hisoblardan yuqori sifatli Instagram obunachilari",
+        "platform": "instagram",
+        "category": "followers",
+        "price": 2.5,
+        "minOrder": 100,
+        "maxOrder": 10000,
+        "deliveryTime": "1-24 soat",
+        "quality": "Yuqori Sifat"
+      },
+      {
+        "id": 2,
+        "name": "Instagram Yoqtirishlari",
+        "description": "Postlaringiz uchun tezkor Instagram yoqtirishlari",
+        "platform": "instagram",
+        "category": "likes",
+        "price": 1.2,
+        "minOrder": 50,
+        "maxOrder": 5000,
+        "deliveryTime": "0-1 soat",
+        "quality": "Premium"
+      },
+      {
+        "id": 3,
+        "name": "YouTube Ko'rishlari",
+        "description": "Video ishtirokini oshirish uchun haqiqiy YouTube ko'rishlari",
+        "platform": "youtube",
+        "category": "views",
+        "price": 1.8,
+        "minOrder": 1000,
+        "maxOrder": 100000,
+        "deliveryTime": "1-6 soat",
+        "quality": "Yuqori Sifat"
+      },
+      {
+        "id": 4,
+        "name": "YouTube Obunachilari",
+        "description": "Kanal o'sishi uchun haqiqiy YouTube obunachilari",
+        "platform": "youtube",
+        "category": "subscribers",
+        "price": 12.0,
+        "minOrder": 100,
+        "maxOrder": 5000,
+        "deliveryTime": "1-7 kun",
+        "quality": "Premium"
+      },
+      {
+        "id": 5,
+        "name": "TikTok Yoqtirishlari",
+        "description": "Viral kontent uchun haqiqiy TikTok yoqtirishlari",
+        "platform": "tiktok",
+        "category": "likes",
+        "price": 0.8,
+        "minOrder": 100,
+        "maxOrder": 50000,
+        "deliveryTime": "0-6 soat",
+        "quality": "Yuqori Sifat"
+      },
+      {
+        "id": 6,
+        "name": "TikTok Obunachilari",
+        "description": "Auditoriyangizni oshirish uchun haqiqiy TikTok obunachilari",
+        "platform": "tiktok",
+        "category": "followers",
+        "price": 3.5,
+        "minOrder": 100,
+        "maxOrder": 10000,
+        "deliveryTime": "1-24 soat",
+        "quality": "Premium"
+      },
+      {
+        "id": 7,
+        "name": "Facebook Sahifa Yoqtirishlari",
+        "description": "Faol foydalanuvchilardan sifatli Facebook sahifa yoqtirishlari",
+        "platform": "facebook",
+        "category": "likes",
+        "price": 3.0,
+        "minOrder": 50,
+        "maxOrder": 5000,
+        "deliveryTime": "1-12 soat",
+        "quality": "Yuqori Sifat"
+      },
+      {
+        "id": 8,
+        "name": "Twitter Obunachilari",
+        "description": "Organik o'sish uchun haqiqiy Twitter obunachilari",
+        "platform": "twitter",
+        "category": "followers",
+        "price": 4.0,
+        "minOrder": 100,
+        "maxOrder": 10000,
+        "deliveryTime": "1-24 soat",
+        "quality": "Premium"
+      }
+    ]
+  },
+  "dashboard": {
+    "welcome": "Xush kelibsiz ",
+    "description": "Buyurtmalaringizni boshqaring, jarayonni kuzating va ijtimoiy tarmoqlardagi mavqeingizni oshiring.",
+    "tabs": {
+      "overview": "Umumiy ko'rinish",
+      "orders": "Buyurtmalar",
+      "account": "Hisob"
+    },
+    "stats": {
+      "accountBalance": "Hisob Balansi",
+      "totalOrders": "Jami Buyurtmalar",
+      "completedOrders": "Bajarilgan Buyurtmalar",
+      "activeOrders": "Faol Buyurtmalar"
+    },
+    "actions": {
+      "newOrder": "Yangi Buyurtma",
+      "addFunds": "Pul Qo'shish",
+      "getSupport": "Yordam Olish",
+      "placeNewOrder": "Yangi Buyurtma Berish",
+      "placeNewOrderDesc": "Xizmatlarimizni ko'rib chiqing va yangi buyurtma bering",
+      "addFundsDesc": "Hisob balansingizni to'ldiring",
+      "getSupportDesc": "24/7 qo'llab-quvvatlash jamoamiz bilan bog'laning"
     },
     "orders": {
-      "title": "Buyurtmalar",
-      "searchPlaceholder": "Buyurtmalarni qidirish",
-      "noOrdersTitle": "Hozircha buyurtmalar yo'q",
-      "noOrdersDescription": "Birinchi buyurtmangizni bu yerda ko'rish uchun joylashtiring!",
-      "createOrderButton": "Buyurtma berish",
-      "loadingError": "Buyurtmalarni yuklashda xatolik yuz berdi.",
-      "table": {
-        "id": "ID",
-        "service": "Xizmat",
-        "link": "Havola",
-        "quantity": "Miqdor",
-        "price": "Narx",
-        "status": "Holati",
-        "createdAt": "Yaratilgan sana"
+      "recentOrders": "Oxirgi Buyurtmalar",
+      "allOrders": "Barcha Buyurtmalar",
+      "viewAll": "Hammasini Ko'rish",
+      "quantity": "Miqdor: {count}",
+      "orderId": "Buyurtma #{id}",
+      "status": {
+        "completed": "Bajarildi",
+        "processing": "Jarayonda",
+        "pending": "Kutilmoqda",
+        "canceled": "Bekor qilindi"
       },
-      "mobile": {
-        "priceLabel": "Narx",
-        "quantityLabel": "Miqdor"
-      },
-      "tablet": {
-        "idLabel": "ID",
-        "serviceLabel": "Xizmat",
-        "linkLabel": "Havola",
-        "statusLabel": "Holati",
-        "dateLabel": "Sana"
-      }
-    },
-    "support": {
-      "title": "Qo‘llab-quvvatlash",
-      "contact": {
-        "title": "Qo‘llab-quvvatlash bilan bog‘lanish",
-        "description": "Buyurtmalar yoki hisobingiz bo‘yicha yordam oling",
-        "button": "Qo‘llab-quvvatlash bilan bog‘lanish"
-      },
-      "faq": {
-        "title": "Tez-tez so‘raladigan savollar",
-        "description": "Ko‘p beriladigan savollar",
-        "questions": [
-          {
-            "title": "Buyurtmalar qancha vaqt ichida bajariladi?",
-            "answer": "Buyurtma bajarilish vaqti xizmatga qarab farq qiladi. Har bir xizmatning o‘rtacha vaqtini xizmatlar sahifasida ko‘rishingiz mumkin."
-          },
-          {
-            "title": "Qanday to‘lov usullarini qabul qilasiz?",
-            "answer": "Hozirda biz kredit va debet kartalari orqali to‘lovlarni qabul qilamiz."
-          },
-          {
-            "title": "Buyurtmam kafolatlanganmi?",
-            "answer": "Ha, barcha buyurtmalar kafolatlangan. Agar biz yetkazib bera olmasak, to‘liq pul qaytariladi."
-          }
-        ],
-        "button": "Barcha savollarni ko‘rish"
-      },
-      "knowledgeBase": {
-        "title": "Bilimlar bazasi",
-        "description": "Qo‘llanmalar va darsliklar",
-        "articles": [
-          {
-            "title": "Birinchi buyurtmani qanday joylashtirish kerak",
-            "description": "TurboSMM’da birinchi buyurtmangizni joylashtirish bo‘yicha qadam-baqadam qo‘llanma."
-          },
-          {
-            "title": "Xizmat ko‘rsatkichlarini tushunish",
-            "description": "Xizmatlarimizdagi turli ko‘rsatkichlar va atamalar nimani anglatishini bilib oling."
-          },
-          {
-            "title": "Natijalarni oshirish uchun maslahatlar",
-            "description": "Ijtimoiy media marketingdan maksimal foyda olish uchun eng yaxshi amaliyotlar."
-          }
-        ],
-        "button": "Bilimlar bazasini ko‘rish"
-      }
+      "progress": "{percent}% bajarildi"
     },
     "account": {
-      "title": "Mening Hisobim",
-      "profile": {
-        "title": "Foydalanuvchi Profili",
-        "joinedDate": "A'zo bo‘lgan sanasi",
-        "balanceLabel": "Balans",
-        "addFundsButton": "Pul qo‘shish",
-        "logoutButton": "Chiqish",
-        "editButton": "Tahrirlash",
-        "saveButton": "Saqlash",
-        "firstNameLabel": "Ism",
-        "lastNameLabel": "Familiya",
-        "usernameLabel": "Foydalanuvchi nomi",
-        "emailLabel": "Elektron pochta",
-        "phoneLabel": "Telefon raqami",
-        "notProvided": "Kiritilmagan",
-        "cancelButton": "Bekor qilish",
-        "saveChangesButton": "O‘zgarishlarni saqlash",
-        "userIdLabel": "Foydalanuvchi ID",
-        "apiKeyLabel": "Foydalanuvchi api key"
-      },
-      "features": {
-        "title": "Hisob Xususiyatlari",
-        "support": {
-          "title": "Qo‘llab-quvvatlash",
-          "description": "Hisobingiz bilan yordam kerakmi yoki xizmatlarimiz haqida savollaringiz bormi?",
-          "supportTeam": "Bizning qo‘llab-quvvatlash jamoamiz sizga 24/7 yordam berishga tayyor.",
-          "button": "Qo‘llab-quvvatlash bilan bog‘lanish"
-        },
-        "addFunds": {
-          "title": "Pul qo‘shish",
-          "currentBalance": "Joriy Balans",
-          "description": "Buyurtma berish uchun hisobingizga pul qo‘shing",
-          "button": "Pul qo‘shish"
-        }
-      },
-      "toast": {
-        "updateSuccessTitle": "Profil yangilandi",
-        "updateSuccessDescription": "Profil ma'lumotlaringiz muvaffaqiyatli yangilandi.",
-        "updateErrorTitle": "Yangilash muvaffaqiyatsiz",
-        "updateErrorDescription": "Profilni yangilashda xatolik yuz berdi. Iltimos, qaytadan urinib ko‘ring."
-      }
+      "info": "Hisob Ma'lumotlari",
+      "name": "Ism",
+      "email": "Elektron Pochta",
+      "memberSince": "A'zo Bo'lgan Sana",
+      "editProfile": "Profilni Tahrirlash",
+      "stats": "Hisob Statistikasi",
+      "currentBalance": "Joriy Balans",
+      "totalOrders": "Jami Buyurtmalar",
+      "successRate": "Muvaffaqiyat Darajasi"
     },
-    "sidebar": {
-      "newOrder": "Yangi buyurtma",
-      "services": "Xizmatlar",
-      "addFunds": "Hisobni to'ldirish",
-      "orders": "Buyurtmalar",
-      "support": "Yordam"
+    "mockUser": {
+      "name": "John Doe",
+      "email": "john@example.com"
     },
-    "servicesHome": {
-    "error": "Ma'lumotlarni yuklashda xatolik yuz berdi.",
-    "noServices": "Xizmatlar topilmadi.",
-    "table": {
-      "number": "#",
-      "idService": "ID - Xizmat",
-      "pricePer1k": "1k uchun narx",
-      "averageTime": "O‘rtacha vaqt",
-      "action": "Olish",
-      "minOrder": "Minimal buyurtma",
-      "maxOrder": "Maksimal buyurtma"
-    },
-    "mobile": {
-      "pricePer1k": "1000 ta uchun narx",
-      "averageTime": "O‘rtacha vaqt",
-      "action": "Olish",
-      "minOrder": "Minimal buyurtma",
-      "maxOrder": "Maksimal buyurtma"
-    }
+    "mockOrders": [
+      { "id": 1, "service": "Instagram Obunachilari" },
+      { "id": 2, "service": "YouTube Ko'rishlari" },
+      { "id": 3, "service": "TikTok Yoqtirishlari" }
+    ]
   },
-  "MobileNavigation": {
-    "newOrder": "Yangi buyurtma",
-    "services": "Xizmatlar",
-    "addFunds": "Hisobni to'ldirish",
-    "orders": "Buyurtmalar"
+  "locale": {
+    "selectLanguage": "Tilni tanlang"
   }
-  
-
 }
