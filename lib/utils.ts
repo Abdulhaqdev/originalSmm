@@ -6,31 +6,26 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 
+import { useTranslations } from "next-intl";
 
-// Conversion rate: 1 USD = 12000 UZS (approximate)
-export const USD_TO_UZS_RATE = 12000
+export const formatCurrency = (amount: number): string => {
+  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(amount);
+};
 
-// Convert USD to UZS
-export function convertToUZS(amountUSD: number): number {
-  return amountUSD * USD_TO_UZS_RATE
-}
+export const getTimeColor = (duration: number): string => {
+  if (duration <= 60) return "text-blue-500";
+  if (duration <= 1440) return "text-emerald-500";
+  return "text-yellow-500";
+};
 
-export function formatCurrency(amount: number, inUSD = false) {
-  if (inUSD) {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 4,
-    }).format(amount)
-  }
-
-  // Convert to UZS and format
-  const amountUZS = inUSD ? convertToUZS(amount) : amount
-  return new Intl.NumberFormat("uz-UZ", {
-    style: "currency",
-    currency: "UZS",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amountUZS)
-}
+export const formatDuration = (seconds: number, t: ReturnType<typeof useTranslations>): string => {
+  if (seconds <= 60) return t("newOrder.timeSoon") || "Tez orada";
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const remainingSeconds = seconds % 60;
+  const parts = [];
+  if (hours > 0) parts.push(`${hours} soat`);
+  if (minutes > 0) parts.push(`${minutes} daqiqa`);
+  if (remainingSeconds > 0 || parts.length === 0) parts.push(`${remainingSeconds} soniya`);
+  return parts.join(" ");
+};

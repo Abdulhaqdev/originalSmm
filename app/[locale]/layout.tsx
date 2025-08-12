@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/sonner"
 import {NextIntlClientProvider, hasLocale} from 'next-intl';
 import {notFound} from 'next/navigation';
 import { routing } from '../i18n/routing'
+import QueryProvider from '@/components/provider/queryprovider'
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -48,10 +49,12 @@ export default async  function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={inter.className}>
+      <QueryProvider>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
           <Toaster />
         </ThemeProvider>
+      </QueryProvider>
       </body>
     </html>
   )

@@ -13,13 +13,60 @@
       "servicesAvailable": "Mavjud Xizmatlar"
     }
   },
-  "navbar": {
-    "home": "Bosh Sahifa",
+   "RegisterPage": {
+    "title": "Hisob yaratish",
+    "description": "Minglab qoniqarli mijozlarga qo'shiling",
+    "firstNameLabel": "Ism",
+    "firstNamePlaceholder": "Ismingizni kiriting",
+    "lastNameLabel": "Familiya",
+    "lastNamePlaceholder": "Familiyangizni kiriting",
+    "usernameLabel": "Foydalanuvchi nomi",
+    "usernamePlaceholder": "Foydalanuvchi nomini tanlang",
+    "emailLabel": "Elektron pochta",
+    "emailPlaceholder": "Elektron pochtangizni kiriting",
+    "phoneNumberLabel": "Telefon raqami",
+    "phoneNumberPlaceholder": "Telefon raqamingizni kiriting",
+    "passwordLabel": "Parol",
+    "passwordPlaceholder": "Parol yarating",
+    "confirmPasswordLabel": "Parolni tasdiqlash",
+    "confirmPasswordPlaceholder": "Parolingizni tasdiqlang",
+    "acceptTerms": "Men roziman",
+    "termsOfService": "Xizmat shartlari",
+    "and": "va",
+    "privacyPolicy": "Maxfiylik siyosati",
+    "createAccount": "Hisob yaratish",
+    "creatingAccount": "Hisob yaratilmoqda...",
+    "alreadyHaveAccount": "Allaqachon hisobingiz bormi?",
+    "signIn": "Kirish",
+    "requiredFieldsMissing": "Barcha maydonlar to'ldirilishi shart",
+    "passwordMismatch": "Parollar mos kelmaydi",
+    "acceptTermsRequired": "Xizmat shartlari va Maxfiylik siyosatini qabul qilishingiz kerak"
+  },
+   "LoginPage": {
+    "title": "Xush kelibsiz",
+    "description": "Hisobingizga kirish uchun davom eting",
+    "usernameLabel": "Foydalanuvchi nomi",
+    "usernamePlaceholder": "Foydalanuvchi nomingizni kiriting",
+    "passwordLabel": "Parol",
+    "passwordPlaceholder": "Parolingizni kiriting",
+    "forgotPassword": "Parolni unutdingizmi?",
+    "signIn": "Kirish",
+    "signingIn": "Kirilmoqda...",
+    "noAccount": "Hisobingiz yo'qmi?",
+    "signUp": "Ro'yxatdan o'tish"
+  },
+ "navbar": {
+    "home": "Bosh sahifa",
     "services": "Xizmatlar",
     "about": "Haqida",
+    "support": "Yordam",
     "dashboard": "Boshqaruv paneli",
+    "accountSettings": "Hisob sozlamalari",
+    "addFunds": "Pul qo'shish",
     "login": "Kirish",
-    "getStarted": "Boshlash"
+    "signUp": "Ro'yxatdan o'tish",
+    "logout": "Chiqish",
+    "themeToggle": "Mavzu"
   },
   "stats": {
     "title": "Minglab Ishonchli Mijozlar",
@@ -235,155 +282,90 @@
       "getStarted": "Hozir Boshlash"
     }
   },
-  "services": {
+   "services": {
+    "locale": "uz",
     "hero": {
-      "title": "Bizning Premium Xizmatlarimiz",
-      "description": "Ijtimoiy tarmoq marketing xizmatlarining keng doirasidan tanlang. Barcha xizmatlar yuqori sifat, tez yetkazib berish va 24/7 qo'llab-quvvatlash bilan ta'minlanadi."
+      "title": "Ijtimoiy tarmoqlarni rivojlantirish xizmatlari",
+      "description": "Instagram, YouTube va TikTok uchun eng yaxshi xizmatlarni toping."
     },
     "filters": {
       "searchPlaceholder": "Xizmatlarni qidirish...",
-      "platformLabel": "Platformani tanlang",
-      "allPlatforms": "Barcha Platformalar",
-      "categoryLabel": "Kategoriyani tanlang",
-      "allCategories": "Barcha Kategoriyalar",
+      "platformLabel": "Platforma",
+      "allPlatforms": "Barcha platformalar",
+      "categoryLabel": "Kategoriya",
+      "allCategories": "Barcha kategoriyalar",
+      "loadingCategories": "Kategoriyalar yuklanmoqda...",
       "sortLabel": "Saralash",
       "sortOptions": {
         "name": "Nomi bo'yicha",
         "price": "Narxi bo'yicha"
       },
-      "showingServices": "{count} ta xizmat ko'rsatilmoqda",
+      "showingServices": "{count} ta xizmat topildi",
       "filterSummary": {
         "sortedBy": "{sortBy} bo'yicha saralangan",
-        "noServices": "Sizning mezonlaringizga mos keladigan xizmatlar topilmadi."
-      }
+        "noServices": "Hech qanday xizmat topilmadi"
+      },
+      "loadingServices": "Xizmatlar yuklanmoqda..."
     },
-    "categories": [
-      { "value": "all", "label": "Barcha Kategoriyalar" },
-      { "value": "followers", "label": "Obunachilar" },
-      { "value": "likes", "label": "Yoqtirishlar" },
-      { "value": "views", "label": "Ko'rishlar" },
-      { "value": "subscribers", "label": "Obunachilar" }
-    ],
     "serviceDetails": {
-      "per1000": "har 1000 ga",
-      "minOrder": "Minimal Buyurtma",
-      "maxOrder": "Maksimal Buyurtma",
-      "delivery": "Yetkazib Berish",
-      "orderNow": "Hozir Buyurtma Berish"
+      "per1000": "1000 tasi uchun",
+      "minOrder": "Minimal buyurtma",
+      "maxOrder": "Maksimal buyurtma",
+      "delivery": "Yetkazib berish vaqti",
+      "hours": "soat",
+      "orderNow": "Hozir buyurtma berish"
     },
-    "mockPlatforms": [
-      { "name": "Instagram" },
-      { "name": "YouTube" },
-      { "name": "TikTok" },
-      { "name": "Facebook" },
-      { "name": "Twitter" }
-    ],
-    "mockServices": [
-      {
-        "id": 1,
-        "name": "Instagram Obunachilari",
-        "description": "Haqiqiy hisoblardan yuqori sifatli Instagram obunachilari",
-        "platform": "instagram",
-        "category": "followers",
-        "price": 2.5,
-        "minOrder": 100,
-        "maxOrder": 10000,
-        "deliveryTime": "1-24 soat",
-        "quality": "Yuqori Sifat"
-      },
-      {
-        "id": 2,
-        "name": "Instagram Yoqtirishlari",
-        "description": "Postlaringiz uchun tezkor Instagram yoqtirishlari",
-        "platform": "instagram",
-        "category": "likes",
-        "price": 1.2,
-        "minOrder": 50,
-        "maxOrder": 5000,
-        "deliveryTime": "0-1 soat",
-        "quality": "Premium"
-      },
-      {
-        "id": 3,
-        "name": "YouTube Ko'rishlari",
-        "description": "Video ishtirokini oshirish uchun haqiqiy YouTube ko'rishlari",
-        "platform": "youtube",
-        "category": "views",
-        "price": 1.8,
-        "minOrder": 1000,
-        "maxOrder": 100000,
-        "deliveryTime": "1-6 soat",
-        "quality": "Yuqori Sifat"
-      },
-      {
-        "id": 4,
-        "name": "YouTube Obunachilari",
-        "description": "Kanal o'sishi uchun haqiqiy YouTube obunachilari",
-        "platform": "youtube",
-        "category": "subscribers",
-        "price": 12.0,
-        "minOrder": 100,
-        "maxOrder": 5000,
-        "deliveryTime": "1-7 kun",
-        "quality": "Premium"
-      },
-      {
-        "id": 5,
-        "name": "TikTok Yoqtirishlari",
-        "description": "Viral kontent uchun haqiqiy TikTok yoqtirishlari",
-        "platform": "tiktok",
-        "category": "likes",
-        "price": 0.8,
-        "minOrder": 100,
-        "maxOrder": 50000,
-        "deliveryTime": "0-6 soat",
-        "quality": "Yuqori Sifat"
-      },
-      {
-        "id": 6,
-        "name": "TikTok Obunachilari",
-        "description": "Auditoriyangizni oshirish uchun haqiqiy TikTok obunachilari",
-        "platform": "tiktok",
-        "category": "followers",
-        "price": 3.5,
-        "minOrder": 100,
-        "maxOrder": 10000,
-        "deliveryTime": "1-24 soat",
-        "quality": "Premium"
-      },
-      {
-        "id": 7,
-        "name": "Facebook Sahifa Yoqtirishlari",
-        "description": "Faol foydalanuvchilardan sifatli Facebook sahifa yoqtirishlari",
-        "platform": "facebook",
-        "category": "likes",
-        "price": 3.0,
-        "minOrder": 50,
-        "maxOrder": 5000,
-        "deliveryTime": "1-12 soat",
-        "quality": "Yuqori Sifat"
-      },
-      {
-        "id": 8,
-        "name": "Twitter Obunachilari",
-        "description": "Organik o'sish uchun haqiqiy Twitter obunachilari",
-        "platform": "twitter",
-        "category": "followers",
-        "price": 4.0,
-        "minOrder": 100,
-        "maxOrder": 10000,
-        "deliveryTime": "1-24 soat",
-        "quality": "Premium"
-      }
-    ]
+    "pagination": {
+      "previous": "Oldingi",
+      "next": "Keyingi",
+      "page": "Sahifa {current}/{total}"
+    }
   },
   "dashboard": {
     "welcome": "Xush kelibsiz ",
     "description": "Buyurtmalaringizni boshqaring, jarayonni kuzating va ijtimoiy tarmoqlardagi mavqeingizni oshiring.",
     "tabs": {
-      "overview": "Umumiy ko'rinish",
+      "newOrders": "Yangi buyurtmalar",
       "orders": "Buyurtmalar",
       "account": "Hisob"
+    },
+     "newOrder": {
+      "title": "Yangi buyurtma",
+      "categories": "Kategoriyalar",
+      "selectCategory": "Kategoriya tanlang",
+      "services": "Xizmatlar",
+      "selectService": "Xizmat tanlang",
+      "servicesLoading": "Xizmatlar yuklanmoqda...",
+      "selectCategoryFirst": "Avval kategoriya tanlang",
+      "noServicesAvailable": "Ushbu kategoriyada xizmatlar mavjud emas",
+      "link": "Havola",
+      "enterLink": "Havolani kiriting",
+      "quantity": "Miqdor",
+      "enterQuantity": "Miqdorni kiriting",
+      "submit": "Buyurtma berish",
+      "submitting": "Yuborilmoqda...",
+      "orderSummary": "Buyurtma xulosasi",
+      "selectServiceForSummary": "Xulosa uchun xizmat tanlang",
+      "category": "Kategoriya",
+      "service": "Xizmat",
+      "description": "Tavsif",
+      "time": "Yetkazib berish vaqti",
+      "timeSoon": "Tez orada",
+      "price": "Narx",
+      "totalPrice": "Umumiy narx",
+      "dataFetchError": "Ma'lumotlarni olishda xato yuz berdi",
+      "quantityRequired": "Miqdor kiritilishi shart",
+      "quantityInvalid": "Miqdor noto‘g‘ri",
+      "serviceNotSelected": "Xizmat tanlanmagan",
+      "quantityMin": "Miqdor kamida {min} bo‘lishi kerak",
+      "quantityMax": "Miqdor {max} dan oshmasligi kerak",
+      "selectServiceFirst": "Avval xizmat tanlang",
+      "linkRequired": "Havola kiritilishi shart",
+      "invalidLink": "Noto‘g‘ri havola",
+      "noUserData": "Foydalanuvchi ma'lumotlari topilmadi",
+      "insufficientBalance": "Balansingiz yetarli emas: {balance} / {totalPrice} kerak",
+      "orderSuccess": "{quantity} ta buyurtma muvaffaqiyatli yaratildi",
+      "orderError": "Buyurtma yaratishda xato yuz berdi"
     },
     "stats": {
       "accountBalance": "Hisob Balansi",
@@ -407,23 +389,34 @@
       "quantity": "Miqdor: {count}",
       "orderId": "Buyurtma #{id}",
       "status": {
-        "completed": "Bajarildi",
-        "processing": "Jarayonda",
-        "pending": "Kutilmoqda",
-        "canceled": "Bekor qilindi"
+        "Completed": "Bajarildi",
+        "Rrocessing": "Jarayonda",
+        "Pending": "Kutilmoqda",
+        "Canceled": "Bekor qilindi"
       },
       "progress": "{percent}% bajarildi"
     },
-    "account": {
-      "info": "Hisob Ma'lumotlari",
-      "name": "Ism",
-      "email": "Elektron Pochta",
-      "memberSince": "A'zo Bo'lgan Sana",
-      "editProfile": "Profilni Tahrirlash",
-      "stats": "Hisob Statistikasi",
-      "currentBalance": "Joriy Balans",
-      "totalOrders": "Jami Buyurtmalar",
-      "successRate": "Muvaffaqiyat Darajasi"
+   "account": {
+      "info": "Hisob ma'lumotlari",
+      "name": "To'liq ism",
+      "firstName": "Ism",
+      "lastName": "Familiya",
+      "username": "Foydalanuvchi nomi",
+      "email": "Elektron pochta",
+      "phoneNumber": "Telefon raqami",
+      "memberSince": "A'zo bo'lgan sana",
+      "userId": "Foydalanuvchi ID",
+      "apiKey": "API kaliti",
+      "editProfile": "Profilni tahrirlash",
+      "saveChanges": "O'zgarishlarni saqlash",
+      "updating": "Yangilanmoqda...",
+      "validationError": "Barcha maydonlar to'ldirilishi kerak",
+      "updateSuccess": "Profil muvaffaqiyatli yangilandi",
+      "updateFailed": "Profilni yangilash muvaffaqiyatsiz yakunlandi",
+      "stats": "Hisob statistikasi",
+      "currentBalance": "Joriy balans",
+      "totalOrders": "Jami buyurtmalar",
+      "successRate": "Muvaffaqiyat darajasi"
     },
     "mockUser": {
       "name": "John Doe",

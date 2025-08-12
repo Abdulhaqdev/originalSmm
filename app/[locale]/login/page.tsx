@@ -1,41 +1,41 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { Zap, Mail, Lock, Eye, EyeOff } from "lucide-react"
-import { toast } from "sonner"
+import { Zap, Mail, Lock, Eye, EyeOff } from 'lucide-react'
+import { useAuth } from '@/hooks/useAuth'
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const t = useTranslations("LoginPage")
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  })
   const [showPassword, setShowPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
+  
+  const { login, isLoggingIn } = useAuth()
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    })
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsLoading(true)
+    
+    if (!formData.username || !formData.password) {
+      return
+    }
 
-    // Simulate login process
-    setTimeout(() => {
-      if (email && password) {
-        toast.success("Login successful! Redirecting to dashboard...")
-        setTimeout(() => {
-          router.push("/dashboard")
-        }, 1000)
-      } else {
-        toast.error("Please fill in all fields")
-      }
-      setIsLoading(false)
-    }, 1500)
+    login(formData)
   }
 
   return (
@@ -53,21 +53,22 @@ export default function LoginPage() {
 
         <Card className="shadow-2xl border-0">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
-            <CardDescription>Sign in to your account to continue</CardDescription>
+            <CardTitle className="text-2xl font-bold">{t("title")}</CardTitle>
+            <CardDescription>{t("description")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="username">{t("usernameLabel")}</Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                   <Input
-                    id="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    id="username"
+                    name="username"
+                    type="text"
+                    placeholder={t("usernamePlaceholder")}
+                    value={formData.username}
+                    onChange={handleInputChange}
                     className="pl-10"
                     required
                   />
@@ -75,15 +76,16 @@ export default function LoginPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">{t("passwordLabel")}</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                   <Input
                     id="password"
+                    name="password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder={t("passwordPlaceholder")}
+                    value={formData.password}
+                    onChange={handleInputChange}
                     className="pl-10 pr-10"
                     required
                   />
@@ -99,20 +101,23 @@ export default function LoginPage() {
 
               <div className="flex items-center justify-between">
                 <Link href="/forgot-password" className="text-sm text-primary hover:underline">
-                  Forgot password?
+                  {t("forgotPassword")}
                 </Link>
               </div>
 
-              <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-white" disabled={isLoading}>
-                {isLoading ? "Signing in..." : "Sign In"}
+              <Button 
+                type="submit" 
+                className="w-full bg-primary hover:bg-primary/90 text-white" 
+                disabled={isLoggingIn}
+              >
+                {isLoggingIn ? t("signingIn") : t("signIn")}
               </Button>
             </form>
 
-         
             <div className="text-center">
-              <span className="text-gray-600 dark:text-gray-300">Don't have an account? </span>
+              <span className="text-gray-600 dark:text-gray-300">{t("noAccount")}</span>{" "}
               <Link href="/register" className="text-primary hover:underline font-medium">
-                Sign up
+                {t("signUp")}
               </Link>
             </div>
           </CardContent>

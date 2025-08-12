@@ -13,13 +13,60 @@
       "servicesAvailable": "Доступные услуги"
     }
   },
-  "navbar": {
+  "RegisterPage": {
+    "title": "Создать аккаунт",
+    "description": "Присоединяйтесь к тысячам довольных клиентов",
+    "firstNameLabel": "Имя",
+    "firstNamePlaceholder": "Введите имя",
+    "lastNameLabel": "Фамилия",
+    "lastNamePlaceholder": "Введите фамилию",
+    "usernameLabel": "Имя пользователя",
+    "usernamePlaceholder": "Выберите имя пользователя",
+    "emailLabel": "Электронная почта",
+    "emailPlaceholder": "Введите вашу электронную почту",
+    "phoneNumberLabel": "Номер телефона",
+    "phoneNumberPlaceholder": "Введите номер телефона",
+    "passwordLabel": "Пароль",
+    "passwordPlaceholder": "Создайте пароль",
+    "confirmPasswordLabel": "Подтвердите пароль",
+    "confirmPasswordPlaceholder": "Подтвердите ваш пароль",
+    "acceptTerms": "Я согласен с",
+    "termsOfService": "Условиями обслуживания",
+    "and": "и",
+    "privacyPolicy": "Политикой конфиденциальности",
+    "createAccount": "Создать аккаунт",
+    "creatingAccount": "Создание аккаунта...",
+    "alreadyHaveAccount": "Уже есть аккаунт?",
+    "signIn": "Войти",
+    "requiredFieldsMissing": "Все поля обязательны для заполнения",
+    "passwordMismatch": "Пароли не совпадают",
+    "acceptTermsRequired": "Вы должны согласиться с Условиями обслуживания и Политикой конфиденциальности"
+  },
+   "LoginPage": {
+    "title": "Добро пожаловать",
+    "description": "Войдите в свой аккаунт, чтобы продолжить",
+    "usernameLabel": "Имя пользователя",
+    "usernamePlaceholder": "Введите имя пользователя",
+    "passwordLabel": "Пароль",
+    "passwordPlaceholder": "Введите пароль",
+    "forgotPassword": "Забыли пароль?",
+    "signIn": "Войти",
+    "signingIn": "Вход...",
+    "noAccount": "Нет аккаунта?",
+    "signUp": "Зарегистрироваться"
+  },
+ "navbar": {
     "home": "Главная",
     "services": "Услуги",
     "about": "О нас",
+    "support": "Поддержка",
     "dashboard": "Панель управления",
+    "accountSettings": "Настройки аккаунта",
+    "addFunds": "Пополнить баланс",
     "login": "Войти",
-    "getStarted": "Начать"
+    "signUp": "Зарегистрироваться",
+    "logout": "Выйти",
+    "themeToggle": "Тема"
   },
   "stats": {
     "title": "Доверяют тысячи",
@@ -235,155 +282,90 @@
       "getStarted": "Начать сейчас"
     }
   },
-  "services": {
+ "services": {
+    "locale": "ru",
     "hero": {
-      "title": "Наши премиум-услуги",
-      "description": "Выбирайте из нашего обширного ассортимента услуг маркетинга в социальных сетях. Все услуги предоставляются с высоким качеством, быстрой доставкой и поддержкой 24/7."
+      "title": "Услуги для развития социальных сетей",
+      "description": "Найдите лучшие услуги для Instagram, YouTube и TikTok."
     },
     "filters": {
       "searchPlaceholder": "Поиск услуг...",
-      "platformLabel": "Выберите платформу",
+      "platformLabel": "Платформа",
       "allPlatforms": "Все платформы",
-      "categoryLabel": "Выберите категорию",
+      "categoryLabel": "Категория",
       "allCategories": "Все категории",
-      "sortLabel": "Сортировать по",
+      "loadingCategories": "Загрузка категорий...",
+      "sortLabel": "Сортировать",
       "sortOptions": {
-        "name": "Названию",
-        "price": "Цене"
+        "name": "По названию",
+        "price": "По цене"
       },
-      "showingServices": "Показано {count} услуг",
+      "showingServices": "Найдено услуг: {count}",
       "filterSummary": {
         "sortedBy": "Отсортировано по {sortBy}",
-        "noServices": "Услуги, соответствующие вашим критериям, не найдены."
-      }
+        "noServices": "Услуги не найдены"
+      },
+      "loadingServices": "Загрузка услуг..."
     },
-    "categories": [
-      { "value": "all", "label": "Все категории" },
-      { "value": "followers", "label": "Подписчики" },
-      { "value": "likes", "label": "Лайки" },
-      { "value": "views", "label": "Просмотры" },
-      { "value": "subscribers", "label": "Подписчики" }
-    ],
     "serviceDetails": {
-      "per1000": "за 1000",
+      "per1000": "За 1000",
       "minOrder": "Минимальный заказ",
       "maxOrder": "Максимальный заказ",
-      "delivery": "Доставка",
+      "delivery": "Время доставки",
+      "hours": "часов",
       "orderNow": "Заказать сейчас"
     },
-    "mockPlatforms": [
-      { "name": "Instagram" },
-      { "name": "YouTube" },
-      { "name": "TikTok" },
-      { "name": "Facebook" },
-      { "name": "Twitter" }
-    ],
-    "mockServices": [
-      {
-        "id": 1,
-        "name": "Подписчики Instagram",
-        "description": "Высококачественные подписчики Instagram из реальных аккаунтов",
-        "platform": "instagram",
-        "category": "followers",
-        "price": 2.5,
-        "minOrder": 100,
-        "maxOrder": 10000,
-        "deliveryTime": "1-24 часа",
-        "quality": "Высокое качество"
-      },
-      {
-        "id": 2,
-        "name": "Лайки Instagram",
-        "description": "Мгновенные лайки Instagram для ваших постов",
-        "platform": "instagram",
-        "category": "likes",
-        "price": 1.2,
-        "minOrder": 50,
-        "maxOrder": 5000,
-        "deliveryTime": "0-1 час",
-        "quality": "Премиум"
-      },
-      {
-        "id": 3,
-        "name": "Просмотры YouTube",
-        "description": "Реальные просмотры YouTube для повышения вовлеченности видео",
-        "platform": "youtube",
-        "category": "views",
-        "price": 1.8,
-        "minOrder": 1000,
-        "maxOrder": 100000,
-        "deliveryTime": "1-6 часов",
-        "quality": "Высокое качество"
-      },
-      {
-        "id": 4,
-        "name": "Подписчики YouTube",
-        "description": "Реальные подписчики YouTube для роста канала",
-        "platform": "youtube",
-        "category": "subscribers",
-        "price": 12.0,
-        "minOrder": 100,
-        "maxOrder": 5000,
-        "deliveryTime": "1-7 дней",
-        "quality": "Премиум"
-      },
-      {
-        "id": 5,
-        "name": "Лайки TikTok",
-        "description": "Настоящие лайки TikTok для вирусного контента",
-        "platform": "tiktok",
-        "category": "likes",
-        "price": 0.8,
-        "minOrder": 100,
-        "maxOrder": 50000,
-        "deliveryTime": "0-6 часов",
-        "quality": "Высокое качество"
-      },
-      {
-        "id": 6,
-        "name": "Подписчики TikTok",
-        "description": "Реальные подписчики TikTok для роста вашей аудитории",
-        "platform": "tiktok",
-        "category": "followers",
-        "price": 3.5,
-        "minOrder": 100,
-        "maxOrder": 10000,
-        "deliveryTime": "1-24 часа",
-        "quality": "Премиум"
-      },
-      {
-        "id": 7,
-        "name": "Лайки страницы Facebook",
-        "description": "Качественные лайки страницы Facebook от активных пользователей",
-        "platform": "facebook",
-        "category": "likes",
-        "price": 3.0,
-        "minOrder": 50,
-        "maxOrder": 5000,
-        "deliveryTime": "1-12 часов",
-        "quality": "Высокое качество"
-      },
-      {
-        "id": 8,
-        "name": "Подписчики Twitter",
-        "description": "Реальные подписчики Twitter для органического роста",
-        "platform": "twitter",
-        "category": "followers",
-        "price": 4.0,
-        "minOrder": 100,
-        "maxOrder": 10000,
-        "deliveryTime": "1-24 часа",
-        "quality": "Премиум"
-      }
-    ]
+    "pagination": {
+      "previous": "Предыдущая",
+      "next": "Следующая",
+      "page": "Страница {current}/{total}"
+    }
   },
   "dashboard": {
     "welcome": "Добро пожаловать, ",
     "description": "Управляйте заказами, отслеживайте прогресс и развивайте свое присутствие в социальных сетях.",
     "tabs": {
-      "overview": "Обзор",
+"newOrders": "Новые заказы",
       "orders": "Заказы",
       "account": "Аккаунт"
+    },
+     "newOrder": {
+      "title": "Новый заказ",
+      "categories": "Категории",
+      "selectCategory": "Выберите категорию",
+      "services": "Услуги",
+      "selectService": "Выберите услугу",
+      "servicesLoading": "Загрузка услуг...",
+      "selectCategoryFirst": "Сначала выберите категорию",
+      "noServicesAvailable": "В этой категории нет услуг",
+      "link": "Ссылка",
+      "enterLink": "Введите ссылку",
+      "quantity": "Количество",
+      "enterQuantity": "Введите количество",
+      "submit": "Разместить заказ",
+      "submitting": "Отправляется...",
+      "orderSummary": "Сводка заказа",
+      "selectServiceForSummary": "Выберите услугу для сводки",
+      "category": "Категория",
+      "service": "Услуга",
+      "description": "Описание",
+      "time": "Время доставки",
+      "timeSoon": "Скоро",
+      "price": "Цена",
+      "totalPrice": "Общая стоимость",
+      "dataFetchError": "Не удалось загрузить данные",
+      "quantityRequired": "Количество обязательно",
+      "quantityInvalid": "Недопустимое количество",
+      "serviceNotSelected": "Услуга не выбрана",
+      "quantityMin": "Количество должно быть не менее {min}",
+      "quantityMax": "Количество не должно превышать {max}",
+      "selectServiceFirst": "Сначала выберите услугу",
+      "linkRequired": "Ссылка обязательна",
+      "invalidLink": "Недопустимая ссылка",
+      "noUserData": "Данные пользователя не найдены",
+      "insufficientBalance": "Недостаточно средств: {balance} / {totalPrice} требуется",
+      "orderSuccess": "Заказ на {quantity} успешно создан",
+      "orderError": "Не удалось создать заказ"
     },
     "stats": {
       "accountBalance": "Баланс аккаунта",
@@ -407,23 +389,34 @@
       "quantity": "Количество: {count}",
       "orderId": "Заказ #{id}",
       "status": {
-        "completed": "Завершено",
-        "processing": "В обработке",
-        "pending": "Ожидает",
-        "canceled": "Отменено"
+        "Completed": "Завершено",
+        "Processing": "В обработке",
+        "Pending": "Ожидает",
+        "Canceled": "Отменено"
       },
       "progress": "{percent}% завершено"
     },
     "account": {
       "info": "Информация об аккаунте",
-      "name": "Имя",
+      "name": "Полное имя",
+      "firstName": "Имя",
+      "lastName": "Фамилия",
+      "username": "Имя пользователя",
       "email": "Электронная почта",
+      "phoneNumber": "Номер телефона",
       "memberSince": "Дата регистрации",
+      "userId": "ID пользователя",
+      "apiKey": "API ключ",
       "editProfile": "Редактировать профиль",
+      "saveChanges": "Сохранить изменения",
+      "updating": "Обновление...",
+      "validationError": "Все поля обязательны для заполнения",
+      "updateSuccess": "Профиль успешно обновлен",
+      "updateFailed": "Не удалось обновить профиль",
       "stats": "Статистика аккаунта",
       "currentBalance": "Текущий баланс",
       "totalOrders": "Всего заказов",
-      "successRate": "Успешность"
+      "successRate": "Процент успеха"
     },
     "mockUser": {
       "name": "Джон Доу",

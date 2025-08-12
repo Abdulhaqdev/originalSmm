@@ -13,13 +13,60 @@
       "servicesAvailable": "Services Available"
     }
   },
-  "navbar": {
+  "RegisterPage": {
+    "title": "Create Account",
+    "description": "Join thousands of satisfied customers",
+    "firstNameLabel": "First Name",
+    "firstNamePlaceholder": "First name",
+    "lastNameLabel": "Last Name",
+    "lastNamePlaceholder": "Last name",
+    "usernameLabel": "Username",
+    "usernamePlaceholder": "Choose a username",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Enter your email",
+    "phoneNumberLabel": "Phone Number",
+    "phoneNumberPlaceholder": "Enter your phone number",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Create a password",
+    "confirmPasswordLabel": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "acceptTerms": "I agree to the",
+    "termsOfService": "Terms of Service",
+    "and": "and",
+    "privacyPolicy": "Privacy Policy",
+    "createAccount": "Create Account",
+    "creatingAccount": "Creating Account...",
+    "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "requiredFieldsMissing": "All fields are required",
+    "passwordMismatch": "Passwords do not match",
+    "acceptTermsRequired": "You must accept the Terms of Service and Privacy Policy"
+  },
+  "LoginPage": {
+    "title": "Welcome Back",
+    "description": "Sign in to your account to continue",
+    "usernameLabel": "Username",
+    "usernamePlaceholder": "Enter your username",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "forgotPassword": "Forgot password?",
+    "signIn": "Sign In",
+    "signingIn": "Signing in...",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up"
+  },
+ "navbar": {
     "home": "Home",
     "services": "Services",
     "about": "About",
+    "support": "Support",
     "dashboard": "Dashboard",
+    "accountSettings": "Account Settings",
+    "addFunds": "Add Funds",
     "login": "Login",
-    "getStarted": "Get Started"
+    "signUp": "Sign Up",
+    "logout": "Logout",
+    "themeToggle": "Theme"
   },
   "stats": {
     "title": "Trusted by Thousands",
@@ -236,154 +283,89 @@
     }
   },
   "services": {
+    "locale": "en",
     "hero": {
-      "title": "Our Premium Services",
-      "description": "Choose from our comprehensive range of social media marketing services. All services come with high quality, fast delivery, and 24/7 support."
+      "title": "Social Media Growth Services",
+      "description": "Find the best services for Instagram, YouTube, and TikTok."
     },
     "filters": {
       "searchPlaceholder": "Search services...",
-      "platformLabel": "Select Platform",
+      "platformLabel": "Platform",
       "allPlatforms": "All Platforms",
-      "categoryLabel": "Select Category",
+      "categoryLabel": "Category",
       "allCategories": "All Categories",
-      "sortLabel": "Sort By",
+      "loadingCategories": "Loading categories...",
+      "sortLabel": "Sort",
       "sortOptions": {
-        "name": "Name",
-        "price": "Price"
+        "name": "By Name",
+        "price": "By Price"
       },
-      "showingServices": "Showing {count} services",
+      "showingServices": "{count} services found",
       "filterSummary": {
         "sortedBy": "Sorted by {sortBy}",
-        "noServices": "No services found matching your criteria."
-      }
+        "noServices": "No services found"
+      },
+      "loadingServices": "Loading services..."
     },
-    "categories": [
-      { "value": "all", "label": "All Categories" },
-      { "value": "followers", "label": "Followers" },
-      { "value": "likes", "label": "Likes" },
-      { "value": "views", "label": "Views" },
-      { "value": "subscribers", "label": "Subscribers" }
-    ],
     "serviceDetails": {
-      "per1000": "per 1000",
-      "minOrder": "Min Order",
-      "maxOrder": "Max Order",
-      "delivery": "Delivery",
+      "per1000": "Per 1000",
+      "minOrder": "Minimum Order",
+      "maxOrder": "Maximum Order",
+      "delivery": "Delivery Time",
+      "hours": "hours",
       "orderNow": "Order Now"
     },
-    "mockPlatforms": [
-      { "name": "Instagram" },
-      { "name": "YouTube" },
-      { "name": "TikTok" },
-      { "name": "Facebook" },
-      { "name": "Twitter" }
-    ],
-    "mockServices": [
-      {
-        "id": 1,
-        "name": "Instagram Followers",
-        "description": "High-quality Instagram followers from real accounts",
-        "platform": "instagram",
-        "category": "followers",
-        "price": 2.5,
-        "minOrder": 100,
-        "maxOrder": 10000,
-        "deliveryTime": "1-24 hours",
-        "quality": "High Quality"
-      },
-      {
-        "id": 2,
-        "name": "Instagram Likes",
-        "description": "Instant Instagram likes for your posts",
-        "platform": "instagram",
-        "category": "likes",
-        "price": 1.2,
-        "minOrder": 50,
-        "maxOrder": 5000,
-        "deliveryTime": "0-1 hour",
-        "quality": "Premium"
-      },
-      {
-        "id": 3,
-        "name": "YouTube Views",
-        "description": "Real YouTube views to boost your video engagement",
-        "platform": "youtube",
-        "category": "views",
-        "price": 1.8,
-        "minOrder": 1000,
-        "maxOrder": 100000,
-        "deliveryTime": "1-6 hours",
-        "quality": "High Quality"
-      },
-      {
-        "id": 4,
-        "name": "YouTube Subscribers",
-        "description": "Real YouTube subscribers for channel growth",
-        "platform": "youtube",
-        "category": "subscribers",
-        "price": 12.0,
-        "minOrder": 100,
-        "maxOrder": 5000,
-        "deliveryTime": "1-7 days",
-        "quality": "Premium"
-      },
-      {
-        "id": 5,
-        "name": "TikTok Likes",
-        "description": "Genuine TikTok likes for viral content",
-        "platform": "tiktok",
-        "category": "likes",
-        "price": 0.8,
-        "minOrder": 100,
-        "maxOrder": 50000,
-        "deliveryTime": "0-6 hours",
-        "quality": "High Quality"
-      },
-      {
-        "id": 6,
-        "name": "TikTok Followers",
-        "description": "Real TikTok followers to grow your audience",
-        "platform": "tiktok",
-        "category": "followers",
-        "price": 3.5,
-        "minOrder": 100,
-        "maxOrder": 10000,
-        "deliveryTime": "1-24 hours",
-        "quality": "Premium"
-      },
-      {
-        "id": 7,
-        "name": "Facebook Page Likes",
-        "description": "Quality Facebook page likes from active users",
-        "platform": "facebook",
-        "category": "likes",
-        "price": 3.0,
-        "minOrder": 50,
-        "maxOrder": 5000,
-        "deliveryTime": "1-12 hours",
-        "quality": "High Quality"
-      },
-      {
-        "id": 8,
-        "name": "Twitter Followers",
-        "description": "Real Twitter followers for organic growth",
-        "platform": "twitter",
-        "category": "followers",
-        "price": 4.0,
-        "minOrder": 100,
-        "maxOrder": 10000,
-        "deliveryTime": "1-24 hours",
-        "quality": "Premium"
-      }
-    ]
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {current}/{total}"
+    }
   },
   "dashboard": {
     "welcome": "Welcome back, ",
     "description": "Manage your orders, track progress, and grow your social media presence.",
     "tabs": {
-      "overview": "Overview",
-      "orders": "Orders",
+ "newOrders": "New Orders",
+       "orders": "Orders",
       "account": "Account"
+    },
+    "newOrder": {
+      "title": "New Order",
+      "categories": "Categories",
+      "selectCategory": "Select category",
+      "services": "Services",
+      "selectService": "Select service",
+      "servicesLoading": "Loading services...",
+      "selectCategoryFirst": "Select category first",
+      "noServicesAvailable": "No services available in this category",
+      "link": "Link",
+      "enterLink": "Enter link",
+      "quantity": "Quantity",
+      "enterQuantity": "Enter quantity",
+      "submit": "Place Order",
+      "submitting": "Submitting...",
+      "orderSummary": "Order Summary",
+      "selectServiceForSummary": "Select a service for summary",
+      "category": "Category",
+      "service": "Service",
+      "description": "Description",
+      "time": "Delivery Time",
+      "timeSoon": "Soon",
+      "price": "Price",
+      "totalPrice": "Total Price",
+      "dataFetchError": "Failed to fetch data",
+      "quantityRequired": "Quantity is required",
+      "quantityInvalid": "Invalid quantity",
+      "serviceNotSelected": "Service not selected",
+      "quantityMin": "Quantity must be at least {min}",
+      "quantityMax": "Quantity must not exceed {max}",
+      "selectServiceFirst": "Select a service first",
+      "linkRequired": "Link is required",
+      "invalidLink": "Invalid link",
+      "noUserData": "User data not found",
+      "insufficientBalance": "Insufficient balance: {balance} / {totalPrice} required",
+      "orderSuccess": "Order for {quantity} successfully created",
+      "orderError": "Failed to create order"
     },
     "stats": {
       "accountBalance": "Account Balance",
@@ -407,19 +389,30 @@
       "quantity": "Quantity: {count}",
       "orderId": "Order #{id}",
       "status": {
-        "completed": "Completed",
-        "processing": "Processing",
-        "pending": "Pending",
-        "canceled": "Canceled"
+        "Completed": "Completed",
+        "Processing": "Processing",
+        "Pending": "Pending",
+        "Canceled": "Canceled"
       },
       "progress": "{percent}% complete"
     },
     "account": {
       "info": "Account Information",
-      "name": "Name",
+      "name": "Full Name",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "username": "Username",
       "email": "Email",
+      "phoneNumber": "Phone Number",
       "memberSince": "Member Since",
+      "userId": "User ID",
+      "apiKey": "API Key",
       "editProfile": "Edit Profile",
+      "saveChanges": "Save Changes",
+      "updating": "Updating...",
+      "validationError": "All fields are required",
+      "updateSuccess": "Profile updated successfully",
+      "updateFailed": "Failed to update profile",
       "stats": "Account Statistics",
       "currentBalance": "Current Balance",
       "totalOrders": "Total Orders",

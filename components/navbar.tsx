@@ -1,199 +1,173 @@
-// Navbar.tsx
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { useTranslations } from 'next-intl';
-import { usePathname } from '@/app/i18n/navigation';
-import { Button } from '@/components/ui/button';
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { usePathname } from "@/app/i18n/navigation";
+import { Button } from "@/components/ui/button";
 import {
-  Zap,
-  Moon,
-  Sun,
-  Home,
-  Briefcase,
-  Users,
-  LayoutDashboard,
-  Menu,
-} from 'lucide-react';
-import { useTheme } from 'next-themes';
-import { cn } from '@/lib/utils';
-import LocaleSwitcher from './shared/LanguageSwitcher';
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Menu, Zap, User, LogOut, Settings, CreditCard, Home, Briefcase, Users, LayoutDashboard, Sun, Moon } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { useTheme } from "next-themes";
+import { cn } from "@/lib/utils";
+import LocaleSwitcher from "./shared/LanguageSwitcher";
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const t = useTranslations("navbar");
+  const [mounted, setMounted] = useState(false);
+  const { user, isAuthenticated, logout, isLoadingUser } = useAuth();
   const { theme, setTheme } = useTheme();
   const pathname = usePathname();
-  const t = useTranslations('navbar');
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    setMounted(true);
   }, []);
 
+  if (!mounted) {
+    return null;
+  }
+
   const navItems = [
-    { name: t('home'), href: '/', icon: Home },
-    { name: t('services'), href: '/services', icon: Briefcase },
-    { name: t('about'), href: '/about', icon: Users },
-    { name: t('dashboard'), href: '/dashboard', icon: LayoutDashboard },
+    { name: t("home"), href: "/", icon: Home },
+    { name: t("services"), href: "/services", icon: Briefcase },
+    { name: t("about"), href: "/about", icon: Users },
   ];
+
+  if (isAuthenticated) {
+    navItems.push({ name: t("dashboard"), href: "/dashboard", icon: LayoutDashboard });
+  }
+
+  const getUserInitials = (user: { first_name?: string; last_name?: string; username?: string; email?: string }) => {
+    if (user?.first_name && user?.last_name) {
+      return `${user.first_name[0]}${user.last_name[0]}`.toUpperCase();
+    }
+    if (user?.username) {
+      return user.username.slice(0, 2).toUpperCase();
+    }
+    return "U";
+  };
 
   return (
     <>
       {/* Top Navigation Bar */}
-      <nav
-        className={cn(
-          'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-          isScrolled
-            ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200/50 dark:bg-gray-900/95 dark:border-gray-700/50'
-            : 'bg-transparent',
-        )}
-      >
+      <nav className="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 z-50">
         <div className="container mx-auto px-4">
-          {/* Desktop and Tablet Layout */}
-          <div className="hidden sm:flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2 group">
               <div className="relative">
-                <div
-                  className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200"
-                >
-                  <Zap className="w-5 h-5 text-white" />
-                </div>
-                <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+              
+                <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse"></div>
               </div>
               <span className="text-xl font-bold gradient-text">OriginalSMM</span>
             </Link>
 
-            {/* Desktop/Tablet Navigation */}
-            <div className="flex items-center space-x-6 lg:space-x-8">
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-8">
               {navItems.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    'text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors duration-200 font-medium relative group',
-                    pathname === item.href && 'text-primary dark:text-primary',
+                    "text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors duration-200 relative group",
+                    pathname === item.href && "text-primary dark:text-primary"
                   )}
                 >
                   {item.name}
                   <span
                     className={cn(
-                      'absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-200',
-                      pathname === item.href ? 'w-full' : 'w-0 group-hover:w-full',
+                      "absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-200",
+                      pathname === item.href ? "w-full" : "w-0 group-hover:w-full"
                     )}
                   ></span>
                 </Link>
               ))}
             </div>
 
-            {/* Desktop/Tablet Actions */}
-            <div className="flex items-center space-x-4">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                className="text-gray-700 hover:text-primary dark:text-gray-300"
-              >
-                <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-              </Button>
-              <LocaleSwitcher />
-              <Link href="/login">
-                <Button
-                  variant="ghost"
-                  className="text-gray-700 hover:text-primary dark:text-gray-300"
-                >
-                  {t('login')}
-                </Button>
-              </Link>
-              <Link href="/register">
-                <Button className="bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl transition-all duration-200">
-                  {t('getStarted')}
-                </Button>
-              </Link>
-            </div>
-          </div>
-
-          {/* Mobile and Small Tablet Top Bar */}
-          <div className="sm:hidden flex items-center justify-between h-16">
-            {/* Logo */}
-            <Link href="/" className="flex items-center space-x-2 group">
-              <div className="relative">
-                <div
-                  className="w-7 h-7 bg-primary rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200"
-                >
-                  <Zap className="w-4 h-4 text-white" />
-                </div>
-                <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse"></div>
-              </div>
-              <span className="text-lg font-bold gradient-text">OriginalSMM</span>
-            </Link>
-
-            {/* Mobile Actions */}
+            {/* Auth Section (Desktop & Mobile) */}
             <div className="flex items-center space-x-2">
+              <LocaleSwitcher />
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                className="text-gray-700 hover:text-primary dark:text-gray-300 h-9 w-9"
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                className="text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary h-9 w-9"
               >
                 <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                 <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
               </Button>
-              <LocaleSwitcher />
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="text-gray-700 hover:text-primary dark:text-gray-300 h-9 w-9"
-              >
-                <Menu className="h-5 w-5" />
-              </Button>
+              {isLoadingUser ? (
+                <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse" />
+              ) : isAuthenticated && user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                      <Avatar className="h-8 w-8">
+                        <AvatarFallback className="bg-primary text-white text-sm">
+                          {getUserInitials(user)}
+                        </AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="end" forceMount>
+                    <div className="flex items-center justify-start gap-2 p-2">
+                      <div className="flex flex-col space-y-1 leading-none">
+                        <p className="font-medium">{user.first_name} {user.last_name}</p>
+                        <p className="w-[200px] truncate text-sm text-muted-foreground">{user.email}</p>
+                      </div>
+                    </div>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard" className="flex items-center">
+                        <User className="mr-2 h-4 w-4" />
+                        {t("dashboard")}
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/account" className="flex items-center">
+                        <Settings className="mr-2 h-4 w-4" />
+                        {t("accountSettings")}
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/add-funds" className="flex items-center">
+                        <CreditCard className="mr-2 h-4 w-4" />
+                        {t("addFunds")}
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={logout}
+                      className="text-red-600 dark:text-red-400"
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      {t("logout")}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <div className="flex items-center space-x-2">
+                  <Link href="/login">
+                    <Button variant="ghost" size="sm">
+                      {t("login")}
+                    </Button>
+                  </Link>
+                  <Link href="/register">
+                    <Button size="sm" className="bg-primary hover:bg-primary/90 text-white">
+                      {t("signUp")}
+                    </Button>
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
-
-          {/* Mobile/Tablet Dropdown Menu */}
-          {isMobileMenuOpen && (
-            <div className="sm:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200/50 dark:border-gray-700/50">
-              <div className="container mx-auto px-4 py-4 flex flex-col space-y-2">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={cn(
-                      'text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors duration-200 font-medium py-2',
-                      pathname === item.href && 'text-primary dark:text-primary',
-                    )}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-                <Link href="/login">
-                  <Button
-                    variant="ghost"
-                    className="text-gray-700 hover:text-primary dark:text-gray-300 w-full justify-start"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {t('login')}
-                  </Button>
-                </Link>
-                <Link href="/register">
-                  <Button
-                    className="bg-primary hover:bg-primary/90 text-white w-full justify-start"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {t('getStarted')}
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          )}
         </div>
       </nav>
 
@@ -208,19 +182,20 @@ export default function Navbar() {
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  'flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-all duration-200 min-w-[60px]',
+                  "flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-all duration-200 min-w-[60px]",
                   isActive
-                    ? 'text-primary bg-primary/10'
-                    : 'text-gray-400 hover:text-white hover:bg-gray-800/50',
+                    ? "text-primary bg-primary/10"
+                    : "text-gray-400 hover:text-white hover:bg-gray-800/50"
                 )}
               >
-                <Icon className={cn('w-5 h-5 mb-1', isActive && 'text-primary')} />
-                <span className={cn('text-xs font-medium', isActive && 'text-primary')}>
+                <Icon className={cn("w-5 h-5 mb-1", isActive && "text-primary")} />
+                <span className={cn("text-xs font-medium", isActive && "text-primary")}>
                   {item.name}
                 </span>
               </Link>
             );
           })}
+       
         </div>
       </nav>
     </>
