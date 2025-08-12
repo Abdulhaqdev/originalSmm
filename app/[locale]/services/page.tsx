@@ -13,23 +13,43 @@ import { Clock, Search } from "lucide-react";
 import { useUser } from "@/hooks/useUser";
 
 export default function ServicesPage() {
-  const t = useTranslations("services");
+  const t = useTranslations("services");  
   const locale = useLocale();
   const router = useRouter();
-  const { getServices } = useUser();
+  const { getServices, getCategories } = useUser();
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState("name");
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [page, setPage] = useState(1);
   const limit = 10;
 
   type Service = {
-    id: string;
+    id: number;
     name: string;
+    name_uz: string;
+    name_ru: string;
+    name_en: string;
     description: string;
+    description_uz: string;
+    description_ru: string;
+    description_en: string;
     price: string;
     min: number;
     max: number;
     duration: number;
+    category: number;
+    api: number;
+    site_id: number;
+    is_active: boolean;
+    created_at: string;
+    updated_at: string;
+  };
+
+  type Category = {
+    id: number;
+    name: string;
+    name_uz: string;
+    name_ru: string;
+    name_en: string;
   };
 
   type ServicesData = {
@@ -40,34 +60,83 @@ export default function ServicesPage() {
   };
 
   const { data: servicesData, isLoading: isLoadingServices } = getServices(limit, (page - 1) * limit, locale) as { data: ServicesData | undefined, isLoading: boolean };
+  const { data: categoriesData, error: categoriesError, isLoading: categoriesLoading } = getCategories(locale) as { data: Category[] | undefined, error: any, isLoading: boolean };
 
-  // Til o‘zgarganda sahifani yangilash
+  console.log(categoriesData);
+
+  // Til o'zgarganda sahifani yangilash
   useEffect(() => {
     setPage(1); // Sahifani 1 ga qaytarish
     router.refresh(); // Sahifani qayta yuklash
   }, [locale, router]);
 
   const services = servicesData?.results || [];
+  const categories = categoriesData || [];
+
+  // Get service name and description based on locale
+  const getServiceName = (service: Service) => {
+    switch (locale) {
+      case 'uz':
+        return service.name_uz || service.name;
+      case 'ru':
+        return service.name_ru || service.name;
+      case 'en':
+        return service.name_en || service.name;
+      default:
+        return service.name;
+    }
+  };
+
+  const getServiceDescription = (service: Service) => {
+    switch (locale) {
+      case 'uz':
+        return service.description_uz || service.description;
+      case 'ru':
+        return service.description_ru || service.description;
+      case 'en':
+        return service.description_en || service.description;
+      default:
+        return service.description;
+    }
+  };
+
+  // Get category name based on locale
+  const getCategoryName = (category: Category) => {
+    switch (locale) {
+      case 'uz':
+        return category.name_uz || category.name;
+      case 'ru':
+        return category.name_ru || category.name;
+      case 'en':
+        return category.name_en || category.name;
+      default:
+        return category.name;
+    }
+  };
 
   const filteredServices = services
     .filter((service) => {
+      const serviceName = getServiceName(service);
+      const serviceDescription = getServiceDescription(service);
+      
       const matchesSearch =
-        service.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        service.description.toLowerCase().includes(searchTerm.toLowerCase());
-      return matchesSearch;
-    })
-    .sort((a, b) => {
-      switch (sortBy) {
-        case "price":
-          return parseFloat(a.price) - parseFloat(b.price);
-        case "name":
-          return a.name.localeCompare(b.name);
-        default:
-          return 0;
-      }
+        serviceName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        serviceDescription.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      const matchesCategory = selectedCategory === "all" || 
+        service.category.toString() === selectedCategory;
+      
+      return matchesSearch && matchesCategory;
     });
 
   const totalPages = servicesData ? Math.ceil(servicesData.count / limit) : 1;
+
+  // Get selected category name for display
+  const getSelectedCategoryName = () => {
+    if (selectedCategory === "all") return t("filters.allCategories");
+    const category = categories.find(cat => cat.id.toString() === selectedCategory);
+    return category ? getCategoryName(category) : "";
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -93,7 +162,7 @@ export default function ServicesPage() {
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">{t("hero.description")}</p>
           </div>
 
-          {/* Filters (faqat Search va Sort By) */}
+          {/* Filters (Search va Category) */}
           <div className="max-w-6xl mx-auto">
             <Card className="p-6 mb-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -108,14 +177,18 @@ export default function ServicesPage() {
                   />
                 </div>
 
-                {/* Sort */}
-                <Select value={sortBy} onValueChange={setSortBy}>
+                {/* Category Filter */}
+                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                   <SelectTrigger>
-                    <SelectValue placeholder={t("filters.sortLabel")} />
+                    <SelectValue placeholder={t("filters.categoryLabel")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="name">{t("filters.sortOptions.name")}</SelectItem>
-                    <SelectItem value="price">{t("filters.sortOptions.price")}</SelectItem>
+                    <SelectItem value="all">{t("filters.allCategories")}</SelectItem>
+                    {categories.map((category) => (
+                      <SelectItem key={category.id} value={category.id.toString()}>
+                        {getCategoryName(category)}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -134,9 +207,8 @@ export default function ServicesPage() {
             <div className="flex items-center space-x-2">
               <span className="text-sm text-gray-500">
                 {searchTerm && `"${searchTerm}" • `}
-                {t("filters.filterSummary.sortedBy", {
-                  sortBy: t(`filters.sortOptions.${sortBy}`),
-                })}
+                {selectedCategory !== "all" && `${getSelectedCategoryName()} • `}
+                {t("filters.filterSummary.filtered")}
               </span>
             </div>
           </div>
@@ -157,7 +229,7 @@ export default function ServicesPage() {
                       <div className="flex items-start justify-between mb-4">
                         <div>
                           <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors duration-300">
-                            {service.name}
+                            {getServiceName(service)}
                           </h3>
                         </div>
                         <div className="text-right">
@@ -166,7 +238,7 @@ export default function ServicesPage() {
                         </div>
                       </div>
 
-                      <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">{service.description}</p>
+                      <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">{getServiceDescription(service)}</p>
 
                       <div className="space-y-2 mb-6">
                         <div className="flex items-center justify-between text-sm">
@@ -187,7 +259,11 @@ export default function ServicesPage() {
                       </div>
 
                       <div className="flex items-center justify-end">
-                        <Button size="sm" className="bg-primary hover:bg-primary/90 text-white">
+                        <Button 
+                          size="sm" 
+                          className="bg-primary hover:bg-primary/90 text-white"
+                          onClick={() => router.push(`/${locale}/dashboard?tab=new-orders&service=${service.id}&category=${service.category}`)}
+                        >
                           {t("serviceDetails.orderNow")}
                         </Button>
                       </div>

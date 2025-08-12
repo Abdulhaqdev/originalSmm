@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
@@ -22,16 +22,31 @@ export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState("new-orders");
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   // Extract locale from pathname (e.g., /en/dashboard -> en)
   const locale = pathname.split("/")[1] || "en";
 
+  // URL parametrlarini olish
+  const tabFromUrl = searchParams.get('tab');
+  const serviceIdFromUrl = searchParams.get('service');
+  const categoryIdFromUrl = searchParams.get('category');
+
   // Fetch categories and services
-  const { data: categoriesData, error: categoriesError, isLoading: categoriesLoading } = getCategories(100, 0, locale);
+  const { data: categoriesData, error: categoriesError, isLoading: categoriesLoading } = getCategories( locale);
   const { data: servicesData, error: servicesError, isLoading: servicesLoading } = getServices(100, 0, locale);
   const { data: ordersData, error: ordersError, isLoading: ordersLoading } = getOrders(locale);
-console.log("ordersData" , ordersData);
-console.log("categoriesData", categoriesData);
+
+  console.log("ordersData" , ordersData);
+  console.log("categoriesData", categoriesData);
+
+  // Tab'ni URL parametriga qarab o'rnatish
+  useEffect(() => {
+    if (tabFromUrl) {
+      setActiveTab(tabFromUrl);
+    }
+  }, [tabFromUrl]);
+
   // Handle fetch errors
   useEffect(() => {
     if (categoriesError || servicesError || ordersError) {
@@ -42,10 +57,10 @@ console.log("categoriesData", categoriesData);
   // Redirect unauthenticated users
   useEffect(() => {
     if (!isLoadingUser && !isAuthenticated) {
-      toast.error(t("authenticationRequired") || "Boshqaruv paneliga kirish uchun tizimga kirishingiz kerak");
+      toast.error("Boshqaruv paneliga kirish uchun tizimga kirishingiz kerak");
       router.push(`/${locale}/login?redirect=${encodeURIComponent(pathname)}`);
     }
-  }, [isAuthenticated, isLoadingUser, router, locale, pathname, t]);
+  }, [isAuthenticated, isLoadingUser, router, locale, pathname]);
 
   if (isLoadingUser || categoriesLoading || servicesLoading || ordersLoading) {
     return (
@@ -69,7 +84,12 @@ console.log("categoriesData", categoriesData);
   };
 
   const categories = Array.isArray(categoriesData) ? categoriesData.filter((cat) => cat.is_active !== false) : [];
-  const services = servicesData?.results.filter((srv) => srv.is_active) || [];
+  const services = servicesData?.results
+    .filter((srv) => srv.is_active)
+    .map((srv) => ({
+      ...srv,
+      price: typeof srv.price === "string" ? Number(srv.price) : srv.price,
+    })) || [];
   const orders = ordersData || [];
 
   return (
@@ -98,15 +118,20 @@ console.log("categoriesData", categoriesData);
               <TabsTrigger value="account">{t("tabs.account") || "Hisob"}</TabsTrigger>
             </TabsList>
             <TabsContent value="new-orders" className="space-y-6">
-              <NewOrderForm locale={locale} categories={categories} services={services} user={user ?? null} />
+              <NewOrderForm 
+                locale={locale} 
+                categories={categories} 
+                services={services} 
+                user={user ?? null}
+                initialServiceId={serviceIdFromUrl}
+                initialCategoryId={categoryIdFromUrl}
+              />
             </TabsContent>
             <TabsContent value="orders" className="space-y-6">
               <OrderList orders={orders} />
             </TabsContent>
             <TabsContent value="account" className="space-y-6">
-              {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6"> */}
-                <AccountInfo user={user} />
-              {/* </div> */}
+              <AccountInfo user={user} />
             </TabsContent>
           </Tabs>
         </div>

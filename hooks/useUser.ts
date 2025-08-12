@@ -55,9 +55,9 @@ export const useUser = () => {
     });
 
   // Fetch categories with pagination and locale
-  const getCategories = (limit: number, offset: number, locale: string) =>
+  const getCategories = ( locale: string) =>
     useQuery<Category[], AxiosError<{ detail?: string }>>({
-      queryKey: ['categories', limit, offset, locale],
+      queryKey: ['categories',  locale],
       queryFn: () => authApi.getCategories( locale),
       retry: false,
       staleTime: 0, // Disable cache

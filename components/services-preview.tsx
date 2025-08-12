@@ -9,21 +9,23 @@ import { ArrowRight, Clock, Star } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { mockServices, mockPlatforms } from '@/lib/mock-data';
+import { useUser } from '@/hooks/useUser'
+import { usePathname } from 'next/navigation'
 
 export default function ServicesPreview() {
+  const pathname = usePathname();
+  const locale = pathname.split("/")[1] || "en";
+  const { getServices,} = useUser();
   const t = useTranslations('services-home');
+  const t2 = useTranslations("services");
+
   const [selectedPlatform, setSelectedPlatform] = useState('all');
+  const { data: servicesData, error: servicesError, isLoading: servicesLoading } = getServices(6, 0, locale);
 
   // Map platform names to lowercase for filtering, keeping original for display
-  const platforms = mockPlatforms.map((platform) => ({
-    ...platform,
-    nameLower: platform.name.toLowerCase(),
-  }));
-
-  const filteredServices =
-    selectedPlatform === 'all'
-      ? mockServices.slice(0, 6)
-      : mockServices.filter((service) => service.platform === selectedPlatform).slice(0, 6);
+  const platforms = servicesData?.results
+  console.log("servicesData", servicesData);
+  console.log("platforms", platforms);
 
   return (
     <section className="py-20 bg-gray-50 dark:bg-gray-900/50">
@@ -41,32 +43,11 @@ export default function ServicesPreview() {
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             {t('description')}
           </p>
-        </div>
-
-        {/* Platform Filter */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          <Button
-            variant={selectedPlatform === 'all' ? 'default' : 'outline'}
-            onClick={() => setSelectedPlatform('all')}
-            className={selectedPlatform === 'all' ? 'bg-primary hover:bg-primary/90' : ''}
-          >
-            {t('allPlatforms')}
-          </Button>
-          {platforms.slice(0, 4).map((platform) => (
-            <Button
-              key={platform.name}
-              variant={selectedPlatform === platform.nameLower ? 'default' : 'outline'}
-              onClick={() => setSelectedPlatform(platform.nameLower)}
-              className={selectedPlatform === platform.nameLower ? 'bg-primary hover:bg-primary/90' : ''}
-            >
-              {platform.name}
-            </Button>
-          ))}
-        </div>
+        </div>  
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {filteredServices.map((service) => (
+          {/* {filteredServices.map((service) => (
             <Card
               key={service.id}
               className="hover-lift group transition-all duration-300 border-0 shadow-lg hover:shadow-2xl"
@@ -118,9 +99,56 @@ export default function ServicesPreview() {
                 </div>
               </CardContent>
             </Card>
-          ))}
+          ))} */}
         </div>
+ <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {platforms && platforms.map((service) => (
+                  <Card
+                    key={service.id}
+                    className="hover-lift group transition-all duration-300 border-0 shadow-lg hover:shadow-2xl"
+                  >
+                    <CardContent className="p-6">
+                      <div className="flex items-start justify-between mb-4">
+                        <div>
+                          <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors duration-300">
+                            {service.name}
+                          </h3>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-2xl font-bold text-primary">${parseFloat(service.price).toFixed(2)}</div>
+                          <div className="text-sm text-gray-500">{t2("serviceDetails.per1000")}</div>
+                        </div>
+                      </div>
 
+                      <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">{service.description}</p>
+
+                      <div className="space-y-2 mb-6">
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-500">{t2("serviceDetails.minOrder")}:</span>
+                          <span className="font-medium">{service.min}</span>
+                        </div>
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-500">{t2("serviceDetails.maxOrder")}:</span>
+                          <span className="font-medium">{service.max}</span>
+                        </div>
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-500 flex items-center">
+                            <Clock className="w-4 h-4 mr-1" />
+                            {t2("serviceDetails.delivery")}:
+                          </span>
+                          <span className="font-medium">{Math.ceil(service.duration / 3600)} {t2("serviceDetails.hours")}</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-end">
+                        <Button size="sm" className="bg-primary hover:bg-primary/90 text-white">
+                          {t2("serviceDetails.orderNow")}
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
         {/* View All Services Button */}
         <div className="text-center">
           <Link href="/services">

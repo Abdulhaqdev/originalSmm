@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
@@ -12,17 +12,44 @@ import { toast } from "sonner";
 import { useUser } from "@/hooks/useUser";
 import SocialIcon from "@/components/shared/SocialIcon";
 import { formatCurrency, getTimeColor, formatDuration } from "@/lib/utils";
-import { Category, Service, User } from '@/lib/api'
-import { ca } from 'zod/v4/locales'
+import { Category, User } from '@/lib/api'
+
+// Extend Service type to include localized fields
+export interface Service {
+  id: number | string;
+  category: number | string;
+  name: string;
+  description: string;
+  price: number;
+  min: number;
+  max: number;
+  duration: number;
+  name_uz?: string;
+  name_ru?: string;
+  name_en?: string;
+  description_uz?: string;
+  description_ru?: string;
+  description_en?: string;
+  [key: string]: any;
+}
 
 interface NewOrderFormProps {
   locale: string;
   categories: Category[];
   services: Service[];
   user: User| null;
+  initialServiceId?: string | null;
+  initialCategoryId?: string | null;
 }
 
-export default function NewOrderForm({ locale, categories, services, user }: NewOrderFormProps) {
+export default function NewOrderForm({ 
+  locale, 
+  categories, 
+  services, 
+  user,
+  initialServiceId,
+  initialCategoryId 
+}: NewOrderFormProps) {
   const t = useTranslations("dashboard");
   const { createOrder, isCreatingOrder } = useUser();
   const router = useRouter();
@@ -38,7 +65,7 @@ export default function NewOrderForm({ locale, categories, services, user }: New
 
   const socialPlatforms = [
     "Instagram",
-    "Facebook",
+    "Facebook", 
     "Twitter",
     "Spotify",
     "TikTok",
@@ -50,7 +77,9 @@ export default function NewOrderForm({ locale, categories, services, user }: New
     "Twitch",
     "Youtube",
   ];
-console.log(categories);
+
+  console.log(categories);
+
   // Map social icons to categories
   const enrichedCategories = categories.map((category) => {
     const normalizedCategoryName = category.name.toLowerCase();
@@ -63,29 +92,99 @@ console.log(categories);
     };
   });
 
+  // Get category name based on locale
+  interface LocalizedCategory {
+    id: number | string;
+    name: string;
+    name_uz?: string;
+    name_ru?: string;
+    name_en?: string;
+    icon?: string;
+    [key: string]: any;
+  }
+
+  const getCategoryName = (category: LocalizedCategory): string => {
+    switch (locale) {
+      case 'uz':
+        return category.name_uz || category.name;
+      case 'ru':
+        return category.name_ru || category.name;
+      case 'en':
+        return category.name_en || category.name;
+      default:
+        return category.name;
+    }
+  };
+
+  // Get service name and description based on locale
+  const getServiceName = (service: Service) => {
+    switch (locale) {
+      case 'uz':
+        return service.name_uz || service.name;
+      case 'ru':
+        return service.name_ru || service.name;
+      case 'en':
+        return service.name_en || service.name;
+      default:
+        return service.name;
+    }
+  };
+
+  const getServiceDescription = (service: Service) => {
+    switch (locale) {
+      case 'uz':
+        return service.description_uz || service.description;
+      case 'ru':
+        return service.description_ru || service.description;
+      case 'en':
+        return service.description_en || service.description;
+      default:
+        return service.description;
+    }
+  };
+
   // Filter services by category
   const filteredServices = services.filter((srv) => String(srv.category) === categoryId);
+
+  // Initial qiymatlarni o'rnatish
+  useEffect(() => {
+    if (initialCategoryId && categories.length > 0) {
+      setCategoryId(initialCategoryId);
+    }
+    if (initialServiceId && services.length > 0) {
+      const service = services.find(s => String(s.id) === initialServiceId);
+      if (service) {
+        setServiceId(initialServiceId);
+        setSelectedService(service);
+        // Quantity ni service min qiymatiga o'rnatish
+        setQuantity(service.min.toString());
+      }
+    }
+  }, [initialCategoryId, initialServiceId, categories, services]);
 
   // Set selected service and validate quantity
   const handleServiceChange = (value: string) => {
     setServiceId(value);
-    setQuantity("0");
     const service = services.find((srv) => String(srv.id) === value);
     setSelectedService(service || null);
-    if (service && quantity) {
-      validateQuantity(value);
-    } else {
+    
+    if (service) {
+      // Service tanlanganda minimum quantity ni o'rnatish
+      setQuantity(service.min.toString());
       setQuantityError(null);
+    } else {
+      setQuantity("0");
     }
-    calculateTotalPrice();
+    
+    calculateTotalPrice(service, service ? service.min.toString() : "0");
   };
 
   // Calculate total price
-  const calculateTotalPrice = () => {
-    if (selectedService && quantity) {
-      const quantityNum = Number.parseInt(quantity);
+  const calculateTotalPrice = (service: Service | null = selectedService, currentQuantity: string = quantity) => {
+    if (service && currentQuantity) {
+      const quantityNum = Number.parseInt(currentQuantity);
       if (!isNaN(quantityNum) && quantityNum > 0) {
-        const price = Math.round((Number(selectedService.price) * quantityNum) / 1000);
+        const price = Math.round((Number(service.price) * quantityNum) / 1000);
         setTotalPrice(price);
       } else {
         setTotalPrice(0);
@@ -147,7 +246,7 @@ console.log(categories);
     } else {
       setQuantityError(null);
     }
-    calculateTotalPrice();
+    calculateTotalPrice(selectedService, value);
   };
 
   const handleSubmit = async () => {
@@ -182,11 +281,17 @@ console.log(categories);
       quantity: quantityNum,
     });
 
+    // Formani tozalash
     setCategoryId("");
     setServiceId("");
     setLink("");
     setQuantity("0");
+    setSelectedService(null);
+    setTotalPrice(0);
     setFormSubmitted(false);
+    
+    // URL parametrlarini tozalash
+    router.replace(`/${locale}/dashboard?tab=new-orders`);
   };
 
   return (
@@ -204,6 +309,7 @@ console.log(categories);
               setServiceId("");
               setQuantity("0");
               setSelectedService(null);
+              setTotalPrice(0);
             }}
             disabled={isCreatingOrder}
           >
@@ -215,7 +321,7 @@ console.log(categories);
                 <SelectItem key={category.id} value={String(category.id)}>
                   <div className="flex items-center gap-2">
                     {category.icon && <SocialIcon iconName={category.icon} className="h-5 w-5" />}
-                    <span className="text-wrap">{category.name}</span>
+                    <span className="text-wrap">{getCategoryName(category)}</span>
                   </div>
                 </SelectItem>
               ))}
@@ -244,7 +350,7 @@ console.log(categories);
               {filteredServices.map((service) => (
                 <SelectItem key={service.id} value={String(service.id)}>
                   <div className="flex flex-col">
-                    <span className="text-start">{service.name}</span>
+                    <span className="text-start">{getServiceName(service)}</span>
                     <span className="text-xs text-muted-foreground">
                       {service.price} / 1000 • Min: {service.min} • Max: {service.max}
                     </span>
@@ -312,27 +418,29 @@ console.log(categories);
                   </div>
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
                     <span className="text-muted-foreground">{t("newOrder.service")}:</span>
-                    <span>{selectedService.name}</span>
+                    <span>{getServiceName(selectedService)}</span>
                   </div>
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
                     <span className="text-muted-foreground">{t("newOrder.description")}:</span>
-                    <span>{selectedService.description}</span>
+                    <span>{getServiceDescription(selectedService)}</span>
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     <span className="text-muted-foreground">{t("newOrder.quantity")}:</span>
                     <span>{quantity}</span>
                   </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    <span className="text-muted-foreground">{t("newOrder.link")}:</span>
-                    <a
-                      href={link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary dark:text-blue-400 hover:underline text-sm"
-                    >
-                      {link.slice(0, 30)}...
-                    </a>
-                  </div>
+                  {link && (
+                    <div className="grid grid-cols-2 gap-2">
+                      <span className="text-muted-foreground">{t("newOrder.link")}:</span>
+                      <a
+                        href={link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary dark:text-blue-400 hover:underline text-sm"
+                      >
+                        {link.slice(0, 30)}...
+                      </a>
+                    </div>
+                  )}
                   <div className="grid grid-cols-2 gap-2">
                     <span className="text-muted-foreground">{t("newOrder.time")}:</span>
                     <span className={getTimeColor(selectedService.duration)}>
@@ -345,7 +453,7 @@ console.log(categories);
                   </div>
                   <div className="border-t pt-4 flex items-center justify-between">
                     <span className="text-muted-foreground font-medium">{t("newOrder.totalPrice")}</span>
-                    <span className="text-xl font-bold">{totalPrice}UZS</span>
+                    <span className="text-xl font-bold">{totalPrice} UZS</span>
                   </div>
                 </div>
               ) : (
@@ -357,7 +465,7 @@ console.log(categories);
                 className="w-full"
                 size="lg"
                 onClick={handleSubmit}
-                disabled={!categoryId || !serviceId || !link || !quantity || isCreatingOrder}
+                disabled={!categoryId || !serviceId || !link || !quantity || isCreatingOrder || quantityError !== null}
               >
                 {isCreatingOrder
                   ? t("newOrder.submitting") || "Yuborilmoqda..."
