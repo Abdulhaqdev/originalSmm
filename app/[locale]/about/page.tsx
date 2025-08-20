@@ -52,11 +52,7 @@ export default function AboutPage() {
                   {t('hero.exploreServices')}
                 </Button>
               </Link>
-              <Link href="/dashboard">
-                <Button size="lg" variant="outline">
-                  {t('hero.getStarted')}
-                </Button>
-              </Link>
+    
             </div>
           </div>
         </div>

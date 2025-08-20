@@ -59,7 +59,7 @@ export default function AccountInfo({ user }: AccountInfoProps) {
   };
 
   return (
-    <Card className="w-full max-w-4xl mx-auto">
+    <Card id='account' className="w-full max-w-4xl mx-auto">
       <CardHeader>
         <CardTitle className="text-xl md:text-2xl">{t("account.info") || "Hisob ma'lumotlari"}</CardTitle>
       </CardHeader>

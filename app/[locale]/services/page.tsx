@@ -208,7 +208,6 @@ export default function ServicesPage() {
               <span className="text-sm text-gray-500">
                 {searchTerm && `"${searchTerm}" • `}
                 {selectedCategory !== "all" && `${getSelectedCategoryName()} • `}
-                {t("filters.filterSummary.filtered")}
               </span>
             </div>
           </div>

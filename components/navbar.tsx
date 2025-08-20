@@ -130,12 +130,12 @@ export default function Navbar() {
                         {t("dashboard")}
                       </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href="/account" className="flex items-center">
+                    {/* <DropdownMenuItem asChild>
+                      <Link href="#account" className="flex items-center">
                         <Settings className="mr-2 h-4 w-4" />
                         {t("accountSettings")}
                       </Link>
-                    </DropdownMenuItem>
+                    </DropdownMenuItem> */}
                     <DropdownMenuItem asChild>
                       <Link href="/add-funds" className="flex items-center">
                         <CreditCard className="mr-2 h-4 w-4" />
@@ -159,11 +159,11 @@ export default function Navbar() {
                       {t("login")}
                     </Button>
                   </Link>
-                  <Link href="/register">
+                  {/* <Link href="/register">
                     <Button size="sm" className="bg-primary hover:bg-primary/90 text-white">
                       {t("signUp")}
                     </Button>
-                  </Link>
+                  </Link> */}
                 </div>
               )}
             </div>
