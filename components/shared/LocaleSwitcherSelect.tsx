@@ -1,4 +1,3 @@
-// LocaleSwitcherSelect.tsx
 'use client';
 
 import { useRouter, usePathname } from '@/app/i18n/navigation';
@@ -15,7 +14,6 @@ import { Globe, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { routing } from '@/app/i18n/routing';
 
-// Define locale metadata (same as in the second LocaleSwitcher)
 const localeMetadata = {
   en: { name: 'English', flag: '🇺🇸' },
   uz: { name: "O'zbek", flag: '🇺🇿' },
@@ -37,6 +35,7 @@ export default function LocaleSwitcherSelect({ defaultValue, label }: Props) {
 
   const handleLocaleChange = (newLocale: string) => {
     startTransition(() => {
+      // Simply replace with new locale - next-intl will handle the rest
       router.replace(pathname, { locale: newLocale });
     });
   };
@@ -52,7 +51,6 @@ export default function LocaleSwitcherSelect({ defaultValue, label }: Props) {
           aria-label={label}
         >
           <Globe className="w-4 h-4" />
-          {/* <span className="hidden sm:inline">{currentLocale?.flag}</span> */}
           <span className="text-sm font-medium hidden md:inline">{currentLocale?.name}</span>
         </Button>
       </DropdownMenuTrigger>
@@ -71,7 +69,6 @@ export default function LocaleSwitcherSelect({ defaultValue, label }: Props) {
             disabled={isPending}
           >
             <div className="flex items-center gap-3">
-              {/* <span className="text-lg">{localeMetadata[loc as keyof typeof localeMetadata]?.flag}</span> */}
               <span className="font-medium">{localeMetadata[loc as keyof typeof localeMetadata]?.name}</span>
             </div>
             {defaultValue === loc && <Check className="w-4 h-4 text-primary" />}

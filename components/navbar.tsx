@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { usePathname } from "@/app/i18n/navigation";
+import { usePathname, useRouter } from "@/app/i18n/navigation"; // Import from your i18n navigation
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -60,16 +60,15 @@ export default function Navbar() {
       <nav className="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 z-50">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            {/* Logo */}
+            {/* Logo - Using next-intl Link */}
             <Link href="/" className="flex items-center space-x-2 group">
               <div className="relative">
-              
                 <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse"></div>
               </div>
               <span className="text-xl font-bold gradient-text">OriginalSMM</span>
             </Link>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation - Using next-intl Link */}
             <div className="hidden md:flex items-center space-x-8">
               {navItems.map((item) => (
                 <Link
@@ -130,12 +129,6 @@ export default function Navbar() {
                         {t("dashboard")}
                       </Link>
                     </DropdownMenuItem>
-                    {/* <DropdownMenuItem asChild>
-                      <Link href="#account" className="flex items-center">
-                        <Settings className="mr-2 h-4 w-4" />
-                        {t("accountSettings")}
-                      </Link>
-                    </DropdownMenuItem> */}
                     <DropdownMenuItem asChild>
                       <Link href="/add-funds" className="flex items-center">
                         <CreditCard className="mr-2 h-4 w-4" />
@@ -159,11 +152,6 @@ export default function Navbar() {
                       {t("login")}
                     </Button>
                   </Link>
-                  {/* <Link href="/register">
-                    <Button size="sm" className="bg-primary hover:bg-primary/90 text-white">
-                      {t("signUp")}
-                    </Button>
-                  </Link> */}
                 </div>
               )}
             </div>
@@ -171,7 +159,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Bottom Navigation */}
+      {/* Mobile Bottom Navigation - Using next-intl Link */}
       <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-md border-t border-gray-700/50 dark:bg-gray-900/95 dark:border-gray-700/50">
         <div className="flex items-center justify-around py-2">
           {navItems.map((item) => {
@@ -195,7 +183,6 @@ export default function Navbar() {
               </Link>
             );
           })}
-       
         </div>
       </nav>
     </>

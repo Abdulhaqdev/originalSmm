@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/app/i18n/navigation"; // Bu yerda o'zgartirish!
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
@@ -15,7 +15,7 @@ import { useUser } from "@/hooks/useUser";
 export default function ServicesPage() {
   const t = useTranslations("services");  
   const locale = useLocale();
-  const router = useRouter();
+  const router = useRouter(); // next-intl router
   const { getServices, getCategories } = useUser();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -67,8 +67,9 @@ export default function ServicesPage() {
   // Til o'zgarganda sahifani yangilash
   useEffect(() => {
     setPage(1); // Sahifani 1 ga qaytarish
-    router.refresh(); // Sahifani qayta yuklash
-  }, [locale, router]);
+    // router.refresh() o'rniga window.location.reload() yoki boshqa yechim
+    // router.refresh(); // Bu yerda muammo bo'lishi mumkin
+  }, [locale]);
 
   const services = servicesData?.results || [];
   const categories = categoriesData || [];
@@ -261,7 +262,16 @@ export default function ServicesPage() {
                         <Button 
                           size="sm" 
                           className="bg-primary hover:bg-primary/90 text-white"
-                          onClick={() => router.push(`/${locale}/dashboard?tab=new-orders&service=${service.id}&category=${service.category}`)}
+                          onClick={() =>
+                            router.push({
+                              pathname: "/dashboard",
+                              query: {
+                                tab: "new-orders",
+                                service: service.id,
+                                category: service.category,
+                              },
+                            })
+                          }
                         >
                           {t("serviceDetails.orderNow")}
                         </Button>
