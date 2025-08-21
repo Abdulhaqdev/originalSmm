@@ -15,7 +15,7 @@ api.interceptors.request.use(
   (config) => {
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('access_token');
-      // /all-services/ uchun token token qo‘shmaymiz
+      // /all-services/ uchun token token qo'shmaymiz
       if (token && !config.url?.includes('/all-services/')) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -68,7 +68,7 @@ api.interceptors.response.use(
   }
 );
 
-// Auth API functions
+// Auth API interfaces
 export interface LoginRequest {
   username: string;
   password: string;
@@ -79,6 +79,12 @@ export interface LoginResponse {
   access: string;
   user_id: number;
   admin: boolean;
+}
+
+export interface GoogleAuthResponse {
+  access: string;
+  refresh: string;
+  user: any;
 }
 
 export interface RegisterRequest {
@@ -156,6 +162,7 @@ export interface NewOrderRequest {
   status: 'pending';
   quantity: number;
 }
+
 export interface Order {
 	id: number;
 	service: Service;
@@ -168,11 +175,17 @@ export interface Order {
 	user: number;
 	external_order_id: string;
 }
+
 const userId = typeof window !== 'undefined' ? localStorage.getItem('user_id') : null;
 
 export const authApi = {
   login: async (data: LoginRequest): Promise<LoginResponse> => {
     const response = await api.post('/api/token/', data);
+    return response.data;
+  },
+
+  googleAuth: async (token: string): Promise<GoogleAuthResponse> => {
+    const response = await api.post('/api/auth/google/', { token });
     return response.data;
   },
 

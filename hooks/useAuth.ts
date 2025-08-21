@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { authApi, GoogleLoginRequest, GoogleLoginResponse, LoginRequest, RegisterRequest } from '@/lib/api';
+import { authApi, LoginRequest, RegisterRequest } from '@/lib/api';
 
 export const useAuth = () => {
   const queryClient = useQueryClient();
@@ -41,19 +41,21 @@ export const useAuth = () => {
     },
   });
 
-  // Google login mutation
-  const googleLoginMutation = useMutation({
-    mutationFn: authApi.googleLogin,
-    onSuccess: (data: GoogleLoginResponse) => {
+  // Google Auth mutation
+  const googleAuthMutation = useMutation({
+    mutationFn: authApi.googleAuth,
+    onSuccess: (data) => {
       localStorage.setItem('access_token', data.access);
       localStorage.setItem('refresh_token', data.refresh);
-      localStorage.setItem('user_id', data.user_id.toString());
+      if (data.user?.id) {
+        localStorage.setItem('user_id', data.user.id.toString());
+      }
       queryClient.invalidateQueries({ queryKey: ['user'] });
-      toast.success('Google login successful!');
+      toast.success('Google orqali muvaffaqiyatli kirildi!');
       router.push('/dashboard');
     },
     onError: (error: any) => {
-      const errorMessage = error.response?.data?.detail || 'Google login failed. Please try again.';
+      const errorMessage = error.response?.data?.error || 'Google orqali kirishda xatolik yuz berdi';
       toast.error(errorMessage);
     },
   });
@@ -86,6 +88,12 @@ export const useAuth = () => {
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('user_id');
     queryClient.clear();
+    
+    // Google Sign-Out
+    if (typeof window !== 'undefined' && window.google?.accounts?.id) {
+      window.google.accounts.id.disableAutoSelect();
+    }
+    
     toast.success('Logged out successfully');
     router.push('/');
   };
@@ -95,11 +103,11 @@ export const useAuth = () => {
     isLoadingUser,
     isAuthenticated: isAuthenticated(),
     login: loginMutation.mutate,
-    googleLogin: googleLoginMutation.mutate,
+    googleAuth: googleAuthMutation.mutate,
     register: registerMutation.mutate,
     logout,
     isLoggingIn: loginMutation.isPending,
+    isGoogleAuthenticating: googleAuthMutation.isPending,
     isRegistering: registerMutation.isPending,
-    isGoogleLoggingIn: googleLoginMutation.isPending,
   };
 };
