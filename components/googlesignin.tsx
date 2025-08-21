@@ -5,7 +5,8 @@ import { authApi } from '@/lib/api';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
-import { GoogleAuth } from '@/lib/google-auth'
+import { GoogleAuth } from '@/lib/google-auth';
+import { useTranslations } from 'next-intl';
 
 interface GoogleSignInButtonProps {
   onSuccess?: () => void;
@@ -13,6 +14,7 @@ interface GoogleSignInButtonProps {
 }
 
 export default function GoogleSignInButton({ onSuccess, onError }: GoogleSignInButtonProps) {
+  const t = useTranslations("GoogleSignInButton");
   const buttonRef = useRef<HTMLDivElement>(null);
   const [isInitialized, setIsInitialized] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,12 +28,13 @@ export default function GoogleSignInButton({ onSuccess, onError }: GoogleSignInB
         setIsInitialized(true);
       } catch (error) {
         console.error('Google Auth initialization failed:', error);
-        onError?.('Google Auth yuklanmadi');
+        toast.error(t('initError'));
+        onError?.(t('initError'));
       }
     };
 
     initGoogle();
-  }, [onError]);
+  }, [onError, t]);
 
   useEffect(() => {
     if (isInitialized && buttonRef.current) {
@@ -41,17 +44,16 @@ export default function GoogleSignInButton({ onSuccess, onError }: GoogleSignInB
 
   const handleCredentialResponse = async (response: any) => {
     if (!response?.credential) {
-      onError?.('Google credential olinmadi');
+      toast.error(t('credentialError'));
+      onError?.(t('credentialError'));
       return;
     }
 
     setIsLoading(true);
-    
+
     try {
-      // Google tokenni backendga yuborish
       const result = await authApi.googleAuth(response.credential);
-      
-      // Tokenlarni saqlash
+
       if (result.access) {
         localStorage.setItem('access_token', result.access);
       }
@@ -62,16 +64,14 @@ export default function GoogleSignInButton({ onSuccess, onError }: GoogleSignInB
         localStorage.setItem('user_id', result.user.id.toString());
       }
 
-      // Query cache yangilash
       queryClient.invalidateQueries({ queryKey: ['user'] });
-      
-      toast.success('Google orqali muvaffaqiyatli kirildi!');
+
+      toast.success(t('success'));
       onSuccess?.();
       router.push('/dashboard');
-      
     } catch (error: any) {
       console.error('Google auth error:', error);
-      const errorMessage = error.response?.data?.error || 'Google orqali kirishda xatolik yuz berdi';
+      const errorMessage = error.response?.data?.error || t('authError');
       toast.error(errorMessage);
       onError?.(errorMessage);
     } finally {
@@ -81,29 +81,31 @@ export default function GoogleSignInButton({ onSuccess, onError }: GoogleSignInB
 
   const setupGoogleButton = async () => {
     if (!buttonRef.current || !isInitialized) return;
-    
+
     try {
       await GoogleAuth.setupGoogleButton(buttonRef.current, handleCredentialResponse);
     } catch (error) {
       console.error('Google button setup failed:', error);
-      onError?.('Google tugmasi sozlanmadi');
+      toast.error(t('buttonSetupError'));
+      onError?.(t('buttonSetupError'));
     }
   };
 
-  if (!isInitialized) {
-    return (
-      <div className="w-full h-10 bg-gray-100 animate-pulse rounded-md flex items-center justify-center">
-        <span className="text-sm text-gray-500">Google Auth yuklanmoqda...</span>
-      </div>
-    );
-  }
-
   return (
-    <div className="relative">
-      <div ref={buttonRef} className="w-full" />
+    <div className="relative w-full">
+      {!isInitialized ? (
+        <div className="w-full h-12 bg-gray-100 dark:bg-gray-800 rounded-md flex items-center justify-center">
+          <span className="text-sm text-gray-500 dark:text-gray-400">{t('loading')}</span>
+        </div>
+      ) : (
+        <div
+          ref={buttonRef}
+          className="w-full h-12  rounded-sm flex items-center justify-center "
+        />
+      )}
       {isLoading && (
-        <div className="absolute inset-0 bg-white/80 flex items-center justify-center rounded-md">
-          <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+        <div className="absolute inset-0 bg-white/80 dark:bg-gray-800/80 flex items-center justify-center rounded-md">
+          <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
         </div>
       )}
     </div>

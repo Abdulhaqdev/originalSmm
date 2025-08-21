@@ -53,7 +53,16 @@
     "signIn": "Sign In",
     "signingIn": "Signing in...",
     "noAccount": "Don't have an account?",
-    "signUp": "Sign up"
+    "signUp": "Sign up",
+    "or": "or"
+  },
+  "GoogleSignInButton": {
+    "loading": "Loading Google Auth...",
+    "initError": "Failed to load Google Auth",
+    "credentialError": "Failed to obtain Google credentials",
+    "authError": "Error signing in with Google",
+    "buttonSetupError": "Failed to set up Google button",
+    "success": "Successfully signed in with Google!"
   },
  "navbar": {
     "home": "Home",

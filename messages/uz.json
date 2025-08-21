@@ -53,7 +53,16 @@
     "signIn": "Kirish",
     "signingIn": "Kirilmoqda...",
     "noAccount": "Hisobingiz yo'qmi?",
-    "signUp": "Ro'yxatdan o'tish"
+    "signUp": "Ro'yxatdan o'tish",
+    "or": "yoki"
+  },
+  "GoogleSignInButton": {
+    "loading": "Google Auth yuklanmoqda...",
+    "initError": "Google Auth yuklanmadi",
+    "credentialError": "Google credential olinmadi",
+    "authError": "Google orqali kirishda xatolik yuz berdi",
+    "buttonSetupError": "Google tugmasi sozlanmadi",
+    "success": "Google orqali muvaffaqiyatli kirildi!"
   },
  "navbar": {
     "home": "Bosh sahifa",

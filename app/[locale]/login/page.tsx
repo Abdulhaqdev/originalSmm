@@ -1,46 +1,43 @@
 "use client"
 
-import type React from "react"
-import { useState } from "react"
-import Link from "next/link"
-import { useTranslations } from "next-intl"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { Zap, Mail, Lock, Eye, EyeOff } from 'lucide-react'
-import { useAuth } from '@/hooks/useAuth'
-import GoogleSignInButton from '@/components/googlesignin'
+import type React from "react";
+import { useState } from "react";
+import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Zap, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import GoogleSignInButton from '@/components/googlesignin';
 
 export default function LoginPage() {
-  const t = useTranslations("LoginPage")
+  const t = useTranslations("LoginPage");
   const [formData, setFormData] = useState({
     username: "",
     password: "",
-  })
-  const [showPassword, setShowPassword] = useState(false)
-  
-  const { login, isLoggingIn, isGoogleAuthenticating } = useAuth()
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const { login, isLoggingIn, isGoogleAuthenticating } = useAuth();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    })
-  }
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
+    e.preventDefault();
     if (!formData.username || !formData.password) {
-      return
+      return;
     }
+    login(formData);
+  };
 
-    login(formData)
-  }
-
-  const isLoading = isLoggingIn || isGoogleAuthenticating
+  const isLoading = isLoggingIn || isGoogleAuthenticating;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center p-4">
@@ -62,16 +59,15 @@ export default function LoginPage() {
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Google Sign-In Button */}
-            <div className="space-y-3">
+            <div className="space-y-4">
               <GoogleSignInButton />
-              
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <Separator className="w-full" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
                   <span className="bg-background px-2 text-muted-foreground">
-                    yoki
+                    {t("or")}
                   </span>
                 </div>
               </div>
@@ -129,9 +125,9 @@ export default function LoginPage() {
                 </Link>
               </div>
 
-              <Button 
-                type="submit" 
-                className="w-full bg-primary hover:bg-primary/90 text-white" 
+              <Button
+                type="submit"
+                className="w-full bg-primary hover:bg-primary/90 text-white"
                 disabled={isLoading}
               >
                 {isLoggingIn ? t("signingIn") : t("signIn")}
@@ -148,5 +144,5 @@ export default function LoginPage() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

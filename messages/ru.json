@@ -53,7 +53,16 @@
     "signIn": "Войти",
     "signingIn": "Вход...",
     "noAccount": "Нет аккаунта?",
-    "signUp": "Зарегистрироваться"
+    "signUp": "Зарегистрироваться",
+    "or": "или"
+  },
+  "GoogleSignInButton": {
+    "loading": "Загрузка Google Auth...",
+    "initError": "Не удалось загрузить Google Auth",
+    "credentialError": "Не удалось получить учетные данные Google",
+    "authError": "Ошибка входа через Google",
+    "buttonSetupError": "Не удалось настроить кнопку Google",
+    "success": "Успешный вход через Google!"
   },
  "navbar": {
     "home": "Главная",
