@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter, usePathname } from '@/app/i18n/navigation';
+import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useTransition } from 'react';
 import { Button } from '@/components/ui/button';
@@ -26,7 +26,6 @@ type Props = {
 };
 
 export default function LocaleSwitcherSelect({ defaultValue, label }: Props) {
-  const router = useRouter();
   const pathname = usePathname();
   const t = useTranslations('locale');
   const [isPending, startTransition] = useTransition();
@@ -35,8 +34,17 @@ export default function LocaleSwitcherSelect({ defaultValue, label }: Props) {
 
   const handleLocaleChange = (newLocale: string) => {
     startTransition(() => {
-      // Simply replace with new locale - next-intl will handle the rest
-      router.replace(pathname, { locale: newLocale });
+      // Extract current locale from pathname
+      const currentPath = pathname;
+      
+      // Remove current locale from path if it exists
+      const pathWithoutLocale = currentPath.replace(/^\/(uz|en|ru)/, '') || '/';
+      
+      // Create new URL with selected locale
+      const newUrl = `/${newLocale}${pathWithoutLocale}`;
+      
+      // Force page reload with new locale
+      window.location.href = newUrl;
     });
   };
 

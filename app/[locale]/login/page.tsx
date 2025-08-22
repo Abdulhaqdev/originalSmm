@@ -119,11 +119,7 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between">
-                <Link href="/forgot-password" className="text-sm text-primary hover:underline">
-                  {t("forgotPassword")}
-                </Link>
-              </div>
+           
 
               <Button
                 type="submit"
