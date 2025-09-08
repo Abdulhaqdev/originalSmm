@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { usePathname, useRouter } from "@/app/i18n/navigation"; // Import from your i18n navigation
+import { usePathname } from "@/app/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Menu, Zap, User, LogOut, Settings, CreditCard, Home, Briefcase, Users, LayoutDashboard, Sun, Moon } from "lucide-react";
+import { Menu, User, LogOut, CreditCard, Briefcase, LayoutDashboard, Sun, Moon, Home, Users } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
@@ -34,16 +34,18 @@ export default function Navbar() {
     return null;
   }
 
-  const navItems = [
-    { name: t("home"), href: "/", icon: Home },
-    { name: t("services"), href: "/services", icon: Briefcase },
-    { name: t("about"), href: "/about", icon: Users },
-  ];
-
-  if (isAuthenticated) {
-    navItems.push({ name: t("dashboard"), href: "/dashboard", icon: LayoutDashboard });
-    navItems.push({ name: t("addFunds"), href: "/add-funds", icon: CreditCard });
-  }
+  // Navigatsiya elementlari: faqat login qilinganda Dashboard, Services, Add Funds ko'rinadi
+  const navItems = isAuthenticated
+    ? [
+        { name: t("services"), href: "/services", icon: Briefcase },
+        { name: t("dashboard"), href: "/dashboard", icon: LayoutDashboard },
+        { name: t("addFunds"), href: "/add-funds", icon: CreditCard },
+      ]
+    : [
+        { name: t("home"), href: "/", icon: Home },
+        { name: t("services"), href: "/services", icon: Briefcase },
+        { name: t("about"), href: "/about", icon: Users },
+      ];
 
   const getUserInitials = (user: { first_name?: string; last_name?: string; username?: string; email?: string }) => {
     if (user?.first_name && user?.last_name) {
@@ -61,7 +63,7 @@ export default function Navbar() {
       <nav className="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 z-50">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            {/* Logo - Using next-intl Link */}
+            {/* Logo */}
             <Link href="/" className="flex items-center space-x-2 group">
               <div className="relative">
                 <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse"></div>
@@ -69,7 +71,7 @@ export default function Navbar() {
               <span className="text-xl font-bold gradient-text">OriginalSMM</span>
             </Link>
 
-            {/* Desktop Navigation - Using next-intl Link */}
+            {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
               {navItems.map((item) => (
                 <Link
@@ -91,7 +93,7 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Auth Section (Desktop & Mobile) */}
+            {/* Auth Section */}
             <div className="flex items-center space-x-2">
               <LocaleSwitcher />
               <Button
@@ -126,7 +128,7 @@ export default function Navbar() {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
                       <Link href="/dashboard" className="flex items-center">
-                        <User className="mr-2 h-4 w-4" />
+                        <LayoutDashboard className="mr-2 h-4 w-4" />
                         {t("dashboard")}
                       </Link>
                     </DropdownMenuItem>
@@ -160,7 +162,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Bottom Navigation - Using next-intl Link */}
+      {/* Mobile Bottom Navigation */}
       <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-md border-t border-gray-700/50 dark:bg-gray-900/95 dark:border-gray-700/50">
         <div className="flex items-center justify-around py-2">
           {navItems.map((item) => {
