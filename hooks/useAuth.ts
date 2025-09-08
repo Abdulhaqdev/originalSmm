@@ -3,6 +3,37 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { authApi, LoginRequest, RegisterRequest } from '@/lib/api';
 
+// Utility functions for handling tokens in both localStorage and cookies
+const setAuthTokens = (access: string, refresh: string, userId?: string) => {
+  // Store in localStorage
+  localStorage.setItem('access_token', access);
+  localStorage.setItem('refresh_token', refresh);
+  if (userId) {
+    localStorage.setItem('user_id', userId);
+  }
+
+  // Store in cookies for middleware access
+  const cookieOptions = 'path=/; secure; samesite=strict';
+  document.cookie = `access_token=${access}; ${cookieOptions}`;
+  document.cookie = `refresh_token=${refresh}; ${cookieOptions}`;
+  if (userId) {
+    document.cookie = `user_id=${userId}; ${cookieOptions}`;
+  }
+};
+
+const removeAuthTokens = () => {
+  // Remove from localStorage
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
+  localStorage.removeItem('user_id');
+
+  // Remove from cookies
+  const expiredCookie = 'path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+  document.cookie = `access_token=; ${expiredCookie}`;
+  document.cookie = `refresh_token=; ${expiredCookie}`;
+  document.cookie = `user_id=; ${expiredCookie}`;
+};
+
 export const useAuth = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -28,12 +59,14 @@ export const useAuth = () => {
   const loginMutation = useMutation({
     mutationFn: authApi.login,
     onSuccess: (data) => {
-      localStorage.setItem('access_token', data.access);
-      localStorage.setItem('refresh_token', data.refresh);
-      localStorage.setItem('user_id', data.user_id.toString());
+      setAuthTokens(data.access, data.refresh, data.user_id.toString());
       queryClient.invalidateQueries({ queryKey: ['user'] });
       toast.success('Login successful!');
-      router.push('/dashboard');
+      
+      // Check for return URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const returnUrl = urlParams.get('returnUrl');
+      router.push(returnUrl || '/dashboard');
     },
     onError: (error: any) => {
       const errorMessage = error.response?.data?.detail || 'Login failed. Please try again.';
@@ -45,14 +78,15 @@ export const useAuth = () => {
   const googleAuthMutation = useMutation({
     mutationFn: authApi.googleAuth,
     onSuccess: (data) => {
-      localStorage.setItem('access_token', data.access);
-      localStorage.setItem('refresh_token', data.refresh);
-      if (data.user?.id) {
-        localStorage.setItem('user_id', data.user.id.toString());
-      }
+      const userId = data.user?.id?.toString();
+      setAuthTokens(data.access, data.refresh, userId);
       queryClient.invalidateQueries({ queryKey: ['user'] });
       toast.success('Google orqali muvaffaqiyatli kirildi!');
-      router.push('/dashboard');
+      
+      // Check for return URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const returnUrl = urlParams.get('returnUrl');
+      router.push(returnUrl || '/dashboard');
     },
     onError: (error: any) => {
       const errorMessage = error.response?.data?.error || 'Google orqali kirishda xatolik yuz berdi';
@@ -84,9 +118,7 @@ export const useAuth = () => {
 
   // Logout function
   const logout = () => {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    localStorage.removeItem('user_id');
+    removeAuthTokens();
     queryClient.clear();
     
     // Google Sign-Out

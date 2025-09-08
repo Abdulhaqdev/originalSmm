@@ -70,11 +70,7 @@ export default function Testimonials() {
                   </div>
 
                   <div className="flex items-center justify-center space-x-4">
-                    <img
-                      src={mockTestimonials[currentIndex].avatar || '/placeholder.svg'}
-                      alt={mockTestimonials[currentIndex].name}
-                      className="w-12 h-12 rounded-full"
-                    />
+                  
                     <div className="text-left">
                       <div className="font-bold text-lg">{mockTestimonials[currentIndex].name}</div>
                       <div className="text-gray-600 dark:text-gray-300">{mockTestimonials[currentIndex].role}</div>

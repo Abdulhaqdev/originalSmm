@@ -2,6 +2,29 @@ import axios from 'axios';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.originalsmm.uz';
 
+// Utility function to update tokens in both localStorage and cookies
+const updateAuthTokens = (access: string) => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('access_token', access);
+    const cookieOptions = 'path=/; secure; samesite=strict';
+    document.cookie = `access_token=${access}; ${cookieOptions}`;
+  }
+};
+
+// Utility function to clear tokens from both localStorage and cookies
+const clearAuthTokens = () => {
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('user_id');
+    
+    const expiredCookie = 'path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    document.cookie = `access_token=; ${expiredCookie}`;
+    document.cookie = `refresh_token=; ${expiredCookie}`;
+    document.cookie = `user_id=; ${expiredCookie}`;
+  }
+};
+
 // Create axios instance
 export const api = axios.create({
   baseURL: API_BASE_URL,
@@ -15,7 +38,7 @@ api.interceptors.request.use(
   (config) => {
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('access_token');
-      // /all-services/ uchun token token qo'shmaymiz
+      // /all-services/ uchun token qo'shmaymiz
       if (token && !config.url?.includes('/all-services/')) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -45,7 +68,7 @@ api.interceptors.response.use(
             });
 
             const { access } = response.data;
-            localStorage.setItem('access_token', access);
+            updateAuthTokens(access); // Update both localStorage and cookies
 
             // Retry the original request with new token
             originalRequest.headers.Authorization = `Bearer ${access}`;
@@ -53,11 +76,9 @@ api.interceptors.response.use(
           }
         }
       } catch (refreshError) {
-        // Refresh failed, redirect to login
+        // Refresh failed, clear tokens and redirect to login
+        clearAuthTokens();
         if (typeof window !== 'undefined') {
-          localStorage.removeItem('access_token');
-          localStorage.removeItem('refresh_token');
-          localStorage.removeItem('user_id');
           window.location.href = '/login';
         }
         return Promise.reject(refreshError);
@@ -67,6 +88,9 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+// Rest of your interfaces and API functions remain the same...
+// [Keep all your existing interfaces and authApi object exactly as they were]
 
 // Auth API interfaces
 export interface LoginRequest {
@@ -164,16 +188,16 @@ export interface NewOrderRequest {
 }
 
 export interface Order {
-	id: number;
-	service: Service;
-	price: string; // API dan string sifatida keladi
-	url: string;
-	status: string;
-	quantity: number;
-	created_at: string;
-	updated_at: string;
-	user: number;
-	external_order_id: string;
+  id: number;
+  service: Service;
+  price: string;
+  url: string;
+  status: string;
+  quantity: number;
+  created_at: string;
+  updated_at: string;
+  user: number;
+  external_order_id: string;
 }
 
 const userId = typeof window !== 'undefined' ? localStorage.getItem('user_id') : null;
@@ -199,7 +223,7 @@ export const authApi = {
     return response.data;
   },
 
-  updateProfile: async ( data: UpdateProfileRequest): Promise<User> => {
+  updateProfile: async (data: UpdateProfileRequest): Promise<User> => {
     const response = await api.put(`/api/users/${userId}/`, data);
     return response.data;
   },
@@ -216,18 +240,20 @@ export const authApi = {
     return response.data;
   },
 
-  getCategories: async ( locale: string): Promise<Category[]> => {
+  getCategories: async (locale: string): Promise<Category[]> => {
     const response = await api.get(`api/categories/`, {
       headers: { 'Accept-Language': locale },
     });
     return response.data;
   },
- getOrders: async ( locale: string): Promise<Order[]> => {
+
+  getOrders: async (locale: string): Promise<Order[]> => {
     const response = await api.get(`/api/orders?type=user`, {
       headers: { 'Accept-Language': locale },
     });
     return response.data;
   },
+
   createOrder: async (data: NewOrderRequest) => {
     const response = await api.post('/api/orders/', data);
     return response.data;

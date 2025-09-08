@@ -42,6 +42,7 @@ export default function Navbar() {
 
   if (isAuthenticated) {
     navItems.push({ name: t("dashboard"), href: "/dashboard", icon: LayoutDashboard });
+    navItems.push({ name: t("addFunds"), href: "/add-funds", icon: CreditCard });
   }
 
   const getUserInitials = (user: { first_name?: string; last_name?: string; username?: string; email?: string }) => {

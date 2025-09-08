@@ -115,6 +115,42 @@
       }
     ]
   },
+  "addFunds": {
+    "title": "Пополнить счет",
+    "description": "Пополните свой счет и используйте услуги.",
+    "currentBalance": "Текущий баланс",
+    "currentBalanceDescription": "Ваш доступный баланс для услуг",
+    "addFundsTitle": "Пополнить счет",
+    "addFundsDescription": "Пополните баланс вашего аккаунта",
+    "amountLabel": "Сумма (UZS)",
+    "amountPlaceholder": "Введите сумму",
+    "amountEstimate": "{amount} UZS",
+    "paymentMethodLabel": "Способ оплаты",
+    "maintenance": "На обслуживании",
+    "submitButton": "Пополнить",
+    "submitProcessing": "Обработка...",
+    "transactionHistory": "История транзакций",
+    "transactionHistoryDescription": "Ваши последние транзакции пополнения",
+    "noTransactions": "Транзакций пока нет",
+    "transactionStatus": {
+      "active": "Завершено",
+      "pending": "В ожидании"
+    },
+    "toast": {
+      "maintenanceErrorTitle": "Обслуживание",
+      "maintenanceErrorDescription": "Этот способ оплаты на обслуживании",
+      "formErrorTitle": "Ошибка формы",
+      "formErrorDescription": "Пожалуйста, заполните все поля",
+      "invalidAmountTitle": "Неверная сумма",
+      "invalidAmountDescription": "Пожалуйста, введите действительную положительную сумму",
+      "unknownMethodTitle": "Неизвестный метод",
+      "unknownMethodDescription": "Выбранный способ оплаты не поддерживается",
+      "errorTitle": "Ошибка",
+      "errorDescription": "Произошла ошибка",
+      "paymentHistoryErrorTitle": "Ошибка",
+      "paymentHistoryErrorDescription": "Не удалось загрузить историю платежей"
+    }
+  },
   "services-home": {
     "title": "Наши премиум-услуги",
     "description": "Выбирайте из нашего широкого спектра высококачественных услуг маркетинга в социальных сетях на всех основных платформах.",

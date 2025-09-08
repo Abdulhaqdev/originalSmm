@@ -291,6 +291,42 @@
       "getStarted": "Hozir Boshlash"
     }
   },
+  "addFunds": {
+    "title": "Hisobni to'ldirish",
+    "description": "Hisobingizni to'ldiring va xizmatlardan foydalaning.",
+    "currentBalance": "Joriy balans",
+    "currentBalanceDescription": "Xizmatlar uchun mavjud balansingiz",
+    "addFundsTitle": "Hisobni to'ldirish",
+    "addFundsDescription": "Hisob balansingizni to'ldiring",
+    "amountLabel": "Miqdor (UZS)",
+    "amountPlaceholder": "Miqdorni kiriting",
+    "amountEstimate": "{amount} UZS",
+    "paymentMethodLabel": "To'lov usuli",
+    "maintenance": "Texnik xizmat",
+    "submitButton": "To'ldirish",
+    "submitProcessing": "Ishlov berilmoqda...",
+    "transactionHistory": "Tranzaksiyalar tarixi",
+    "transactionHistoryDescription": "Oxirgi to'ldirish tranzaksiyalaringiz",
+    "noTransactions": "Tranzaksiyalar hali yo'q",
+    "transactionStatus": {
+      "active": "Yakunlangan",
+      "pending": "Kutilmoqda"
+    },
+    "toast": {
+      "maintenanceErrorTitle": "Texnik xizmat",
+      "maintenanceErrorDescription": "Ushbu to'lov usuli texnik xizmatda",
+      "formErrorTitle": "Forma xatosi",
+      "formErrorDescription": "Iltimos, barcha maydonlarni to'ldiring",
+      "invalidAmountTitle": "Noto'g'ri miqdor",
+      "invalidAmountDescription": "Iltimos, to'g'ri musbat miqdorni kiriting",
+      "unknownMethodTitle": "Noma'lum usul",
+      "unknownMethodDescription": "Tanlangan to'lov usuli qo'llab-quvvatlanmaydi",
+      "errorTitle": "Xato",
+      "errorDescription": "Xato yuz berdi",
+      "paymentHistoryErrorTitle": "Xato",
+      "paymentHistoryErrorDescription": "To'lovlar tarixini yuklashda xato"
+    }
+  },
    "services": {
     "locale": "uz",
     "hero": {
@@ -334,7 +370,7 @@
     "welcome": "Xush kelibsiz ",
     "description": "Buyurtmalaringizni boshqaring, jarayonni kuzating va ijtimoiy tarmoqlardagi mavqeingizni oshiring.",
     "tabs": {
-      "newOrders": "Yangi buyurtmalar",
+      "newOrders": "Buyurtma berish",
       "orders": "Buyurtmalar",
       "account": "Hisob"
     },
