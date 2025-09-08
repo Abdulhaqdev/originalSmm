@@ -15,6 +15,7 @@ const protectedRoutes = [
   '/profile',
   '/orders',
   '/settings',
+  '/add-funds',
   // Add other protected routes here
 ];
 
@@ -25,64 +26,102 @@ const authRoutes = [
   '/forgot-password',
 ];
 
+function isAuthenticated(request: NextRequest): boolean {
+  // Check for access token in cookies
+  const accessToken = request.cookies.get('access_token')?.value;
+  
+  // Also check the authorization header as fallback
+  const authHeader = request.headers.get('authorization');
+  const tokenFromHeader = authHeader?.startsWith('Bearer ') ? authHeader.substring(7) : null;
+  
+  return !!(accessToken || tokenFromHeader);
+}
+
+function getLocaleFromPath(pathname: string): string {
+  const segments = pathname.split('/').filter(Boolean);
+  const firstSegment = segments[0];
+  
+  // Check if first segment is a valid locale
+  if (routing.locales.includes(firstSegment as any)) {
+    return firstSegment;
+  }
+  
+  return routing.defaultLocale;
+}
+
+function getPathWithoutLocale(pathname: string): string {
+  const segments = pathname.split('/').filter(Boolean);
+  const firstSegment = segments[0];
+  
+  // If first segment is a locale, remove it
+  if (routing.locales.includes(firstSegment as any)) {
+    return '/' + segments.slice(1).join('/');
+  }
+  
+  return pathname;
+}
+
 export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
-  // Get the locale from the pathname
-  const pathnameIsMissingLocale = routing.locales.every(
-    (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
-  );
-
-  // Extract the path without locale
-  let pathWithoutLocale = pathname;
-  if (!pathnameIsMissingLocale) {
-    const segments = pathname.split('/');
-    pathWithoutLocale = '/' + segments.slice(2).join('/');
+  // Skip middleware for API routes, static files, and other special paths
+  if (
+    pathname.startsWith('/api/') ||
+    pathname.startsWith('/_next/') ||
+    pathname.startsWith('/_vercel/') ||
+    pathname.includes('.') ||
+    pathname.startsWith('/trpc/')
+  ) {
+    return NextResponse.next();
   }
+
+  const locale = getLocaleFromPath(pathname);
+  const pathWithoutLocale = getPathWithoutLocale(pathname);
+  const userIsAuthenticated = isAuthenticated(request);
 
   // Check if the route is protected
   const isProtectedRoute = protectedRoutes.some(route => 
-    pathWithoutLocale.startsWith(route)
+    pathWithoutLocale === route || pathWithoutLocale.startsWith(route + '/')
   );
 
   // Check if the route is an auth route
   const isAuthRoute = authRoutes.some(route => 
-    pathWithoutLocale.startsWith(route)
+    pathWithoutLocale === route || pathWithoutLocale.startsWith(route + '/')
   );
 
-  // Get auth token from cookies or check if it exists
-  const accessToken = request.cookies.get('access_token')?.value;
-  
-  // Alternative: Check localStorage token (this won't work in middleware, so we'll use cookies)
-  // You'll need to modify your auth to also store tokens in cookies for middleware access
-  
-  const isAuthenticated = !!accessToken;
-
-  // Handle protected routes
-  if (isProtectedRoute && !isAuthenticated) {
-    // Get the current locale or default to 'uz'
-    const locale = !pathnameIsMissingLocale 
-      ? pathname.split('/')[1] 
-      : routing.defaultLocale;
-    
-    // Redirect to login page with return url
+  // Handle protected routes - redirect to login if not authenticated
+  if (isProtectedRoute && !userIsAuthenticated) {
     const loginUrl = new URL(`/${locale}/login`, request.url);
     loginUrl.searchParams.set('returnUrl', pathname);
     return NextResponse.redirect(loginUrl);
   }
 
   // Handle auth routes - redirect to dashboard if already authenticated
-  if (isAuthRoute && isAuthenticated) {
-    const locale = !pathnameIsMissingLocale 
-      ? pathname.split('/')[1] 
-      : routing.defaultLocale;
-    
+  if (isAuthRoute && userIsAuthenticated) {
     const dashboardUrl = new URL(`/${locale}/dashboard`, request.url);
     return NextResponse.redirect(dashboardUrl);
   }
 
-  // Apply internationalization middleware
-  return intlMiddleware(request);
+  // Handle root path - redirect based on authentication status
+  if (pathWithoutLocale === '' || pathWithoutLocale === '/') {
+    if (userIsAuthenticated) {
+      const dashboardUrl = new URL(`/${locale}/dashboard`, request.url);
+      return NextResponse.redirect(dashboardUrl);
+    }
+    // If not authenticated, let the home page load normally
+  }
+
+  // Apply internationalization middleware for all other requests
+  const response = intlMiddleware(request);
+  
+  // Add security headers
+  if (response) {
+    response.headers.set('X-Frame-Options', 'DENY');
+    response.headers.set('X-Content-Type-Options', 'nosniff');
+    response.headers.set('Referrer-Policy', 'origin-when-cross-origin');
+  }
+  
+  return response;
 }
 
 export const config = {
@@ -95,6 +134,7 @@ export const config = {
     '/(uz|en|ru)/:path*',
     
     // Enable redirects that add missing locales
+    // Skip API routes, static files, and other special paths
     '/((?!api|trpc|_next|_vercel|.*\\..*).*)'
   ]
 };
