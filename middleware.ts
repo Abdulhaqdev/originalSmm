@@ -34,7 +34,8 @@ function isAuthenticated(request: NextRequest): boolean {
   const authHeader = request.headers.get('authorization');
   const tokenFromHeader = authHeader?.startsWith('Bearer ') ? authHeader.substring(7) : null;
   
-  return !!(accessToken || tokenFromHeader);
+  // Token mavjudligi va bo'sh emasligini tekshirish
+  return !!(accessToken && accessToken.trim() !== '') || !!(tokenFromHeader && tokenFromHeader.trim() !== '');
 }
 
 function getLocaleFromPath(pathname: string): string {
@@ -79,6 +80,14 @@ export default function middleware(request: NextRequest) {
   const pathWithoutLocale = getPathWithoutLocale(pathname);
   const userIsAuthenticated = isAuthenticated(request);
 
+  console.log('Middleware Debug:', {
+    pathname,
+    locale,
+    pathWithoutLocale,
+    userIsAuthenticated,
+    accessToken: request.cookies.get('access_token')?.value ? 'exists' : 'missing'
+  });
+
   // Check if the route is protected
   const isProtectedRoute = protectedRoutes.some(route => 
     pathWithoutLocale === route || pathWithoutLocale.startsWith(route + '/')
@@ -93,12 +102,14 @@ export default function middleware(request: NextRequest) {
   if (isProtectedRoute && !userIsAuthenticated) {
     const loginUrl = new URL(`/${locale}/login`, request.url);
     loginUrl.searchParams.set('returnUrl', pathname);
+    console.log('Redirecting to login:', loginUrl.toString());
     return NextResponse.redirect(loginUrl);
   }
 
   // Handle auth routes - redirect to dashboard if already authenticated
   if (isAuthRoute && userIsAuthenticated) {
     const dashboardUrl = new URL(`/${locale}/dashboard`, request.url);
+    console.log('Redirecting to dashboard:', dashboardUrl.toString());
     return NextResponse.redirect(dashboardUrl);
   }
 
@@ -106,6 +117,7 @@ export default function middleware(request: NextRequest) {
   if (pathWithoutLocale === '' || pathWithoutLocale === '/') {
     if (userIsAuthenticated) {
       const dashboardUrl = new URL(`/${locale}/dashboard`, request.url);
+      console.log('Redirecting root to dashboard:', dashboardUrl.toString());
       return NextResponse.redirect(dashboardUrl);
     }
     // If not authenticated, let the home page load normally
@@ -119,6 +131,7 @@ export default function middleware(request: NextRequest) {
     response.headers.set('X-Frame-Options', 'DENY');
     response.headers.set('X-Content-Type-Options', 'nosniff');
     response.headers.set('Referrer-Policy', 'origin-when-cross-origin');
+    response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   }
   
   return response;

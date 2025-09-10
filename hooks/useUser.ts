@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { AxiosError } from 'axios';
-import { authApi, Category, Order } from '@/lib/api'
+import { authApi, Category, Order, PayeerPaymentRequest, PayeerPaymentResponse } from '@/lib/api'
 
 interface Service {
   id: number;
@@ -41,7 +41,6 @@ interface NewOrderRequest {
   quantity: number;
 }
 
-
 export const useUser = () => {
   const queryClient = useQueryClient();
 
@@ -62,13 +61,15 @@ export const useUser = () => {
       retry: false,
       staleTime: 0, // Disable cache
     });
-	const getOrders = ( locale: string) =>
+
+  const getOrders = ( locale: string) =>
     useQuery<Order[], AxiosError<{ detail?: string }>>({
       queryKey: ['orders',  locale],
       queryFn: () => authApi.getOrders( locale),
       retry: false,
       staleTime: 0, // Disable cache
     });
+
   // Update profile mutation
   const updateProfileMutation = useMutation<void, AxiosError<{ detail?: string }>, UpdateProfileRequest>({
     mutationFn: (data) => authApi.updateProfile(data).then(() => {}),
@@ -95,13 +96,29 @@ export const useUser = () => {
     },
   });
 
+  // Payeer payment mutation
+  const payeerPaymentMutation = useMutation<PayeerPaymentResponse, AxiosError<{ detail?: string }>, PayeerPaymentRequest>({
+    mutationFn: (data) => authApi.createPayeerPayment(data),
+    onSuccess: (response) => {
+      // Redirect to Payeer payment page
+      window.location.href = response.redirect_url;
+      console.log("Payeer payment response:", response);
+    },
+    onError: (error) => {
+      const errorMessage = error.response?.data?.detail || 'To\'lovni boshlashda xato yuz berdi.';
+      toast.error(errorMessage);
+    },
+  });
+
   return {
     getServices,
     getCategories,
-		getOrders,
+    getOrders,
     updateProfile: (data: UpdateProfileRequest) => updateProfileMutation.mutate(data),
     isUpdatingProfile: updateProfileMutation.isPending,
     createOrder: (data: NewOrderRequest) => createOrderMutation.mutate(data),
     isCreatingOrder: createOrderMutation.isPending,
+    createPayeerPayment: (data: PayeerPaymentRequest) => payeerPaymentMutation.mutate(data),
+    isCreatingPayeerPayment: payeerPaymentMutation.isPending,
   };
 };

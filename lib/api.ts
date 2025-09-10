@@ -89,9 +89,6 @@ api.interceptors.response.use(
   }
 );
 
-// Rest of your interfaces and API functions remain the same...
-// [Keep all your existing interfaces and authApi object exactly as they were]
-
 // Auth API interfaces
 export interface LoginRequest {
   username: string;
@@ -200,6 +197,18 @@ export interface Order {
   external_order_id: string;
 }
 
+// Payeer Payment interfaces
+export interface PayeerPaymentRequest {
+  amount: string;
+  user_id: string;
+  currency: string;
+  description: string;
+}
+
+export interface PayeerPaymentResponse {
+  redirect_url: string;
+}
+
 const userId = typeof window !== 'undefined' ? localStorage.getItem('user_id') : null;
 
 export const authApi = {
@@ -256,6 +265,12 @@ export const authApi = {
 
   createOrder: async (data: NewOrderRequest) => {
     const response = await api.post('/api/orders/', data);
+    return response.data;
+  },
+
+  // Payeer payment method
+  createPayeerPayment: async (data: PayeerPaymentRequest): Promise<PayeerPaymentResponse> => {
+    const response = await api.post('/api/payeer-payment/', data);
     return response.data;
   },
 };

@@ -9,10 +9,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/hooks/useAuth";
 import { useUser } from "@/hooks/useUser";
 import { toast } from "sonner";
-import { mockOrders } from "@/lib/mock-data";
 import OrderList from "@/components/dashboard/OrderList";
 import AccountInfo from "@/components/dashboard/AccountInfo";
-import AccountStats from "@/components/dashboard/AccountStats";
 import NewOrderForm from "@/components/dashboard/NewOrderForm";
 
 export default function DashboardPage() {

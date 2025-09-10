@@ -18,6 +18,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import LocaleSwitcher from "./shared/LanguageSwitcher";
+import Image from 'next/image'
 
 export default function Navbar() {
   const t = useTranslations("navbar");
@@ -65,12 +66,24 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2 group">
-              <div className="relative">
-                <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse"></div>
-              </div>
-              <span className="text-xl font-bold gradient-text">OriginalSMM</span>
+              <img src="/logo.png" alt="" width={160} height={200}/>
             </Link>
-
+   {/* <Image
+              src="/logolight.png"
+              alt="Light theme logo"
+              width={250}
+              height={30}
+              priority // Preload the image
+              className="dark:hidden object-contain mt-16"
+            />
+            <Image
+              src="/logo.png"
+              alt="Dark theme logo"
+              width={200}
+              height={30}
+              priority // Preload the image
+              className="hidden dark:block object-contain"
+            /> */}
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
               {navItems.map((item) => (

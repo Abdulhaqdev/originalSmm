@@ -12,8 +12,11 @@ const setAuthTokens = (access: string, refresh: string, userId?: string) => {
     localStorage.setItem('user_id', userId);
   }
 
-  // Store in cookies for middleware access
-  const cookieOptions = 'path=/; secure; samesite=strict';
+  // Store in cookies for middleware access with longer expiry
+  const expiryDate = new Date();
+  expiryDate.setDate(expiryDate.getDate() + 7); // 7 kunlik cookie
+  const cookieOptions = `path=/; secure; samesite=strict; expires=${expiryDate.toUTCString()}`;
+  
   document.cookie = `access_token=${access}; ${cookieOptions}`;
   document.cookie = `refresh_token=${refresh}; ${cookieOptions}`;
   if (userId) {
@@ -63,10 +66,14 @@ export const useAuth = () => {
       queryClient.invalidateQueries({ queryKey: ['user'] });
       toast.success('Login successful!');
       
-      // Check for return URL
-      const urlParams = new URLSearchParams(window.location.search);
-      const returnUrl = urlParams.get('returnUrl');
-      router.push(returnUrl || '/dashboard');
+      // Cookie o'rnatilishini kutish uchun kichik kechikish
+      setTimeout(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const returnUrl = urlParams.get('returnUrl');
+        
+        // Hard reload qilish middleware uchun
+        window.location.href = returnUrl || '/dashboard';
+      }, 100);
     },
     onError: (error: any) => {
       const errorMessage = error.response?.data?.detail || 'Login failed. Please try again.';
@@ -83,10 +90,14 @@ export const useAuth = () => {
       queryClient.invalidateQueries({ queryKey: ['user'] });
       toast.success('Google orqali muvaffaqiyatli kirildi!');
       
-      // Check for return URL
-      const urlParams = new URLSearchParams(window.location.search);
-      const returnUrl = urlParams.get('returnUrl');
-      router.push(returnUrl || '/dashboard');
+      // Cookie o'rnatilishini kutish uchun kichik kechikish
+      setTimeout(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const returnUrl = urlParams.get('returnUrl');
+        
+        // Hard reload qilish middleware uchun
+        window.location.href = returnUrl || '/dashboard';
+      }, 100);
     },
     onError: (error: any) => {
       const errorMessage = error.response?.data?.error || 'Google orqali kirishda xatolik yuz berdi';

@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CreditCard, Wallet, Plus, Minus, ArrowRight } from "lucide-react";
-import { formatCurrency } from "@/lib/utils";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "use-intl";
@@ -13,6 +12,8 @@ import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { useAuth } from '@/hooks/useAuth'
+import { useUser } from '@/hooks/useUser'
 
 interface Transaction {
   id: number;
@@ -32,17 +33,18 @@ interface Transaction {
 export default function AddFundsPage() {
   const pathname = usePathname();
   const t = useTranslations("addFunds");
+  const { user } = useAuth();
+  const { createPayeerPayment, isCreatingPayeerPayment } = useUser();
 
-  const [amount, setAmount] = useState<string>("1000");
+  const [amount, setAmount] = useState<string>("10000");
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string | null>(null);
-  const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [payHistory, setPayHistory] = useState<Transaction[]>([]);
 
   const predefinedAmounts = [10000, 50000, 100000];
   const paymentMethods = [
     { id: "click", name: "Click", icon: "/click.png", isUnderMaintenance: true},
-    { id: "payme", name: "Payme", icon: "/payme.png"},
-    { id: "octobank", name: "Payeer", icon: "/payeer.png", isUnderMaintenance: true },
+    { id: "payme", name: "Payme", icon: "/payme.png", isUnderMaintenance: true},
+    { id: "payeer", name: "Payeer", icon: "/payeer.png", isUnderMaintenance: false },
   ];
 
   const handleAmountChange = (value: string) => {
@@ -76,7 +78,7 @@ export default function AddFundsPage() {
   };
 
   const handleAddFunds = () => {
-    if (!amount || !selectedPaymentMethod) {
+    if (!amount || !selectedPaymentMethod || !user) {
       return;
     }
 
@@ -85,37 +87,22 @@ export default function AddFundsPage() {
       return;
     }
 
-    setIsProcessing(true);
-    setIsProcessing(false);
+    if (selectedPaymentMethod === "payeer") {
+      createPayeerPayment({
+        amount: amount,
+        user_id: user.id.toString(),
+        currency: "USD",
+        description: "Balans to'ldirish"
+      });
+    }
+    // Add other payment methods here when they are available
   };
 
   return (
     <div className="pt-16 pb-8 bg-gradient-to-br from-gray-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col">
       <Navbar />
-      {/* <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
-            <div>
-              <h1 className="text-3xl md:text-4xl font-bold mb-2">
-               <span className="gradient-text">{t("title")}</span>
-              </h1>
-              <p className="text-gray-600 dark:text-gray-300">
-                {t("description") || "Buyurtmalaringizni boshqaring, yangi buyurtmalar yarating va ijtimoiy tarmoqlardagi faolligingizni oshiring."}
-              </p>
-            </div>
-          </div>
-        </div> */}
       <main className="flex-1 container mx-auto px-4 py-4 max-w-2xl">
         <div className="space-y-4">
-          {/* Header Section */}
-          {/* <div className="text-center space-y-2">
-            <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
-              {t("title")}
-            </h1>
-            <p className="text-muted-foreground text-sm">
-              {t("description") || "Hisobingizni tez va xavfsiz to'ldiring"}
-            </p>
-          </div> */}
-
           {/* Balance Section */}
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 space-y-2">
             <div className="flex items-center justify-between">
@@ -124,7 +111,7 @@ export default function AddFundsPage() {
                 <span className="font-semibold">{t("currentBalance")}</span>
               </div>
               <Badge variant="secondary" className="text-sm md:text-base font-bold text-primary">
-                0 UZS
+                {user?.balance || 0} UZS
               </Badge>
             </div>
             <p className="text-xs text-muted-foreground text-center">
@@ -206,9 +193,9 @@ export default function AddFundsPage() {
             <Button
               className="w-full rounded-full bg-primary hover:bg-primary/90 text-white text-sm md:text-base py-2.5"
               onClick={handleAddFunds}
-              disabled={isProcessing || !amount || !selectedPaymentMethod}
+              disabled={isCreatingPayeerPayment || !amount || !selectedPaymentMethod}
             >
-              {isProcessing ? t("submitProcessing") : t("submitButton")}
+              {isCreatingPayeerPayment ? t("submitProcessing") : t("submitButton")}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
@@ -216,7 +203,7 @@ export default function AddFundsPage() {
           {/* Transaction History */}
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 space-y-4">
             <div className="flex items-center gap-2">
-              <CreditCard className="h-5 w-5 text-praymiry" />
+              <CreditCard className="h-5 w-5 text-primary" />
               <span className="font-semibold">{t("transactionHistory")}</span>
             </div>
             <p className="text-xs text-muted-foreground">

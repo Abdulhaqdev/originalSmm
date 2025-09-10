@@ -1,10 +1,7 @@
-// Footer.tsx
 'use client';
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Zap, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -24,9 +21,15 @@ export default function Footer() {
 
   const socialIcons = { Facebook, Twitter, Instagram, Youtube };
 
+  // Split footer links into two groups for mobile
+  const footerLinks = Object.entries(t.raw('links') as Record<string, { title: string; items: Array<{ name: string; href: string }> }>);
+  const midPoint = Math.ceil(footerLinks.length / 2);
+  const firstColumnLinks = footerLinks.slice(0, midPoint);
+  const secondColumnLinks = footerLinks.slice(midPoint);
+
   return (
     <footer className="bg-gray-900 text-white">
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Brand Section */}
           <div className="lg:col-span-2">
@@ -38,7 +41,6 @@ export default function Footer() {
             </Link>
             <p className="text-gray-300 mb-6 leading-relaxed">{t('description')}</p>
 
-     
             {/* Contact Info */}
             <div className="space-y-2 text-sm text-gray-300">
               <div className="flex items-center space-x-2">
@@ -56,28 +58,51 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Footer Links */}
-          {Object.entries(t.raw('links') as Record<string, { title: string; items: Array<{ name: string; href: string }> }>).map(([category, { title, items }]) => (
-            <div key={category}>
-              <h4 className="font-semibold mb-4">{title}</h4>
-              <ul className="space-y-2">
-                {items.map((link) => (
-                  <li key={link.name}>
-                    <Link href={link.href} className="text-gray-300 hover:text-primary transition-colors duration-200">
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+          {/* Footer Links - Mobile Two Columns */}
+          <div className="grid grid-cols-2 gap-8 md:grid-cols-1 lg:grid-cols-3 lg:col-span-3">
+            {/* First Column of Links */}
+            <div className="space-y-8">
+              {firstColumnLinks.map(([category, { title, items }]) => (
+                <div key={category}>
+                  <h4 className="font-semibold mb-4">{title}</h4>
+                  <ul className="space-y-2">
+                    {items.map((link) => (
+                      <li key={link.name}>
+                        <Link href={link.href} className="text-gray-300 hover:text-primary transition-colors duration-200">
+                          {link.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
-          ))}
+
+            {/* Second Column of Links */}
+            <div className="space-y-8">
+              {secondColumnLinks.map(([category, { title, items }]) => (
+                <div key={category}>
+                  <h4 className="font-semibold mb-4">{title}</h4>
+                  <ul className="space-y-2">
+                    {items.map((link) => (
+                      <li key={link.name}>
+                        <Link href={link.href} className="text-gray-300 hover:text-primary transition-colors duration-200">
+                          {link.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         <Separator className="my-8 bg-gray-700" />
 
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row items-center justify-between">
-          <div className="text-gray-300 text-sm mb-4 md:mb-0">{t('copyright')}</div>
+          <div className="text-gray-300 text-sm mb-6 md:mb-0">{t('copyright')}</div>
 
           {/* Social Links */}
           <div className="flex items-center space-x-4">
