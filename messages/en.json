@@ -476,5 +476,102 @@
   },
   "locale": {
     "selectLanguage": "Select Language"
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "introduction": "Welcome to OriginalSMM.uz. These Terms of Service ('Terms') govern your use of our website and services. By accessing or using our site, you agree to be bound by these Terms.",
+    "sections": {
+      "acceptance": {
+        "title": "Acceptance of Terms",
+        "content": "By using our services, you confirm that you accept these Terms and agree to comply with them. If you do not agree, you must not use our services."
+      },
+      "services": {
+        "title": "Our Services",
+        "content": "OriginalSMM provides social media marketing services, including but not limited to delivering real followers, likes, views, and engagement on platforms like Instagram, YouTube, TikTok, and Facebook. Services are provided 'as is' without warranties."
+      },
+      "userObligations": {
+        "title": "User Obligations",
+        "content": "You must provide accurate information, not misuse the site, and comply with all laws. You are responsible for maintaining the confidentiality of your account."
+      },
+      "payments": {
+        "title": "Payments",
+        "content": "We accept payments via Payme, Click, and Payeer. All payments are final and non-refundable unless specified otherwise. You agree to pay all fees associated with your purchases."
+      },
+      "refunds": {
+        "title": "Refunds and Cancellations",
+        "content": "Refunds are issued only in cases of non-delivery. Requests must be made within 7 days. We reserve the right to refuse refunds."
+      },
+      "intellectualProperty": {
+        "title": "Intellectual Property",
+        "content": "All content on the site is owned by OriginalSMM. You may not reproduce or distribute it without permission."
+      },
+      "disclaimer": {
+        "title": "Disclaimer",
+        "content": "We do not guarantee results from social media platforms' algorithms. Services may be affected by platform changes."
+      },
+      "limitationOfLiability": {
+        "title": "Limitation of Liability",
+        "content": "OriginalSMM shall not be liable for any indirect, incidental, or consequential damages arising from the use of our services."
+      },
+      "termination": {
+        "title": "Termination",
+        "content": "We may terminate your access at any time for violation of these Terms."
+      },
+      "governingLaw": {
+        "title": "Governing Law",
+        "content": "These Terms are governed by the laws of Uzbekistan."
+      },
+      "changes": {
+        "title": "Changes to Terms",
+        "content": "We may update these Terms at any time. Continued use constitutes acceptance of changes."
+      },
+      "contact": {
+        "title": "Contact Us",
+        "content": "For questions, contact us at support@originalsmm.com."
+      }
+    }
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "introduction": "At OriginalSMM, we respect your privacy. This Privacy Policy explains how we collect, use, and protect your information.",
+    "sections": {
+      "informationWeCollect": {
+        "title": "Information We Collect",
+        "content": "We collect personal information such as email, payment details, and usage data when you register or make purchases."
+      },
+      "howWeUseInformation": {
+        "title": "How We Use Your Information",
+        "content": "We use your information to provide services, process payments, and improve our site. We may send promotional emails."
+      },
+      "sharingInformation": {
+        "title": "Sharing Your Information",
+        "content": "We share information with payment processors (Payme, Click, Payeer) and service providers. We do not sell your data."
+      },
+      "security": {
+        "title": "Security",
+        "content": "We use encryption and secure servers to protect your data, but no system is completely secure."
+      },
+      "yourRights": {
+        "title": "Your Rights",
+        "content": "You can access, update, or delete your information by contacting us. You may opt-out of marketing communications."
+      },
+      "childrenPrivacy": {
+        "title": "Children's Privacy",
+        "content": "Our services are not intended for children under 13. We do not knowingly collect data from children."
+      },
+      "internationalTransfers": {
+        "title": "International Data Transfers",
+        "content": "Your data may be transferred to servers outside Uzbekistan, subject to adequate protections."
+      },
+      "changes": {
+        "title": "Changes to Privacy Policy",
+        "content": "We may update this policy. Changes will be posted here."
+      },
+      "contact": {
+        "title": "Contact Us",
+        "content": "For privacy questions, email support@originalsmm.com."
+      }
+    }
   }
+
 }

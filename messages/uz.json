@@ -475,5 +475,102 @@
   },
   "locale": {
     "selectLanguage": "Tilni tanlang"
-  }
+  },
+  "terms": {
+    "title": "Foydalanish Shartlari",
+    "introduction": "OriginalSMM.uz ga xush kelibsiz. Ushbu Foydalanish Shartlari ('Shartlar') saytimiz va xizmatlarimizdan foydalanishingizni tartibga soladi. Saytimizga kirish yoki undan foydalanish orqali siz ushbu Shartlarga rioya qilishga rozilik bildirasiz.",
+    "sections": {
+      "acceptance": {
+        "title": "Shartlarni Qabul Qilish",
+        "content": "Xizmatlarimizdan foydalanish orqali siz ushbu Shartlarni qabul qilganingizni va ularga rioya qilishga rozilik bildirganingizni tasdiqlaysiz. Agar rozi bo'lmasangiz, xizmatlarimizdan foydalanmasligingiz kerak."
+      },
+      "services": {
+        "title": "Bizning Xizmatlarimiz",
+        "content": "OriginalSMM ijtimoiy tarmoqlar marketing xizmatlarini taqdim etadi, jumladan Instagram, YouTube, TikTok va Facebook kabi platformalarda real obunachilar, layklar, ko'rishlar va ishtirokni yetkazib berish. Xizmatlar 'qanday bo'lsa shunday' taqdim etiladi, kafolatlarsiz."
+      },
+      "userObligations": {
+        "title": "Foydalanuvchi Majburiyatlari",
+        "content": "Siz aniq ma'lumotlar taqdim etishingiz, saytdan noto'g'ri foydalanmasligingiz va barcha qonunlarga rioya qilishingiz kerak. Siz hisobingiz maxfiyligini saqlash uchun mas'ulsiz."
+      },
+      "payments": {
+        "title": "To'lovlar",
+        "content": "Biz Payme, Click va Payeer orqali to'lovlarni qabul qilamiz. Barcha to'lovlar yakuniy va qaytarilmaydi, agar boshqacha ko'rsatilmagan bo'lsa. Siz xaridlaringiz bilan bog'liq barcha to'lovlarni to'lashingizga rozisiz."
+      },
+      "refunds": {
+        "title": "Qaytarish va Bekor Qilish",
+        "content": "Qaytarishlar faqat yetkazib berilmagan holatlarda beriladi. So'rovlar 7 kun ichida amalga oshirilishi kerak. Biz qaytarishlarni rad etish huquqini saqlab qolamiz."
+      },
+      "intellectualProperty": {
+        "title": "Intellektual Mulk",
+        "content": "Saytdagi barcha kontent OriginalSMM ga tegishli. Siz uni ruxsatsiz ko'paytirish yoki tarqatish mumkin emas."
+      },
+      "disclaimer": {
+        "title": "Rad Etish",
+        "content": "Biz ijtimoiy tarmoqlar algoritmlaridan natijalarni kafolatlamaymiz. Xizmatlar platforma o'zgarishlaridan ta'sirlanishi mumkin."
+      },
+      "limitationOfLiability": {
+        "title": "Mas'uliyatni Cheklash",
+        "content": "OriginalSMM xizmatlarimizdan foydalanishdan kelib chiqadigan har qanday bilvosita, tasodifiy yoki consequential zararlar uchun mas'ul emas."
+      },
+      "termination": {
+        "title": "Tugatish",
+        "content": "Biz ushbu Shartlarni buzganingiz uchun istalgan vaqtda kirishingizni tugatishimiz mumkin."
+      },
+      "governingLaw": {
+        "title": "Amaldagi Qonun",
+        "content": "Ushbu Shartlar O'zbekiston qonunlari bilan tartibga solinadi."
+      },
+      "changes": {
+        "title": "Shartlarga O'zgartirishlar",
+        "content": "Biz ushbu Shartlarni istalgan vaqtda yangilashimiz mumkin. Davomiy foydalanish o'zgartirishlarni qabul qilishni bildiradi."
+      },
+      "contact": {
+        "title": "Biz Bilan Bog'laning",
+        "content": "Savollar uchun support@originalsmm.com ga murojaat qiling."
+      }
+    }
+  },
+  "privacy": {
+    "title": "Maxfiylik Siyosati",
+    "introduction": "OriginalSMM da biz sizning maxfiyligingizni hurmat qilamiz. Ushbu Maxfiylik Siyosati ma'lumotlaringizni qanday yig'amiz, ishlatamiz va himoya qilamizni tushuntiradi.",
+    "sections": {
+      "informationWeCollect": {
+        "title": "Biz Yig'adigan Ma'lumotlar",
+        "content": "Biz ro'yxatdan o'tish yoki xarid qilishda email, to'lov detallari va foydalanish ma'lumotlarini yig'amiz."
+      },
+      "howWeUseInformation": {
+        "title": "Ma'lumotlaringizni Qanday Ishlatamiz",
+        "content": "Biz ma'lumotlaringizni xizmatlarni taqdim etish, to'lovlarni qayta ishlash va saytni yaxshilash uchun ishlatamiz. Biz reklama email larini yuborishimiz mumkin."
+      },
+      "sharingInformation": {
+        "title": "Ma'lumotlaringizni Baham Ko'rish",
+        "content": "Biz ma'lumotni to'lov protsessorlari (Payme, Click, Payeer) va xizmat taqdim etuvchilar bilan baham ko'ramiz. Biz ma'lumotlaringizni sotmaymiz."
+      },
+      "security": {
+        "title": "Xavfsizlik",
+        "content": "Biz ma'lumotlaringizni himoya qilish uchun shifrlash va xavfsiz serverlarni ishlatamiz, lekin hech qanday tizim to'liq xavfsiz emas."
+      },
+      "yourRights": {
+        "title": "Sizning Huquqlaringiz",
+        "content": "Siz ma'lumotlaringizga kirish, yangilash yoki o'chirish uchun biz bilan bog'lanishingiz mumkin. Siz marketing aloqalaridan voz kechishingiz mumkin."
+      },
+      "childrenPrivacy": {
+        "title": "Bolalar Maxfiyligi",
+        "content": "Bizning xizmatlarimiz 13 yoshdan kichik bolalar uchun mo'ljallanmagan. Biz bolalardan ma'lumot yig'maymiz."
+      },
+      "internationalTransfers": {
+        "title": "Xalqaro Ma'lumot O'tkazmalar",
+        "content": "Sizning ma'lumotlaringiz O'zbekiston tashqarisidagi serverlarga o'tkazilishi mumkin, tegishli himoyalar bilan."
+      },
+      "changes": {
+        "title": "Maxfiylik Siyosatiga O'zgartirishlar",
+        "content": "Biz ushbu siyosatni yangilashimiz mumkin. O'zgartirishlar bu yerda e'lon qilinadi."
+      },
+      "contact": {
+        "title": "Biz Bilan Bog'laning",
+        "content": "Maxfiylik savollari uchun support@originalsmm.com ga yozing."
+      }
+    }
+ 
+}
 }

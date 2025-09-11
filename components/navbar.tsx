@@ -18,7 +18,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import LocaleSwitcher from "./shared/LanguageSwitcher";
-import Image from 'next/image'
+import Image from 'next/image' 
 
 export default function Navbar() {
   const t = useTranslations("navbar");

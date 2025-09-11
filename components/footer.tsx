@@ -59,43 +59,62 @@ export default function Footer() {
           </div>
 
           {/* Footer Links - Mobile Two Columns */}
-          <div className="grid grid-cols-2 gap-8 md:grid-cols-1 lg:grid-cols-3 lg:col-span-3">
-            {/* First Column of Links */}
-            <div className="space-y-8">
-              {firstColumnLinks.map(([category, { title, items }]) => (
-                <div key={category}>
-                  <h4 className="font-semibold mb-4">{title}</h4>
-                  <ul className="space-y-2">
-                    {items.map((link) => (
-                      <li key={link.name}>
-                        <Link href={link.href} className="text-gray-300 hover:text-primary transition-colors duration-200">
-                          {link.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
+          {/* Footer Links - Mobile Three Columns */}
+<div className="grid grid-cols-3 gap-4 md:grid-cols-1 lg:grid-cols-3 lg:col-span-3">
+  {/* First Column */}
+  <div className="space-y-8">
+    {footerLinks.slice(0, Math.ceil(footerLinks.length / 3)).map(([category, { title, items }]) => (
+      <div key={category}>
+        <h4 className="font-semibold mb-4">{title}</h4>
+        <ul className="space-y-2">
+          {items.map((link) => (
+            <li key={link.name}>
+              <Link href={link.href} className="text-gray-300 hover:text-primary transition-colors duration-200">
+                {link.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
 
-            {/* Second Column of Links */}
-            <div className="space-y-8">
-              {secondColumnLinks.map(([category, { title, items }]) => (
-                <div key={category}>
-                  <h4 className="font-semibold mb-4">{title}</h4>
-                  <ul className="space-y-2">
-                    {items.map((link) => (
-                      <li key={link.name}>
-                        <Link href={link.href} className="text-gray-300 hover:text-primary transition-colors duration-200">
-                          {link.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
+  {/* Second Column */}
+  <div className="space-y-8">
+    {footerLinks.slice(Math.ceil(footerLinks.length / 3), Math.ceil(2 * footerLinks.length / 3)).map(([category, { title, items }]) => (
+      <div key={category}>
+        <h4 className="font-semibold mb-4">{title}</h4>
+        <ul className="space-y-2">
+          {items.map((link) => (
+            <li key={link.name}>
+              <Link href={link.href} className="text-gray-300 hover:text-primary transition-colors duration-200">
+                {link.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+
+  {/* Third Column */}
+  <div className="space-y-8">
+    {footerLinks.slice(Math.ceil(2 * footerLinks.length / 3)).map(([category, { title, items }]) => (
+      <div key={category}>
+        <h4 className="font-semibold mb-4">{title}</h4>
+        <ul className="space-y-2">
+          {items.map((link) => (
+            <li key={link.name}>
+              <Link href={link.href} className="text-gray-300 hover:text-primary transition-colors duration-200">
+                {link.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</div>
         </div>
 
         <Separator className="my-8 bg-gray-700" />
