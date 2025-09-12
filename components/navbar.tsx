@@ -66,15 +66,13 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2 group">
-              <img src="/logo.png" alt="" width={160} height={200}/>
-            </Link>
-   {/* <Image
+    <Image
               src="/logolight.png"
               alt="Light theme logo"
-              width={250}
+              width={200}
               height={30}
               priority // Preload the image
-              className="dark:hidden object-contain mt-16"
+              className="dark:hidden object-contain mt-3 "
             />
             <Image
               src="/logo.png"
@@ -83,7 +81,9 @@ export default function Navbar() {
               height={30}
               priority // Preload the image
               className="hidden dark:block object-contain"
-            /> */}
+            /> 
+            </Link>
+
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
               {navItems.map((item) => (
