@@ -42,7 +42,7 @@ export default function AddFundsPage() {
 
   const predefinedAmounts = [10000, 50000, 100000];
   const paymentMethods = [
-    { id: "click", name: "Click", icon: "/click.png", isUnderMaintenance: true},
+    { id: "click", name: "Click", icon: "/click.png", isUnderMaintenance: false}, // Click yoqildi
     { id: "payme", name: "Payme", icon: "/payme.png", isUnderMaintenance: true},
     { id: "payeer", name: "Payeer", icon: "/payeer.png", isUnderMaintenance: false },
   ];
@@ -77,6 +77,19 @@ export default function AddFundsPage() {
     setSelectedPaymentMethod(methodId);
   };
 
+  // Click to'lovi uchun URL yaratish funksiyasi
+  const generateClickPaymentUrl = (amount: string, userId: string) => {
+    const baseUrl = "https://my.click.uz/services/pay";
+    const params = new URLSearchParams({
+      service_id: "82883",
+      merchant_id: "46110",
+      amount: amount,
+      transaction_param: userId
+    });
+    return `${baseUrl}?${params.toString()}`;
+  };
+  console.log(generateClickPaymentUrl("10000", "1")); // Test uchun
+
   const handleAddFunds = () => {
     if (!amount || !selectedPaymentMethod || !user) {
       return;
@@ -87,7 +100,15 @@ export default function AddFundsPage() {
       return;
     }
 
-    if (selectedPaymentMethod === "payeer") {
+    if (selectedPaymentMethod === "click") {
+      // Click to'lovi uchun URL yaratish va sahifaga o'tish
+      const clickUrl = generateClickPaymentUrl(amount, user.id.toString());
+      window.open(clickUrl, '_blank');
+      
+      // Yoki hozirgi sahifada ochish uchun:
+      // window.location.href = clickUrl;
+      
+    } else if (selectedPaymentMethod === "payeer") {
       createPayeerPayment({
         amount: amount,
         user_id: user.id.toString(),
@@ -95,7 +116,7 @@ export default function AddFundsPage() {
         description: "Balans to'ldirish"
       });
     }
-    // Add other payment methods here when they are available
+    // Payme uchun ham shunga o'xshash qo'shish mumkin
   };
 
   return (

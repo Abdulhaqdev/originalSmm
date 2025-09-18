@@ -6,6 +6,7 @@ import { Separator } from '@/components/ui/separator';
 import { Zap, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
+import Image from 'next/image'
 
 export default function Footer() {
   const t = useTranslations('footer');
@@ -33,11 +34,16 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Brand Section */}
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center space-x-2 mb-6">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <Zap className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-2xl font-bold gradient-text">{t('brandName')}</span>
+            <Link href="/" className="flex items-center space-x-2 group">
+    <Image
+              src="/logof.png"
+              alt="Light theme logo"
+              width={200}
+              height={30}
+              priority // Preload the image
+              className=" object-contain  "
+            />
+           
             </Link>
             <p className="text-gray-300 mb-6 leading-relaxed">{t('description')}</p>
 

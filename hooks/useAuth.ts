@@ -1,10 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { authApi, LoginRequest, RegisterRequest } from '@/lib/api';
 
 // Utility functions for handling tokens in both localStorage and cookies
 const setAuthTokens = (access: string, refresh: string, userId?: string) => {
+  console.log('Setting auth tokens:', { access: access?.substring(0, 10) + '...', userId }); // Debug
+  
   // Store in localStorage
   localStorage.setItem('access_token', access);
   localStorage.setItem('refresh_token', refresh);
@@ -15,13 +17,18 @@ const setAuthTokens = (access: string, refresh: string, userId?: string) => {
   // Store in cookies for middleware access with longer expiry
   const expiryDate = new Date();
   expiryDate.setDate(expiryDate.getDate() + 7); // 7 kunlik cookie
-  const cookieOptions = `path=/; secure; samesite=strict; expires=${expiryDate.toUTCString()}`;
+  
+  // Check if running on HTTPS or localhost
+  const isSecure = window.location.protocol === 'https:' || window.location.hostname === 'localhost';
+  const cookieOptions = `path=/; ${isSecure ? 'secure;' : ''} samesite=strict; expires=${expiryDate.toUTCString()}`;
   
   document.cookie = `access_token=${access}; ${cookieOptions}`;
   document.cookie = `refresh_token=${refresh}; ${cookieOptions}`;
   if (userId) {
     document.cookie = `user_id=${userId}; ${cookieOptions}`;
   }
+  
+  console.log('Cookies set with options:', cookieOptions); // Debug
 };
 
 const removeAuthTokens = () => {
@@ -37,9 +44,23 @@ const removeAuthTokens = () => {
   document.cookie = `user_id=; ${expiredCookie}`;
 };
 
+// Get current locale from pathname
+const getCurrentLocale = (pathname: string): string => {
+  const segments = pathname.split('/').filter(Boolean);
+  const firstSegment = segments[0];
+  const supportedLocales = ['uz', 'en', 'ru'];
+  
+  if (supportedLocales.includes(firstSegment)) {
+    return firstSegment;
+  }
+  
+  return 'uz'; // default locale
+};
+
 export const useAuth = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const pathname = usePathname();
 
   // Check if user is authenticated
   const isAuthenticated = () => {
@@ -66,14 +87,20 @@ export const useAuth = () => {
       queryClient.invalidateQueries({ queryKey: ['user'] });
       toast.success('Login successful!');
       
-      // Cookie o'rnatilishini kutish uchun kichik kechikish
+      // Get current locale and redirect with locale
+      const currentLocale = getCurrentLocale(pathname);
+      
+      // Cookie o'rnatilishini kutish uchun kechikish
       setTimeout(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const returnUrl = urlParams.get('returnUrl');
         
+        // Locale bilan dashboard URL yaratish
+        const dashboardUrl = returnUrl || `/${currentLocale}/dashboard`;
+        
         // Hard reload qilish middleware uchun
-        window.location.href = returnUrl || '/dashboard';
-      }, 100);
+        window.location.href = dashboardUrl;
+      }, 200);
     },
     onError: (error: any) => {
       const errorMessage = error.response?.data?.detail || 'Login failed. Please try again.';
@@ -85,21 +112,32 @@ export const useAuth = () => {
   const googleAuthMutation = useMutation({
     mutationFn: authApi.googleAuth,
     onSuccess: (data) => {
+      console.log('Google Auth Success Data:', data); // Debug uchun
+      
       const userId = data.user?.id?.toString();
       setAuthTokens(data.access, data.refresh, userId);
       queryClient.invalidateQueries({ queryKey: ['user'] });
       toast.success('Google orqali muvaffaqiyatli kirildi!');
       
-      // Cookie o'rnatilishini kutish uchun kichik kechikish
+      // Get current locale and redirect with locale
+      const currentLocale = getCurrentLocale(pathname);
+      
+      // Cookie o'rnatilishini kutish uchun uzunroq kechikish
       setTimeout(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const returnUrl = urlParams.get('returnUrl');
         
+        // Locale bilan dashboard URL yaratish
+        const dashboardUrl = returnUrl || `/${currentLocale}/dashboard`;
+        
+        console.log('Redirecting to:', dashboardUrl); // Debug uchun
+        
         // Hard reload qilish middleware uchun
-        window.location.href = returnUrl || '/dashboard';
-      }, 100);
+        window.location.href = dashboardUrl;
+      }, 300);
     },
     onError: (error: any) => {
+      console.error('Google Auth Error:', error); // Debug uchun
       const errorMessage = error.response?.data?.error || 'Google orqali kirishda xatolik yuz berdi';
       toast.error(errorMessage);
     },
@@ -110,7 +148,8 @@ export const useAuth = () => {
     mutationFn: authApi.register,
     onSuccess: () => {
       toast.success('Registration successful! Please login with your credentials.');
-      router.push('/login');
+      const currentLocale = getCurrentLocale(pathname);
+      router.push(`/${currentLocale}/login`);
     },
     onError: (error: any) => {
       const errorData = error.response?.data;
@@ -138,7 +177,8 @@ export const useAuth = () => {
     }
     
     toast.success('Logged out successfully');
-    router.push('/');
+    const currentLocale = getCurrentLocale(pathname);
+    router.push(`/${currentLocale}/`);
   };
 
   return {
