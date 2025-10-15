@@ -81,7 +81,7 @@ export default function Hero() {
           <div className="relative animate-slide-in-right">
             <div className="relative">
               {/* Main Dashboard Card */}
-              <Card className="glass hover-lift">
+              <Card className="glass hover-lift shadow-md dark:shadow-gray-800">
                 <CardContent className="p-8">
                   <div className="space-y-6">
                     <div className="flex items-center justify-between">

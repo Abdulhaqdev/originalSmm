@@ -99,29 +99,29 @@ export default function middleware(request: NextRequest) {
   );
 
   // Handle protected routes - redirect to login if not authenticated
-  if (isProtectedRoute && !userIsAuthenticated) {
-    const loginUrl = new URL(`/${locale}/login`, request.url);
-    loginUrl.searchParams.set('returnUrl', pathname);
-    console.log('Redirecting to login:', loginUrl.toString());
-    return NextResponse.redirect(loginUrl);
-  }
+  // if (isProtectedRoute && !userIsAuthenticated) {
+  //   const loginUrl = new URL(`/${locale}/login`, request.url);
+  //   loginUrl.searchParams.set('returnUrl', pathname);
+  //   console.log('Redirecting to login:', loginUrl.toString());
+  //   return NextResponse.redirect(loginUrl);
+  // }
 
   // Handle auth routes - redirect to dashboard if already authenticated
-  if (isAuthRoute && userIsAuthenticated) {
-    const dashboardUrl = new URL(`/${locale}/dashboard`, request.url);
-    console.log('Redirecting to dashboard:', dashboardUrl.toString());
-    return NextResponse.redirect(dashboardUrl);
-  }
+  // if (isAuthRoute && userIsAuthenticated) {
+  //   const dashboardUrl = new URL(`/${locale}/dashboard`, request.url);
+  //   console.log('Redirecting to dashboard:', dashboardUrl.toString());
+  //   return NextResponse.redirect(dashboardUrl);
+  // }
 
   // Handle root path - redirect based on authentication status
-  if (pathWithoutLocale === '' || pathWithoutLocale === '/') {
-    if (userIsAuthenticated) {
-      const dashboardUrl = new URL(`/${locale}/dashboard`, request.url);
-      console.log('Redirecting root to dashboard:', dashboardUrl.toString());
-      return NextResponse.redirect(dashboardUrl);
-    }
-    // If not authenticated, let the home page load normally
-  }
+  // if (pathWithoutLocale === '' || pathWithoutLocale === '/') {
+  //   if (userIsAuthenticated) {
+  //     const dashboardUrl = new URL(`/${locale}/dashboard`, request.url);
+  //     console.log('Redirecting root to dashboard:', dashboardUrl.toString());
+  //     return NextResponse.redirect(dashboardUrl);
+  //   }
+  //   // If not authenticated, let the home page load normally
+  // }
 
   // Apply internationalization middleware for all other requests
   const response = intlMiddleware(request);
