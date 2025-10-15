@@ -84,8 +84,9 @@ export default function AddFundsPage() {
       service_id: "82883",
       merchant_id: "46110",
       amount: amount,
-      transaction_param: userId
-    });
+      transaction_param: userId,
+      return_url: `https://www.originalsmm.uz/dashboard`, // To'lovdan keyingi qaytish URL manzili
+    })
     return `${baseUrl}?${params.toString()}`;
   };
   console.log(generateClickPaymentUrl("10000", "1")); // Test uchun
