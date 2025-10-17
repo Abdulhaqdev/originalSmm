@@ -94,14 +94,15 @@ export default function GoogleSignInButton({ onSuccess, onError }: GoogleSignInB
   return (
     <div className="relative w-full">
       {!isInitialized ? (
-        <div className="w-full h-12 bg-gray-100 dark:bg-gray-800 rounded-md flex items-center justify-center">
+        <div className="w-full h-12 rounded-md flex items-center justify-center">
           <span className="text-sm text-gray-500 dark:text-gray-400">{t('loading')}</span>
         </div>
       ) : (
-        <div
-          ref={buttonRef}
-          className="w-full h-12  rounded-sm flex items-center justify-center "
-        />
+       <div
+  ref={buttonRef}
+  className="w-full h-12 rounded-sm flex items-center justify-center overflow-hidden bg-transparent"
+></div>
+
       )}
       {isLoading && (
         <div className="absolute inset-0 bg-white/80 dark:bg-gray-800/80 flex items-center justify-center rounded-md">

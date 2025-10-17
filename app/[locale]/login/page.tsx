@@ -12,6 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { Zap, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import GoogleSignInButton from '@/components/googlesignin';
+import Navbar from "@/components/navbar";
 
 export default function LoginPage() {
   const t = useTranslations("LoginPage");
@@ -41,16 +42,17 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center p-4">
+       <Navbar />
       <div className="w-full max-w-md">
         {/* Logo */}
-        <div className="text-center mb-8">
+        {/* <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center space-x-2 group">
             <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
               <Zap className="w-6 h-6 text-white" />
             </div>
             <span className="text-2xl font-bold gradient-text">OriginalSMM</span>
           </Link>
-        </div>
+        </div> */}
 
         <Card className="shadow-2xl border-0">
           <CardHeader className="text-center">
