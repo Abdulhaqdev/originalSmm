@@ -354,13 +354,15 @@
       "loadingServices": "Loading services..."
     },
     "serviceDetails": {
-      "per1000": "Per 1000",
-      "minOrder": "Minimum Order",
-      "maxOrder": "Maximum Order",
-      "delivery": "Delivery Time",
-      "hours": "hours",
-      "orderNow": "Order Now"
-    },
+  "per1000": "per 1000",
+  "minOrder": "Minimum Order",
+  "maxOrder": "Maximum Order",
+  "delivery": "Delivery Time",
+  "hours": "hours",
+  "orderNow": "Order Now",
+  "showDescription": "Show Full Description",
+  "hideDescription": "Hide Description"
+},
     "pagination": {
       "previous": "Previous",
       "next": "Next",

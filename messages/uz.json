@@ -13,7 +13,7 @@
       "servicesAvailable": "Mavjud Xizmatlar"
     }
   },
-   "RegisterPage": {
+  "RegisterPage": {
     "title": "Hisob yaratish",
     "description": "Minglab qoniqarli mijozlarga qo'shiling",
     "firstNameLabel": "Ism",
@@ -42,7 +42,7 @@
     "passwordMismatch": "Parollar mos kelmaydi",
     "acceptTermsRequired": "Xizmat shartlari va Maxfiylik siyosatini qabul qilishingiz kerak"
   },
-   "LoginPage": {
+  "LoginPage": {
     "title": "Xush kelibsiz",
     "description": "Hisobingizga kirish uchun davom eting",
     "usernameLabel": "Foydalanuvchi nomi",
@@ -64,7 +64,7 @@
     "buttonSetupError": "Google tugmasi sozlanmadi",
     "success": "Google orqali muvaffaqiyatli kirildi!"
   },
- "navbar": {
+  "navbar": {
     "home": "Bosh sahifa",
     "services": "Xizmatlar",
     "about": "Haqida",
@@ -162,7 +162,7 @@
       }
     ]
   },
- "footer": {
+  "footer": {
     "brandName": "OriginalSMM",
     "description": "Dunyodagi yetakchi ijtimoiy tarmoq marketing paneli. Barcha asosiy platformalarda haqiqiy obunachilar, yoqtirishlar, ko'rishlar va ishtirokni tez yetkazib berish va yuqori sifat bilan oling.",
     "contact": {
@@ -174,36 +174,84 @@
       "services": {
         "title": "Xizmatlar",
         "items": [
-          { "name": "Instagram Xizmatlari", "href": "/services?platform=instagram" },
-          { "name": "YouTube Xizmatlari", "href": "/services?platform=youtube" },
-          { "name": "TikTok Xizmatlari", "href": "/services?platform=tiktok" },
-          { "name": "Facebook Xizmatlari", "href": "/services?platform=facebook" }
+          {
+            "name": "Instagram Xizmatlari",
+            "href": "/services?platform=instagram"
+          },
+          {
+            "name": "YouTube Xizmatlari",
+            "href": "/services?platform=youtube"
+          },
+          {
+            "name": "TikTok Xizmatlari",
+            "href": "/services?platform=tiktok"
+          },
+          {
+            "name": "Facebook Xizmatlari",
+            "href": "/services?platform=facebook"
+          }
         ]
       },
       "company": {
         "title": "Kompaniya",
         "items": [
-          { "name": "Biz Haqimizda", "href": "/about" },
-          { "name": "Aloqa", "href": "/contact" },
-          { "name": "Xizmat Ko'rsatish Shartlari", "href": "/terms" },
-          { "name": "Maxfiylik Siyosati", "href": "/privacy" }
+          {
+            "name": "Biz Haqimizda",
+            "href": "/about"
+          },
+          {
+            "name": "Aloqa",
+            "href": "/contact"
+          },
+          {
+            "name": "Xizmat Ko'rsatish Shartlari",
+            "href": "/terms"
+          },
+          {
+            "name": "Maxfiylik Siyosati",
+            "href": "/privacy"
+          }
         ]
       },
       "support": {
         "title": "Qo'llab-quvvatlash",
         "items": [
-          { "name": "Yordam Markazi", "href": "/help" },
-          { "name": "TSS", "href": "/#faq" },
-          { "name": "Jonli Chat", "href": "/chat" },
-          { "name": "Holat Sahifasi", "href": "/status" }
+          {
+            "name": "Yordam Markazi",
+            "href": "/help"
+          },
+          {
+            "name": "TSS",
+            "href": "/#faq"
+          },
+          {
+            "name": "Jonli Chat",
+            "href": "/chat"
+          },
+          {
+            "name": "Holat Sahifasi",
+            "href": "/status"
+          }
         ]
       }
     },
     "socialLinks": [
-      { "label": "Facebook", "href": "#" },
-      { "label": "Twitter", "href": "#" },
-      { "label": "Instagram", "href": "#" },
-      { "label": "Youtube", "href": "#" }
+      {
+        "label": "Facebook",
+        "href": "#"
+      },
+      {
+        "label": "Twitter",
+        "href": "#"
+      },
+      {
+        "label": "Instagram",
+        "href": "#"
+      },
+      {
+        "label": "Youtube",
+        "href": "#"
+      }
     ],
     "copyright": "© 2024 OriginalSMM. Barcha huquqlar himoyalangan.",
     "newsletter": {
@@ -327,7 +375,7 @@
       "paymentHistoryErrorDescription": "To'lovlar tarixini yuklashda xato"
     }
   },
-   "services": {
+  "services": {
     "locale": "uz",
     "hero": {
       "title": "Ijtimoiy tarmoqlarni rivojlantirish xizmatlari",
@@ -358,7 +406,9 @@
       "maxOrder": "Maksimal buyurtma",
       "delivery": "Yetkazib berish vaqti",
       "hours": "soat",
-      "orderNow": "Hozir buyurtma berish"
+      "orderNow": "Hozir buyurtma berish",
+      "showDescription": "To'liq tavsif",
+      "hideDescription": "Tavsifni yopish"
     },
     "pagination": {
       "previous": "Oldingi",
@@ -374,7 +424,7 @@
       "orders": "Buyurtmalar",
       "account": "Hisob"
     },
-     "newOrder": {
+    "newOrder": {
       "title": "Yangi buyurtma",
       "categories": "Kategoriyalar",
       "selectCategory": "Kategoriya tanlang",
@@ -441,7 +491,7 @@
       },
       "progress": "{percent}% bajarildi"
     },
-   "account": {
+    "account": {
       "info": "Hisob ma'lumotlari",
       "name": "To'liq ism",
       "firstName": "Ism",
@@ -468,9 +518,18 @@
       "email": "john@example.com"
     },
     "mockOrders": [
-      { "id": 1, "service": "Instagram Obunachilari" },
-      { "id": 2, "service": "YouTube Ko'rishlari" },
-      { "id": 3, "service": "TikTok Yoqtirishlari" }
+      {
+        "id": 1,
+        "service": "Instagram Obunachilari"
+      },
+      {
+        "id": 2,
+        "service": "YouTube Ko'rishlari"
+      },
+      {
+        "id": 3,
+        "service": "TikTok Yoqtirishlari"
+      }
     ]
   },
   "locale": {
@@ -571,6 +630,5 @@
         "content": "Maxfiylik savollari uchun support@originalsmm.com ga yozing."
       }
     }
- 
-}
+  }
 }

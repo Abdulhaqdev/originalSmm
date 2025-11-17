@@ -353,13 +353,15 @@
       "loadingServices": "Загрузка услуг..."
     },
     "serviceDetails": {
-      "per1000": "За 1000",
-      "minOrder": "Минимальный заказ",
-      "maxOrder": "Максимальный заказ",
-      "delivery": "Время доставки",
-      "hours": "часов",
-      "orderNow": "Заказать сейчас"
-    },
+  "per1000": "за 1000",
+  "minOrder": "Минимальный заказ",
+  "maxOrder": "Максимальный заказ",
+  "delivery": "Время доставки",
+  "hours": "часов",
+  "orderNow": "Заказать сейчас",
+  "showDescription": "Полное описание",
+  "hideDescription": "Скрыть описание"
+},
     "pagination": {
       "previous": "Предыдущая",
       "next": "Следующая",

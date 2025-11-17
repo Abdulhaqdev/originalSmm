@@ -100,9 +100,7 @@ export const useUser = () => {
   const payeerPaymentMutation = useMutation<PayeerPaymentResponse, AxiosError<{ detail?: string }>, PayeerPaymentRequest>({
     mutationFn: (data) => authApi.createPayeerPayment(data),
     onSuccess: (response) => {
-      // Redirect to Payeer payment page
       window.location.href = response.redirect_url;
-      console.log("Payeer payment response:", response);
     },
     onError: (error) => {
       const errorMessage = error.response?.data?.detail || 'To\'lovni boshlashda xato yuz berdi.';

@@ -2,24 +2,25 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { useRouter } from "@/app/i18n/navigation"; // Bu yerda o'zgartirish!
+import { useRouter } from "@/app/i18n/navigation";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Clock, Search } from "lucide-react";
+import { Clock, Search, ChevronDown, ChevronUp } from "lucide-react";
 import { useUser } from "@/hooks/useUser";
 
 export default function ServicesPage() {
-  const t = useTranslations("services");  
+  const t = useTranslations("services");
   const locale = useLocale();
-  const router = useRouter(); // next-intl router
+  const router = useRouter();
   const { getServices, getCategories } = useUser();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [page, setPage] = useState(1);
+  const [expandedServiceId, setExpandedServiceId] = useState<number | null>(null);
   const limit = 10;
 
   type Service = {
@@ -62,19 +63,13 @@ export default function ServicesPage() {
   const { data: servicesData, isLoading: isLoadingServices } = getServices(limit, (page - 1) * limit, locale) as { data: ServicesData | undefined, isLoading: boolean };
   const { data: categoriesData, error: categoriesError, isLoading: categoriesLoading } = getCategories(locale) as { data: Category[] | undefined, error: any, isLoading: boolean };
 
-  console.log(categoriesData);
-
-  // Til o'zgarganda sahifani yangilash
   useEffect(() => {
-    setPage(1); // Sahifani 1 ga qaytarish
-    // router.refresh() o'rniga window.location.reload() yoki boshqa yechim
-    // router.refresh(); // Bu yerda muammo bo'lishi mumkin
+    setPage(1);
   }, [locale]);
 
   const services = servicesData?.results || [];
   const categories = categoriesData || [];
 
-  // Get service name and description based on locale
   const getServiceName = (service: Service) => {
     switch (locale) {
       case 'uz':
@@ -101,7 +96,6 @@ export default function ServicesPage() {
     }
   };
 
-  // Get category name based on locale
   const getCategoryName = (category: Category) => {
     switch (locale) {
       case 'uz':
@@ -119,20 +113,16 @@ export default function ServicesPage() {
     .filter((service) => {
       const serviceName = getServiceName(service);
       const serviceDescription = getServiceDescription(service);
-      
       const matchesSearch =
         serviceName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         serviceDescription.toLowerCase().includes(searchTerm.toLowerCase());
-      
-      const matchesCategory = selectedCategory === "all" || 
+      const matchesCategory = selectedCategory === "all" ||
         service.category.toString() === selectedCategory;
-      
       return matchesSearch && matchesCategory;
     });
 
   const totalPages = servicesData ? Math.ceil(servicesData.count / limit) : 1;
 
-  // Get selected category name for display
   const getSelectedCategoryName = () => {
     if (selectedCategory === "all") return t("filters.allCategories");
     const category = categories.find(cat => cat.id.toString() === selectedCategory);
@@ -163,7 +153,7 @@ export default function ServicesPage() {
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">{t("hero.description")}</p>
           </div>
 
-          {/* Filters (Search va Category) */}
+          {/* Filters */}
           <div className="max-w-6xl mx-auto">
             <Card className="p-6 mb-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -177,7 +167,6 @@ export default function ServicesPage() {
                     className="pl-10"
                   />
                 </div>
-
                 {/* Category Filter */}
                 <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                   <SelectTrigger>
@@ -219,28 +208,37 @@ export default function ServicesPage() {
             </div>
           ) : (
             <>
+
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredServices.map((service) => (
                   <Card
                     key={service.id}
                     className="hover-lift group transition-all duration-300 border-0 shadow-lg hover:shadow-2xl"
                   >
-                    <CardContent className="p-6">
+                    <CardContent className="p-6 flex flex-col h-full">
+<div className="text-center mb-4">
+                        <div className="text-2xl font-bold text-primary">
+                          {parseFloat(service.price).toFixed(2)}
+                        </div>
+                        <div className="text-sm text-gray-500">{t("serviceDetails.per1000")}</div>
+                      </div>
                       <div className="flex items-start justify-between mb-4">
+
                         <div>
                           <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors duration-300">
                             {getServiceName(service)}
                           </h3>
                         </div>
-                        <div className="text-right">
-                          <div className="text-2xl font-bold text-primary">${parseFloat(service.price).toFixed(2)}</div>
-                          <div className="text-sm text-gray-500">{t("serviceDetails.per1000")}</div>
-                        </div>
                       </div>
-
-                      <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">{getServiceDescription(service)}</p>
-
+                      
                       <div className="space-y-2 mb-6">
+
+                        <div className="text-xs text-gray-400">ID: {service.id}</div>
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-500">{t("serviceDetails.minOrder")}:</span>
+                          <span className="font-medium">{service.min}</span>
+                        </div>
                         <div className="flex items-center justify-between text-sm">
                           <span className="text-gray-500">{t("serviceDetails.minOrder")}:</span>
                           <span className="font-medium">{service.min}</span>
@@ -254,13 +252,37 @@ export default function ServicesPage() {
                             <Clock className="w-4 h-4 mr-1" />
                             {t("serviceDetails.delivery")}:
                           </span>
-                          <span className="font-medium">{Math.ceil(service.duration / 3600)} {t("serviceDetails.hours")}</span>
+                          <span className="font-medium">
+                            {Math.ceil(service.duration / 3600)} {t("serviceDetails.hours")}
+                          </span>
                         </div>
                       </div>
+                      <p className="text-gray-600 dark:text-gray-300 mb-4">
+                        {getServiceDescription(service).split('\n')[0]}
+                      </p>
 
-                      <div className="flex items-center justify-end">
-                        <Button 
-                          size="sm" 
+
+                      <div className="flex items-center justify-between mt-auto">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() =>
+                            setExpandedServiceId(
+                              expandedServiceId === service.id ? null : service.id
+                            )
+                          }
+                        >
+                          {expandedServiceId === service.id
+                            ? t("serviceDetails.hideDescription") || "Tavsifni yopish"
+                            : t("serviceDetails.showDescription") || "To'liq tavsif"}
+                          {expandedServiceId === service.id ? (
+                            <ChevronUp className="ml-2 w-4 h-4" />
+                          ) : (
+                            <ChevronDown className="ml-2 w-4 h-4" />
+                          )}
+                        </Button>
+                        <Button
+                          size="sm"
                           className="bg-primary hover:bg-primary/90 text-white"
                           onClick={() =>
                             router.push({
@@ -276,11 +298,17 @@ export default function ServicesPage() {
                           {t("serviceDetails.orderNow")}
                         </Button>
                       </div>
+                      <div className="">
+                        {expandedServiceId === service.id && (
+                          <div className="mt-2 p-3 bg-gray-100 dark:bg-gray-800 rounded text-gray-700 dark:text-gray-200 whitespace-pre-line">
+                            {getServiceDescription(service)}
+                          </div>
+                        )}
+                      </div>
                     </CardContent>
                   </Card>
                 ))}
               </div>
-
               {filteredServices.length === 0 && (
                 <div className="text-center py-12">
                   <p className="text-gray-500 dark:text-gray-400 text-lg">{t("filters.filterSummary.noServices")}</p>
