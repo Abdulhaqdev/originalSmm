@@ -217,7 +217,7 @@ export default function ServicesPage() {
                     className="hover-lift group transition-all duration-300 border-0 shadow-lg hover:shadow-2xl"
                   >
                     <CardContent className="p-6 flex flex-col h-full">
-<div className="text-center mb-4">
+                      <div className="text-center mb-4">
                         <div className="text-2xl font-bold text-primary">
                           {parseFloat(service.price).toFixed(2)}
                         </div>
@@ -231,7 +231,7 @@ export default function ServicesPage() {
                           </h3>
                         </div>
                       </div>
-                      
+
                       <div className="space-y-2 mb-6">
 
                         <div className="text-xs text-gray-400">ID: {service.id}</div>

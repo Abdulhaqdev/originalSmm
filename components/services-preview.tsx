@@ -22,11 +22,8 @@ export default function ServicesPreview() {
   const [selectedPlatform, setSelectedPlatform] = useState('all');
   const { data: servicesData, error: servicesError, isLoading: servicesLoading } = getServices(6, 0, locale);
 
-  // Map platform names to lowercase for filtering, keeping original for display
   const platforms = servicesData?.results
-  console.log("servicesData", servicesData);
-  console.log("platforms", platforms);
-
+ 
   return (
     <section className="py-20 bg-gray-50 dark:bg-gray-900/50">
       <div className="container mx-auto px-4">

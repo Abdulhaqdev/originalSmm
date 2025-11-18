@@ -18,7 +18,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import LocaleSwitcher from "./shared/LanguageSwitcher";
-import Image from 'next/image' 
+import Image from 'next/image'
 
 export default function Navbar() {
   const t = useTranslations("navbar");
@@ -38,15 +38,15 @@ export default function Navbar() {
   // Navigatsiya elementlari: faqat login qilinganda Dashboard, Services, Add Funds ko'rinadi
   const navItems = isAuthenticated
     ? [
-        { name: t("services"), href: "/services", icon: Briefcase },
-        { name: t("dashboard"), href: "/dashboard", icon: LayoutDashboard },
-        { name: t("addFunds"), href: "/add-funds", icon: CreditCard },
-      ]
+      { name: t("services"), href: "/services", icon: Briefcase },
+      { name: t("dashboard"), href: "/dashboard", icon: LayoutDashboard },
+      { name: t("addFunds"), href: "/add-funds", icon: CreditCard },
+    ]
     : [
-        { name: t("home"), href: "/", icon: Home },
-        { name: t("services"), href: "/services", icon: Briefcase },
-        { name: t("about"), href: "/about", icon: Users },
-      ];
+      { name: t("home"), href: "/", icon: Home },
+      { name: t("services"), href: "/services", icon: Briefcase },
+      { name: t("about"), href: "/about", icon: Users },
+    ];
 
   const getUserInitials = (user: { first_name?: string; last_name?: string; username?: string; email?: string }) => {
     if (user?.first_name && user?.last_name) {
@@ -62,26 +62,26 @@ export default function Navbar() {
     <>
       {/* Top Navigation Bar */}
       <nav className="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 z-50">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
+        <div className="container flex items-center justify-between mx-auto px-4">
+          <div className="flex items-center w-full justify-between h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2 group">
-    <Image
-              src="/logolight.png"
-              alt="Light theme logo"
-              width={200}
-              height={30}
-              priority // Preload the image
-              className="dark:hidden object-contain mt-3 "
-            />
-            <Image
-              src="/logo.png"
-              alt="Dark theme logo"
-              width={200}
-              height={30}
-              priority // Preload the image
-              className="hidden dark:block object-contain"
-            /> 
+              <Image
+                src="/logolight.png"
+                alt="Light theme logo"
+                width={150}
+                height={30}
+                priority // Preload the image
+                className="dark:hidden object-contain mt-2 "
+              />
+              <Image
+                src="/logo.png"
+                alt="Dark theme logo"
+                width={150}
+                height={30}
+                priority // Preload the image
+                className="hidden dark:block object-contain"
+              />
             </Link>
 
             {/* Desktop Navigation */}
