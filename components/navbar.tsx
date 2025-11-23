@@ -69,18 +69,18 @@ export default function Navbar() {
               <Image
                 src="/logolight.png"
                 alt="Light theme logo"
-                width={150}
-                height={30}
+                width={180}
+                height={40}
                 priority // Preload the image
-                className="dark:hidden object-contain mt-2 "
+                className="dark:hidden object-contain mt-1"
               />
               <Image
                 src="/logo.png"
                 alt="Dark theme logo"
-                width={150}
-                height={30}
+                width={180}
+                height={40}
                 priority // Preload the image
-                className="hidden dark:block object-contain"
+                className="hidden dark:block object-contain mb-2"
               />
             </Link>
 
@@ -113,7 +113,7 @@ export default function Navbar() {
                 variant="ghost"
                 size="icon"
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary h-9 w-9"
+                className="text-gray-600 x dark:text-gray-300 dark:hover:text-primary h-9 w-9"
               >
                 <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                 <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />

@@ -54,7 +54,7 @@ export default function LocaleSwitcherSelect({ defaultValue, label }: Props) {
         <Button
           variant="ghost"
           size="sm"
-          className="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors duration-200 gap-2"
+          className="text-gray-700 border-0 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors duration-200 gap-2"
           disabled={isPending}
           aria-label={label}
         >
@@ -71,7 +71,7 @@ export default function LocaleSwitcherSelect({ defaultValue, label }: Props) {
             key={loc}
             onClick={() => handleLocaleChange(loc)}
             className={cn(
-              'flex items-center justify-between cursor-pointer',
+              'flex items-center justify-between cursor-pointer ',
               defaultValue === loc && 'bg-primary/10 text-primary',
             )}
             disabled={isPending}

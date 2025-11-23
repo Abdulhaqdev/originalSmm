@@ -316,16 +316,16 @@ export default function NewOrderForm({
             <SelectTrigger>
               <SelectValue placeholder={t("newOrder.selectCategory") || "Kategoriya tanlang"} />
             </SelectTrigger>
-            <SelectContent>
-              {enrichedCategories.map((category) => (
-                <SelectItem key={category.id} value={String(category.id)}>
-                  <div className="flex items-center gap-2">
-                    {category.icon && <SocialIcon iconName={category.icon} className="h-5 w-5" />}
-                    <span className="text-wrap">{getCategoryName(category)}</span>
-                  </div>
-                </SelectItem>
-              ))}
-            </SelectContent>
+             <SelectContent className="max-w-[calc(100vw-2rem)]">
+    {enrichedCategories.map((category) => (
+      <SelectItem key={category.id} value={String(category.id)}>
+        <div className="flex items-center gap-2 w-full">
+          {category.icon && <SocialIcon iconName={category.icon} className="h-5 w-5 flex-shrink-0" />}
+          <span className="break-words line-clamp-2">{getCategoryName(category)}</span>
+        </div>
+      </SelectItem>
+    ))}
+  </SelectContent>
           </Select>
         </div>
         <div>
@@ -346,18 +346,18 @@ export default function NewOrderForm({
                 }
               />
             </SelectTrigger>
-            <SelectContent>
-              {filteredServices.map((service) => (
-                <SelectItem key={service.id} value={String(service.id)}>
-                  <div className="flex flex-col">
-                    <span className="text-start">{getServiceName(service)}</span>
-                    <span className="text-xs text-muted-foreground">
-                      {service.price} / 1000 • Min: {service.min} • Max: {service.max}
-                    </span>
-                  </div>
-                </SelectItem>
-              ))}
-            </SelectContent>
+           <SelectContent className="max-w-[calc(100vw-2rem)]">
+    {filteredServices.map((service) => (
+      <SelectItem key={service.id} value={String(service.id)}>
+        <div className="flex flex-col gap-1 w-full">
+          <span className="break-words line-clamp-2">{getServiceName(service)}</span>
+          <span className="text-xs text-muted-foreground break-words">
+            {service.price} / 1000 • Min: {service.min} • Max: {service.max}
+          </span>
+        </div>
+      </SelectItem>
+    ))}
+  </SelectContent>
           </Select>
         </div>
         <div>
