@@ -330,6 +330,11 @@
   },
   "services": {
     "locale": "en",
+    "table": {
+  "service": "Service",
+  "price": "Price",
+  "actions": "Actions"
+},
     "hero": {
       "title": "Social Media Growth Services",
       "description": "Find the best services for Instagram, YouTube, and TikTok."

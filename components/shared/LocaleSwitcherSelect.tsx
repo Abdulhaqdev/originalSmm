@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { useTransition } from 'react';
+import { useTransition, useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -29,10 +29,34 @@ export default function LocaleSwitcherSelect({ defaultValue, label }: Props) {
   const pathname = usePathname();
   const t = useTranslations('locale');
   const [isPending, startTransition] = useTransition();
+  const [isOpen, setIsOpen] = useState(false);
 
   const currentLocale = localeMetadata[defaultValue as keyof typeof localeMetadata];
 
+  // Scroll qilganda dropdown yopiladi
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isOpen) {
+        setIsOpen(false);
+      }
+    };
+
+    // Window va document scroll eventlarini tinglash (mobile va desktop uchun)
+    window.addEventListener('scroll', handleScroll, { capture: true });
+    document.addEventListener('scroll', handleScroll, { capture: true });
+
+    // Touch eventlarini ham tinglash (mobile uchun)
+    window.addEventListener('touchmove', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll, { capture: true });
+      document.removeEventListener('scroll', handleScroll, { capture: true });
+      window.removeEventListener('touchmove', handleScroll);
+    };
+  }, [isOpen]);
+
   const handleLocaleChange = (newLocale: string) => {
+    setIsOpen(false);
     startTransition(() => {
       // Extract current locale from pathname
       const currentPath = pathname;
@@ -48,41 +72,46 @@ export default function LocaleSwitcherSelect({ defaultValue, label }: Props) {
     });
   };
 
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="text-gray-700 border-0 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors duration-200 gap-2"
+
+return (
+  <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+    <DropdownMenuTrigger asChild>
+      <Button
+        variant="ghost"
+        size="sm"
+        className={cn(
+          "text-gray-700 border-0 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors duration-200 gap-2",
+          isOpen && "text-primary dark:text-primary bg-gray-100 dark:bg-gray-800"
+        )}
+        disabled={isPending}
+        aria-label={label}
+      >
+        <Globe className="w-4 h-4" />
+        <span className="text-sm font-medium hidden md:inline">{currentLocale?.name}</span>
+      </Button>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent align="end" className="w-36">
+      <div className="px-2 py-1.5 text-sm font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700">
+        {t('selectLanguage')}
+      </div>
+      {routing.locales.map((loc) => (
+        <DropdownMenuItem
+          key={loc}
+          onClick={() => handleLocaleChange(loc)}
+          className={cn(
+            'flex items-center justify-between cursor-pointer',
+            defaultValue === loc && 'bg-primary/10 text-primary',
+          )}
           disabled={isPending}
-          aria-label={label}
         >
-          <Globe className="w-4 h-4" />
-          <span className="text-sm font-medium hidden md:inline">{currentLocale?.name}</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-36">
-        <div className="px-2 py-1.5 text-sm font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700">
-          {t('selectLanguage')}
-        </div>
-        {routing.locales.map((loc) => (
-          <DropdownMenuItem
-            key={loc}
-            onClick={() => handleLocaleChange(loc)}
-            className={cn(
-              'flex items-center justify-between cursor-pointer ',
-              defaultValue === loc && 'bg-primary/10 text-primary',
-            )}
-            disabled={isPending}
-          >
-            <div className="flex items-center gap-3">
-              <span className="font-medium">{localeMetadata[loc as keyof typeof localeMetadata]?.name}</span>
-            </div>
-            {defaultValue === loc && <Check className="w-4 h-4 text-primary" />}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
+          <div className="flex items-center gap-3">
+            <span className="font-medium">{localeMetadata[loc as keyof typeof localeMetadata]?.name}</span>
+          </div>
+          {defaultValue === loc && <Check className="w-4 h-4 text-primary" />}
+        </DropdownMenuItem>
+      ))}
+    </DropdownMenuContent>
+  </DropdownMenu>
+);
+
 }

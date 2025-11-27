@@ -377,6 +377,11 @@
   },
   "services": {
     "locale": "uz",
+    "table": {
+      "service": "Xizmat",
+      "price": "Narx",
+      "actions": "Amallar"
+    },
     "hero": {
       "title": "Ijtimoiy tarmoqlarni rivojlantirish xizmatlari",
       "description": "Instagram, YouTube va TikTok uchun eng yaxshi xizmatlarni toping."

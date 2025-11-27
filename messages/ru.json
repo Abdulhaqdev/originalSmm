@@ -329,6 +329,11 @@
   },
  "services": {
     "locale": "ru",
+  "table": {
+  "service": "Услуга",
+  "price": "Цена",
+  "actions": "Действия"
+},
     "hero": {
       "title": "Услуги для развития социальных сетей",
       "description": "Найдите лучшие услуги для Instagram, YouTube и TikTok."
@@ -574,6 +579,11 @@
         "content": "По вопросам конфиденциальности пишите на support@originalsmm.com."
       }
     }
-  }
+  },
+  "table": {
+  "service": "Xizmat",
+  "price": "Narx",
+  "actions": "Amallar"
+}
 
 }

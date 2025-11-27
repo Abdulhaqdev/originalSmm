@@ -9,8 +9,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Clock, Search, ChevronDown, ChevronUp } from "lucide-react";
+import { Clock, Search, Eye, ShoppingCart } from "lucide-react";
 import { useUser } from "@/hooks/useUser";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 export default function ServicesPage() {
   const t = useTranslations("services");
@@ -20,7 +22,6 @@ export default function ServicesPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [page, setPage] = useState(1);
-  const [expandedServiceId, setExpandedServiceId] = useState<number | null>(null);
   const limit = 10;
 
   type Service = {
@@ -111,6 +112,9 @@ export default function ServicesPage() {
 
   const filteredServices = services
     .filter((service) => {
+      // Faqat active servicelarni ko'rsatish
+      if (!service.is_active) return false;
+
       const serviceName = getServiceName(service);
       const serviceDescription = getServiceDescription(service);
       const matchesSearch =
@@ -187,7 +191,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Services Grid */}
+      {/* Services Table */}
       <section className="py-12">
         <div className="container mx-auto px-4">
           <div className="mb-6 flex items-center justify-between">
@@ -208,107 +212,113 @@ export default function ServicesPage() {
             </div>
           ) : (
             <>
+              <Card className="overflow-hidden">
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-[60px]">ID</TableHead>
+                        <TableHead className="min-w-[300px]">{t("table.service") || "Xizmat"}</TableHead>
+                        <TableHead className="text-center">{t("table.price") || "Narx"}</TableHead>
+                        <TableHead className="text-center">{t("serviceDetails.minOrder")}</TableHead>
+                        <TableHead className="text-center">{t("serviceDetails.maxOrder")}</TableHead>
+                        <TableHead className="text-center">{t("serviceDetails.delivery")}</TableHead>
+                        <TableHead className="text-right">{t("table.actions") || "Amallar"}</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredServices.map((service) => (
+                        <TableRow key={service.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                          <TableCell className="font-medium text-gray-500">{service.id}</TableCell>
+                          <TableCell>
+                            <div className="space-y-1">
+                              <div className="font-medium">{getServiceName(service)}</div>
+                              <div className="text-xs text-gray-500 line-clamp-1">
+                                {getServiceDescription(service).split('\n')[0]}
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-center">
+                            <div className="font-bold text-primary">${parseFloat(service.price).toFixed(2)}</div>
+                            <div className="text-xs text-gray-500">{t("serviceDetails.per1000")}</div>
+                          </TableCell>
+                          <TableCell className="text-center">{service.min}</TableCell>
+                          <TableCell className="text-center">{service.max}</TableCell>
+                          <TableCell className="text-center">
+                            <div className="flex items-center justify-center gap-1">
+                              <Clock className="w-3 h-3" />
+                              <span className="text-sm">{Math.ceil(service.duration / 3600)}h</span>
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex items-center justify-end gap-2">
+                              <Dialog>
+                                <DialogTrigger asChild>
+                                  <Button variant="outline" size="sm">
+                                    <Eye className="w-4 h-4" />
+                                  </Button>
+                                </DialogTrigger>
+                                <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                                  <DialogHeader>
+                                    <DialogTitle className="text-xl font-bold">
+                                      {getServiceName(service)}
+                                    </DialogTitle>
+                                  </DialogHeader>
+                                  <div className="space-y-4">
+                                    <div className="flex items-center justify-between p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                                      <div>
+                                        <div className="text-2xl font-bold text-primary">
+                                          ${parseFloat(service.price).toFixed(2)}
+                                        </div>
+                                        <div className="text-sm text-gray-500">{t("serviceDetails.per1000")}</div>
+                                      </div>
+                                      <div className="text-right space-y-1">
+                                        <div className="text-sm text-gray-600 dark:text-gray-400">
+                                          ID: {service.id}
+                                        </div>
+                                        <div className="text-sm">
+                                          Min: {service.min} • Max: {service.max}
+                                        </div>
+                                        <div className="text-sm flex items-center justify-end">
+                                          <Clock className="w-3 h-3 mr-1" />
+                                          {Math.ceil(service.duration / 3600)} {t("serviceDetails.hours")}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="prose dark:prose-invert max-w-none">
+                                      <div className="text-gray-700 dark:text-gray-300 whitespace-pre-line">
+                                        {getServiceDescription(service)}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </DialogContent>
+                              </Dialog>
+                              <Button
+                                size="sm"
+                                className="bg-primary hover:bg-primary/90 text-white"
+                                onClick={() =>
+                                  router.push({
+                                    pathname: "/dashboard",
+                                    query: {
+                                      tab: "new-orders",
+                                      service: service.id,
+                                      category: service.category,
+                                    },
+                                  })
+                                }
+                              >
+                                <ShoppingCart className="w-4 h-4 mr-1" />
+                                {t("serviceDetails.orderNow")}
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </Card>
 
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredServices.map((service) => (
-                  <Card
-                    key={service.id}
-                    className="hover-lift group transition-all duration-300 border-0 shadow-lg hover:shadow-2xl"
-                  >
-                    <CardContent className="p-6 flex flex-col h-full">
-                      <div className="text-center mb-4">
-                        <div className="text-2xl font-bold text-primary">
-                          {parseFloat(service.price).toFixed(2)}
-                        </div>
-                        <div className="text-sm text-gray-500">{t("serviceDetails.per1000")}</div>
-                      </div>
-                      <div className="flex items-start justify-between mb-4">
-
-                        <div>
-                          <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors duration-300">
-                            {getServiceName(service)}
-                          </h3>
-                        </div>
-                      </div>
-
-                      <div className="space-y-2 mb-6">
-
-                        <div className="text-xs text-gray-400">ID: {service.id}</div>
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-gray-500">{t("serviceDetails.minOrder")}:</span>
-                          <span className="font-medium">{service.min}</span>
-                        </div>
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-gray-500">{t("serviceDetails.minOrder")}:</span>
-                          <span className="font-medium">{service.min}</span>
-                        </div>
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-gray-500">{t("serviceDetails.maxOrder")}:</span>
-                          <span className="font-medium">{service.max}</span>
-                        </div>
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="text-gray-500 flex items-center">
-                            <Clock className="w-4 h-4 mr-1" />
-                            {t("serviceDetails.delivery")}:
-                          </span>
-                          <span className="font-medium">
-                            {Math.ceil(service.duration / 3600)} {t("serviceDetails.hours")}
-                          </span>
-                        </div>
-                      </div>
-                      <p className="text-gray-600 dark:text-gray-300 mb-4">
-                        {getServiceDescription(service).split('\n')[0]}
-                      </p>
-
-
-                      <div className="flex items-center justify-between mt-auto">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() =>
-                            setExpandedServiceId(
-                              expandedServiceId === service.id ? null : service.id
-                            )
-                          }
-                        >
-                          {expandedServiceId === service.id
-                            ? t("serviceDetails.hideDescription") || "Tavsifni yopish"
-                            : t("serviceDetails.showDescription") || "To'liq tavsif"}
-                          {expandedServiceId === service.id ? (
-                            <ChevronUp className="ml-2 w-4 h-4" />
-                          ) : (
-                            <ChevronDown className="ml-2 w-4 h-4" />
-                          )}
-                        </Button>
-                        <Button
-                          size="sm"
-                          className="bg-primary hover:bg-primary/90 text-white"
-                          onClick={() =>
-                            router.push({
-                              pathname: "/dashboard",
-                              query: {
-                                tab: "new-orders",
-                                service: service.id,
-                                category: service.category,
-                              },
-                            })
-                          }
-                        >
-                          {t("serviceDetails.orderNow")}
-                        </Button>
-                      </div>
-                      <div className="">
-                        {expandedServiceId === service.id && (
-                          <div className="mt-2 p-3 bg-gray-100 dark:bg-gray-800 rounded text-gray-700 dark:text-gray-200 whitespace-pre-line">
-                            {getServiceDescription(service)}
-                          </div>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
               {filteredServices.length === 0 && (
                 <div className="text-center py-12">
                   <p className="text-gray-500 dark:text-gray-400 text-lg">{t("filters.filterSummary.noServices")}</p>
@@ -339,7 +349,6 @@ export default function ServicesPage() {
           )}
         </div>
       </section>
-
       <Footer />
     </div>
   );
