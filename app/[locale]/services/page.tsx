@@ -239,7 +239,7 @@ export default function ServicesPage() {
                             </div>
                           </TableCell>
                           <TableCell className="text-center">
-                            <div className="font-bold text-primary">${parseFloat(service.price).toFixed(2)}</div>
+                            <div className="font-bold text-primary">{(service.price)}</div>
                             <div className="text-xs text-gray-500">{t("serviceDetails.per1000")}</div>
                           </TableCell>
                           <TableCell className="text-center">{service.min}</TableCell>
