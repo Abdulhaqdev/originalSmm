@@ -13,6 +13,7 @@ import { Clock, Search, Eye, ShoppingCart } from "lucide-react";
 import { useUser } from "@/hooks/useUser";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { MobileServiceCard } from "@/components/dashboard/ServicesCrad";
 
 export default function ServicesPage() {
   const t = useTranslations("services");
@@ -212,7 +213,7 @@ export default function ServicesPage() {
             </div>
           ) : (
             <>
-              <Card className="overflow-hidden">
+              <Card className="overflow-hidden hidden sm:block">
                 <div className="overflow-x-auto">
                   <Table>
                     <TableHeader>
@@ -318,7 +319,18 @@ export default function ServicesPage() {
                   </Table>
                 </div>
               </Card>
-
+<div className="sm:hidden space-y-4">
+                {filteredServices.map((service) => (
+                  <MobileServiceCard
+                    key={service.id}
+                    service={service}
+                    locale={locale}
+                    getServiceName={getServiceName}
+                    getServiceDescription={getServiceDescription}
+                    t={t}
+                  />
+                ))}
+              </div>
               {filteredServices.length === 0 && (
                 <div className="text-center py-12">
                   <p className="text-gray-500 dark:text-gray-400 text-lg">{t("filters.filterSummary.noServices")}</p>
