@@ -6,7 +6,7 @@ import { useRouter } from "@/app/i18n/navigation";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Clock, Search, Eye, ShoppingCart } from "lucide-react";
@@ -14,6 +14,7 @@ import { useUser } from "@/hooks/useUser";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { MobileServiceCard } from "@/components/dashboard/ServicesCrad";
+import SocialIcon from "@/components/shared/SocialIcon";
 
 export default function ServicesPage() {
   const t = useTranslations("services");
@@ -21,6 +22,7 @@ export default function ServicesPage() {
   const router = useRouter();
   const { getServices, getCategories } = useUser();
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [page, setPage] = useState(1);
   const limit = 10;
@@ -53,6 +55,8 @@ export default function ServicesPage() {
     name_uz: string;
     name_ru: string;
     name_en: string;
+    icon: string;
+    is_active: boolean;
   };
 
   type ServicesData = {
@@ -62,12 +66,35 @@ export default function ServicesPage() {
     previous?: string | null;
   };
 
-  const { data: servicesData, isLoading: isLoadingServices } = getServices(limit, (page - 1) * limit, locale) as { data: ServicesData | undefined, isLoading: boolean };
-  const { data: categoriesData, error: categoriesError, isLoading: categoriesLoading } = getCategories(locale) as { data: Category[] | undefined, error: any, isLoading: boolean };
+  // Debounce search term
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchTerm);
+      setPage(1); // Reset page when search changes
+    }, 500); // 500ms delay
+
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
+  // API orqali filter qilish - faqat active servicelar + search
+  const { data: servicesData, isLoading: isLoadingServices } = getServices(
+    limit, 
+    (page - 1) * limit, 
+    locale, 
+    selectedCategory !== 'all' ? selectedCategory : undefined,
+    true, // faqat active servicelar
+    debouncedSearch || undefined // search parameter
+  ) as { data: ServicesData | undefined, isLoading: boolean };
+
+  // Faqat active kategoriyalarni olish
+  const { data: categoriesData, isLoading: categoriesLoading } = getCategories(
+    locale, 
+    true // faqat active kategoriyalar
+  ) as { data: Category[] | undefined, isLoading: boolean };
 
   useEffect(() => {
     setPage(1);
-  }, [locale]);
+  }, [locale, selectedCategory]);
 
   const services = servicesData?.results || [];
   const categories = categoriesData || [];
@@ -110,21 +137,6 @@ export default function ServicesPage() {
         return category.name;
     }
   };
-
-  const filteredServices = services
-    .filter((service) => {
-      // Faqat active servicelarni ko'rsatish
-      if (!service.is_active) return false;
-
-      const serviceName = getServiceName(service);
-      const serviceDescription = getServiceDescription(service);
-      const matchesSearch =
-        serviceName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        serviceDescription.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = selectedCategory === "all" ||
-        service.category.toString() === selectedCategory;
-      return matchesSearch && matchesCategory;
-    });
 
   const totalPages = servicesData ? Math.ceil(servicesData.count / limit) : 1;
 
@@ -171,17 +183,25 @@ export default function ServicesPage() {
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="pl-10"
                   />
+                  {isLoadingServices && debouncedSearch && (
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                      <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                    </div>
+                  )}
                 </div>
                 {/* Category Filter */}
                 <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                   <SelectTrigger>
                     <SelectValue placeholder={t("filters.categoryLabel")} />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="max-w-[calc(100vw-2rem)]">
                     <SelectItem value="all">{t("filters.allCategories")}</SelectItem>
                     {categories.map((category) => (
                       <SelectItem key={category.id} value={category.id.toString()}>
-                        {getCategoryName(category)}
+                        <div className="flex items-center gap-2">
+                          <SocialIcon iconName={category.icon} className="h-5 w-5 flex-shrink-0" />
+                          <span className="break-words">{getCategoryName(category)}</span>
+                        </div>
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -197,11 +217,11 @@ export default function ServicesPage() {
         <div className="container mx-auto px-4">
           <div className="mb-6 flex items-center justify-between">
             <p className="text-gray-600 dark:text-gray-300">
-              {t("filters.showingServices", { count: filteredServices.length })}
+              {t("filters.showingServices", { count: services.length })}
             </p>
             <div className="flex items-center space-x-2">
               <span className="text-sm text-gray-500">
-                {searchTerm && `"${searchTerm}" • `}
+                {debouncedSearch && `"${debouncedSearch}" • `}
                 {selectedCategory !== "all" && `${getSelectedCategoryName()} • `}
               </span>
             </div>
@@ -209,6 +229,7 @@ export default function ServicesPage() {
 
           {isLoadingServices ? (
             <div className="text-center py-12">
+              <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
               <p className="text-gray-500 dark:text-gray-400 text-lg">{t("filters.loadingServices")}</p>
             </div>
           ) : (
@@ -228,7 +249,7 @@ export default function ServicesPage() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {filteredServices.map((service) => (
+                      {services.map((service) => (
                         <TableRow key={service.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50">
                           <TableCell className="font-medium text-gray-500">{service.id}</TableCell>
                           <TableCell>
@@ -240,7 +261,7 @@ export default function ServicesPage() {
                             </div>
                           </TableCell>
                           <TableCell className="text-center">
-                            <div className="font-bold text-primary">{(service.price)}</div>
+                            <div className="font-bold text-primary">{service.price}</div>
                             <div className="text-xs text-gray-500">{t("serviceDetails.per1000")}</div>
                           </TableCell>
                           <TableCell className="text-center">{service.min}</TableCell>
@@ -319,8 +340,8 @@ export default function ServicesPage() {
                   </Table>
                 </div>
               </Card>
-<div className="sm:hidden space-y-4">
-                {filteredServices.map((service) => (
+              <div className="sm:hidden space-y-4">
+                {services.map((service) => (
                   <MobileServiceCard
                     key={service.id}
                     service={service}
@@ -331,7 +352,7 @@ export default function ServicesPage() {
                   />
                 ))}
               </div>
-              {filteredServices.length === 0 && (
+              {services.length === 0 && (
                 <div className="text-center py-12">
                   <p className="text-gray-500 dark:text-gray-400 text-lg">{t("filters.filterSummary.noServices")}</p>
                 </div>

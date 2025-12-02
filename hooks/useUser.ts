@@ -24,6 +24,7 @@ interface ServicesResponse {
   next: string | null;
   previous: string | null;
   results: Service[];
+
 }
 
 interface UpdateProfileRequest {
@@ -44,22 +45,28 @@ interface NewOrderRequest {
 export const useUser = () => {
   const queryClient = useQueryClient();
 
-  // Fetch services with pagination and locale
-  const getServices = (limit: number, offset: number, locale: string) =>
+     const getServices = (
+    limit: number, 
+    offset: number, 
+    locale: string, 
+    category?: string, 
+    is_active?: boolean,
+    search?: string
+  ) =>
     useQuery<ServicesResponse, AxiosError<{ detail?: string }>>({
-      queryKey: ['services', limit, offset, locale],
-      queryFn: () => authApi.getServices(limit, offset, locale),
+      queryKey: ['services', limit, offset, locale, category, is_active, search],
+      queryFn: () => authApi.getServices(limit, offset, locale, category, is_active, search),
       retry: false,
-      staleTime: 0, // Disable cache
+      staleTime: 0,
     });
 
-  // Fetch categories with pagination and locale
-  const getCategories = ( locale: string) =>
+  // Fetch categories with locale and is_active filter
+  const getCategories = (locale: string, is_active?: boolean) =>
     useQuery<Category[], AxiosError<{ detail?: string }>>({
-      queryKey: ['categories',  locale],
-      queryFn: () => authApi.getCategories( locale),
+      queryKey: ['categories', locale, is_active],
+      queryFn: () => authApi.getCategories(locale, is_active),
       retry: false,
-      staleTime: 0, // Disable cache
+      staleTime: 0,
     });
 
   const getOrders = ( locale: string) =>

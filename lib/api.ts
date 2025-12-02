@@ -242,20 +242,50 @@ export const authApi = {
     return response.data;
   },
 
-  getServices: async (limit: number, offset: number, locale: string): Promise<ServicesResponse> => {
-    const response = await api.get(`api/all-services/?limit=${limit}&offset=${offset}`, {
+  getServices: async (
+    limit: number, 
+    offset: number, 
+    locale: string, 
+    category?: string, 
+    is_active?: boolean,
+    search?: string
+  ): Promise<ServicesResponse> => {
+    let url = `api/services/?limit=${limit}&offset=${offset}`;
+    
+    // Add category filter if provided
+    if (category && category !== 'all') {
+      url += `&category=${category}`;
+    }
+    
+    // Add is_active filter if provided
+    if (is_active !== undefined) {
+      url += `&is_active=${is_active}`;
+    }
+    
+    // Add search filter if provided
+    if (search && search.trim()) {
+      url += `&search=${encodeURIComponent(search.trim())}`;
+    }
+    
+    const response = await api.get(url, {
       headers: { 'Accept-Language': locale },
     });
     return response.data;
   },
 
-  getCategories: async (locale: string): Promise<Category[]> => {
-    const response = await api.get(`api/categories/`, {
+  getCategories: async (locale: string, is_active?: boolean): Promise<Category[]> => {
+    let url = `api/categories/`;
+    
+    // Add is_active filter if provided
+    if (is_active !== undefined) {
+      url += `?is_active=${is_active}`;
+    }
+    
+    const response = await api.get(url, {
       headers: { 'Accept-Language': locale },
     });
     return response.data;
   },
-
   getOrders: async (locale: string): Promise<Order[]> => {
     const response = await api.get(`/api/orders?type=user`, {
       headers: { 'Accept-Language': locale },
