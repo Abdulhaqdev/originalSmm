@@ -82,12 +82,7 @@ export default function DashboardPage() {
   };
 
   const categories = Array.isArray(categoriesData) ? categoriesData.filter((cat) => cat.is_active !== false) : [];
-  const services = servicesData?.results
-    .filter((srv) => srv.is_active)
-    .map((srv) => ({
-      ...srv,
-      price: typeof srv.price === "string" ? Number(srv.price) : srv.price,
-    })) || [];
+  const services = servicesData
   const orders = ordersData || [];
 
   return (
@@ -119,7 +114,7 @@ export default function DashboardPage() {
               <NewOrderForm 
                 locale={locale} 
                 categories={categories} 
-                services={services} 
+                services={(servicesData ?? []) as any} 
                 user={user ?? null}
                 initialServiceId={serviceIdFromUrl}
                 initialCategoryId={categoryIdFromUrl}

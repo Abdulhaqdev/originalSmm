@@ -249,8 +249,8 @@ export const authApi = {
     category?: string, 
     is_active?: boolean,
     search?: string
-  ): Promise<ServicesResponse> => {
-    let url = `api/services/?limit=${limit}&offset=${offset}`;
+  ): Promise<Service> => {
+    let url = `api/services/?`;
     
     // Add category filter if provided
     if (category && category !== 'all') {
@@ -259,7 +259,7 @@ export const authApi = {
     
     // Add is_active filter if provided
     if (is_active !== undefined) {
-      url += `&is_active=${is_active}`;
+      url += `&is_active`;
     }
     
     // Add search filter if provided

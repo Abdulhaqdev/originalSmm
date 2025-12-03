@@ -24,8 +24,6 @@ export default function ServicesPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [page, setPage] = useState(1);
-  const limit = 10;
 
   type Service = {
     id: number;
@@ -59,45 +57,39 @@ export default function ServicesPage() {
     is_active: boolean;
   };
 
-  type ServicesData = {
-    results: Service[];
-    count: number;
-    next?: string | null;
-    previous?: string | null;
-  };
-
   // Debounce search term
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(searchTerm);
-      setPage(1); // Reset page when search changes
-    }, 500); // 500ms delay
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [searchTerm]);
 
-  // API orqali filter qilish - faqat active servicelar + search
+  // API orqali filter qilish
   const { data: servicesData, isLoading: isLoadingServices } = getServices(
-    limit, 
-    (page - 1) * limit, 
-    locale, 
+    1000, // Barcha servicelarni olish
+    0,
+    locale,
     selectedCategory !== 'all' ? selectedCategory : undefined,
-    true, // faqat active servicelar
-    debouncedSearch || undefined // search parameter
-  ) as { data: ServicesData | undefined, isLoading: boolean };
+    true,
+    debouncedSearch || undefined
+  ) as { data: Service[] | undefined, isLoading: boolean };
 
   // Faqat active kategoriyalarni olish
   const { data: categoriesData, isLoading: categoriesLoading } = getCategories(
-    locale, 
-    true // faqat active kategoriyalar
+    locale,
+    true
   ) as { data: Category[] | undefined, isLoading: boolean };
 
-  useEffect(() => {
-    setPage(1);
-  }, [locale, selectedCategory]);
-
-  const services = servicesData?.results || [];
+  const services = servicesData || [];
   const categories = categoriesData || [];
+
+  const getCategoryIcon = (categoryId: number | string): string | undefined => {
+    const numericId = typeof categoryId === 'string' ? parseInt(categoryId, 10) : categoryId;
+    const category = categories.find(cat => cat.id === numericId);
+    return category?.icon;
+  };
 
   const getServiceName = (service: Service) => {
     switch (locale) {
@@ -137,8 +129,6 @@ export default function ServicesPage() {
         return category.name;
     }
   };
-
-  const totalPages = servicesData ? Math.ceil(servicesData.count / limit) : 1;
 
   const getSelectedCategoryName = () => {
     if (selectedCategory === "all") return t("filters.allCategories");
@@ -222,7 +212,7 @@ export default function ServicesPage() {
             <div className="flex items-center space-x-2">
               <span className="text-sm text-gray-500">
                 {debouncedSearch && `"${debouncedSearch}" • `}
-                {selectedCategory !== "all" && `${getSelectedCategoryName()} • `}
+                {selectedCategory !== "all" && `${getSelectedCategoryName()}`}
               </span>
             </div>
           </div>
@@ -254,7 +244,13 @@ export default function ServicesPage() {
                           <TableCell className="font-medium text-gray-500">{service.id}</TableCell>
                           <TableCell>
                             <div className="space-y-1">
-                              <div className="font-medium">{getServiceName(service)}</div>
+                              <div className="flex items-center gap-2">
+                                <SocialIcon
+                                  iconName={getCategoryIcon(service.category) || ''}
+                                  className="h-5 w-5 flex-shrink-0"
+                                />
+                                <span className="font-medium">{getServiceName(service)}</span>
+                              </div>
                               <div className="text-xs text-gray-500 line-clamp-1">
                                 {getServiceDescription(service).split('\n')[0]}
                               </div>
@@ -282,7 +278,11 @@ export default function ServicesPage() {
                                 </DialogTrigger>
                                 <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
                                   <DialogHeader>
-                                    <DialogTitle className="text-xl font-bold">
+                                    <DialogTitle className="flex items-center gap-2 text-xl font-bold">
+                                      <SocialIcon
+                                        iconName={getCategoryIcon(service.category) || ''}
+                                        className="h-6 w-6 flex-shrink-0"
+                                      />
                                       {getServiceName(service)}
                                     </DialogTitle>
                                   </DialogHeader>
@@ -290,7 +290,7 @@ export default function ServicesPage() {
                                     <div className="flex items-center justify-between p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
                                       <div>
                                         <div className="text-2xl font-bold text-primary">
-                                          ${parseFloat(service.price).toFixed(2)}
+                                          {service.price}
                                         </div>
                                         <div className="text-sm text-gray-500">{t("serviceDetails.per1000")}</div>
                                       </div>
@@ -348,6 +348,7 @@ export default function ServicesPage() {
                     locale={locale}
                     getServiceName={getServiceName}
                     getServiceDescription={getServiceDescription}
+                    getCategoryIcon={getCategoryIcon}
                     t={t}
                   />
                 ))}
@@ -357,27 +358,6 @@ export default function ServicesPage() {
                   <p className="text-gray-500 dark:text-gray-400 text-lg">{t("filters.filterSummary.noServices")}</p>
                 </div>
               )}
-
-              {/* Pagination */}
-              <div className="mt-8 flex justify-center space-x-2">
-                <Button
-                  variant="outline"
-                  disabled={page === 1}
-                  onClick={() => setPage((prev) => prev - 1)}
-                >
-                  {t("pagination.previous")}
-                </Button>
-                <span className="text-sm text-gray-600 dark:text-gray-300 py-2">
-                  {t("pagination.page", { current: page, total: totalPages })}
-                </span>
-                <Button
-                  variant="outline"
-                  disabled={page === totalPages || !servicesData?.next}
-                  onClick={() => setPage((prev) => prev + 1)}
-                >
-                  {t("pagination.next")}
-                </Button>
-              </div>
             </>
           )}
         </div>

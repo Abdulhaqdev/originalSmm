@@ -5,20 +5,25 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Badge } from "@/components/ui/badge";
 import { Clock, Eye, ShoppingCart } from "lucide-react";
 import { useRouter } from "@/app/i18n/navigation";
+import SocialIcon from "../shared/SocialIcon";
+
 
 interface MobileServiceCardProps {
   service: any;
   locale: string;
   getServiceName: (s: any) => string;
   getServiceDescription: (s: any) => string;
+  getCategoryIcon: (categoryId: number | string) => string | undefined; // number | string qabul qiladi
   t: any;
 }
+
 
 export function MobileServiceCard({
   service,
   locale,
   getServiceName,
   getServiceDescription,
+  getCategoryIcon,
   t,
 }: MobileServiceCardProps) {
   const router = useRouter();
@@ -36,6 +41,14 @@ export function MobileServiceCard({
 
         {/* Title + Short Description */}
         <div>
+                    <div className="flex items-center gap-2">
+
+              <SocialIcon 
+              iconName={getCategoryIcon(service.category) || ''} 
+              className="h-5 w-5 flex-shrink-0" 
+            />
+            <span className="font-medium">{getServiceName(service)}</span>
+          </div>
           <h3 className="font-bold text-lg leading-tight">{getServiceName(service)}</h3>
           <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
             {getServiceDescription(service).split("\n")[0]}
