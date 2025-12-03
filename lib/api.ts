@@ -243,8 +243,6 @@ export const authApi = {
   },
 
   getServices: async (
-    limit: number, 
-    offset: number, 
     locale: string, 
     category?: string, 
     is_active?: boolean,

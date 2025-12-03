@@ -55,7 +55,7 @@ export const useUser = () => {
   ) =>
     useQuery<Service, AxiosError<{ detail?: string }>>({
       queryKey: ['services', limit, offset, locale, category, is_active, search],
-      queryFn: () => authApi.getServices(limit, offset, locale, category, is_active, search),
+      queryFn: () => authApi.getServices( locale, category, is_active, search),
       retry: false,
       staleTime: 0,
     });
