@@ -49,7 +49,6 @@ export function MobileServiceCard({
             />
             <span className="font-medium">{getServiceName(service)}</span>
           </div>
-          <h3 className="font-bold text-lg leading-tight">{getServiceName(service)}</h3>
           <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
             {getServiceDescription(service).split("\n")[0]}
           </p>
