@@ -37,18 +37,18 @@ interface NewOrderFormProps {
   locale: string;
   categories: Category[];
   services: Service[];
-  user: User| null;
+  user: User | null;
   initialServiceId?: string | null;
   initialCategoryId?: string | null;
 }
 
-export default function NewOrderForm({ 
-  locale, 
-  categories, 
-  services, 
+export default function NewOrderForm({
+  locale,
+  categories,
+  services,
   user,
   initialServiceId,
-  initialCategoryId 
+  initialCategoryId
 }: NewOrderFormProps) {
   const t = useTranslations("dashboard");
   const { createOrder, isCreatingOrder } = useUser();
@@ -65,7 +65,7 @@ export default function NewOrderForm({
 
   const socialPlatforms = [
     "Instagram",
-    "Facebook", 
+    "Facebook",
     "Twitter",
     "Spotify",
     "TikTok",
@@ -167,7 +167,7 @@ export default function NewOrderForm({
     setServiceId(value);
     const service = services.find((srv) => String(srv.id) === value);
     setSelectedService(service || null);
-    
+
     if (service) {
       // Service tanlanganda minimum quantity ni o'rnatish
       setQuantity(service.min.toString());
@@ -175,7 +175,7 @@ export default function NewOrderForm({
     } else {
       setQuantity("0");
     }
-    
+
     calculateTotalPrice(service, service ? service.min.toString() : "0");
   };
 
@@ -289,7 +289,7 @@ export default function NewOrderForm({
     setSelectedService(null);
     setTotalPrice(0);
     setFormSubmitted(false);
-    
+
     // URL parametrlarini tozalash
     router.replace(`/${locale}/dashboard?tab=new-orders`);
   };
@@ -302,9 +302,10 @@ export default function NewOrderForm({
       <CardContent className="space-y-4">
         <div>
           <Label htmlFor="categoryId">{t("newOrder.categories") || "Kategoriyalar"}</Label>
+
           <Select
             value={categoryId}
-            onValueChange={(value) => {
+            onValueChange={(value: string) => {
               setCategoryId(value);
               setServiceId("");
               setQuantity("0");
@@ -341,23 +342,23 @@ export default function NewOrderForm({
                   !categoryId
                     ? t("newOrder.selectCategoryFirst")
                     : filteredServices.length === 0
-                    ? t("newOrder.noServicesAvailable")
-                    : t("newOrder.selectService")
+                      ? t("newOrder.noServicesAvailable")
+                      : t("newOrder.selectService")
                 }
               />
             </SelectTrigger>
-           <SelectContent className="max-w-[calc(100vw-2rem)]">
-    {filteredServices.map((service) => (
-      <SelectItem key={service.id} value={String(service.id)}>
-        <div className="flex flex-col gap-1 w-full">
-          <span className="break-words line-clamp-2">{getServiceName(service)}</span>
-          <span className="text-xs text-muted-foreground break-words">
-            {service.price} / 1000 • Min: {service.min} • Max: {service.max}
-          </span>
-        </div>
-      </SelectItem>
-    ))}
-  </SelectContent>
+            <SelectContent className="max-w-[calc(100vw-2rem)]">
+              {filteredServices.map((service) => (
+                <SelectItem key={service.id} value={String(service.id)}>
+                  <div className="flex flex-col gap-1 w-full">
+                    <span className="break-words line-clamp-2">{getServiceName(service)}</span>
+                    <span className="text-xs text-muted-foreground break-words">
+                      {service.price} / 1000 • Min: {service.min} • Max: {service.max}
+                    </span>
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
           </Select>
         </div>
         <div>
