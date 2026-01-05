@@ -7,13 +7,14 @@ import { Label } from "@/components/ui/label";
 import { CreditCard, Wallet, Plus, Minus, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useTranslations } from "use-intl";
+
 import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from '@/hooks/useAuth'
 import { useUser } from '@/hooks/useUser'
+import { useTranslations } from "next-intl";
 
 interface Transaction {
   id: number;
