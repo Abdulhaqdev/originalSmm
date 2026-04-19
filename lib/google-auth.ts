@@ -6,7 +6,13 @@ export interface GoogleAuthResponse {
 }
 
 export class GoogleAuth {
-  private static CLIENT_ID = "577050887686-u4ecvvk0ubatcvo72vesbhir7voindur.apps.googleusercontent.com";
+  private static get clientId(): string {
+    const id = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+    if (!id) {
+      throw new Error('NEXT_PUBLIC_GOOGLE_CLIENT_ID is not set');
+    }
+    return id;
+  }
 
   static async initializeGoogleAuth(): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -52,7 +58,7 @@ export class GoogleAuth {
     }
 
     window.google.accounts.id.initialize({
-      client_id: this.CLIENT_ID,
+      client_id: this.clientId,
       callback: onCredentialResponse,
     });
 
