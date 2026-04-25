@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { authApi } from '@/lib/api';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
@@ -11,6 +11,18 @@ import { useTranslations } from 'next-intl';
 interface GoogleSignInButtonProps {
   onSuccess?: () => void;
   onError?: (error: string) => void;
+}
+
+interface GoogleCredentialResponse {
+  credential?: string;
+}
+
+interface ApiLikeError {
+  response?: {
+    data?: {
+      error?: string;
+    };
+  };
 }
 
 export default function GoogleSignInButton({ onSuccess, onError }: GoogleSignInButtonProps) {
@@ -36,13 +48,7 @@ export default function GoogleSignInButton({ onSuccess, onError }: GoogleSignInB
     initGoogle();
   }, [onError, t]);
 
-  useEffect(() => {
-    if (isInitialized && buttonRef.current) {
-      setupGoogleButton();
-    }
-  }, [isInitialized]);
-
-  const handleCredentialResponse = async (response: any) => {
+  const handleCredentialResponse = useCallback(async (response: GoogleCredentialResponse) => {
     if (!response?.credential) {
       toast.error(t('credentialError'));
       onError?.(t('credentialError'));
@@ -69,17 +75,18 @@ export default function GoogleSignInButton({ onSuccess, onError }: GoogleSignInB
       toast.success(t('success'));
       onSuccess?.();
       router.push('/dashboard');
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const apiError = error as ApiLikeError;
       console.error('Google auth error:', error);
-      const errorMessage = error.response?.data?.error || t('authError');
+      const errorMessage = apiError.response?.data?.error || t('authError');
       toast.error(errorMessage);
       onError?.(errorMessage);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [onError, onSuccess, queryClient, router, t]);
 
-  const setupGoogleButton = async () => {
+  const setupGoogleButton = useCallback(async () => {
     if (!buttonRef.current || !isInitialized) return;
 
     try {
@@ -89,7 +96,13 @@ export default function GoogleSignInButton({ onSuccess, onError }: GoogleSignInB
       toast.error(t('buttonSetupError'));
       onError?.(t('buttonSetupError'));
     }
-  };
+  }, [handleCredentialResponse, isInitialized, onError, t]);
+
+  useEffect(() => {
+    if (isInitialized && buttonRef.current) {
+      setupGoogleButton();
+    }
+  }, [isInitialized, setupGoogleButton]);
 
   return (
     <div className="relative w-full">

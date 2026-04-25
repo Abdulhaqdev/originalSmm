@@ -53,7 +53,7 @@ export default function Testimonials() {
                   <Quote className="w-12 h-12 text-primary mx-auto mb-6" />
 
                   <blockquote className="text-xl md:text-2xl font-medium mb-8 leading-relaxed">
-                    "{mockTestimonials[currentIndex].content}"
+                    &quot;{mockTestimonials[currentIndex].content}&quot;
                   </blockquote>
 
                   <div className="flex items-center justify-center mb-6">

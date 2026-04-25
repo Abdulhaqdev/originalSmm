@@ -13,6 +13,17 @@ import { CreditCard, DollarSign } from 'lucide-react';
 import { User } from '@/lib/api'
 import Link from "next/link";
 
+interface ApiErrorPayload {
+  detail?: string;
+  [key: string]: unknown;
+}
+
+interface ApiLikeError {
+  response?: {
+    data?: ApiErrorPayload;
+  };
+}
+
 interface AccountInfoProps {
   user: User | undefined;
 }
@@ -48,10 +59,12 @@ export default function AccountInfo({ user }: AccountInfoProps) {
       await updateProfile(formData);
       setIsDialogOpen(false);
       toast.success(t("account.updateSuccess") || "Profil muvaffaqiyatli yangilandi");
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const apiError = error as ApiLikeError;
+      const errorData = apiError.response?.data;
       const errorMessage =
-        error.response?.data?.detail ||
-        Object.entries(error.response?.data || {})
+        errorData?.detail ||
+        Object.entries(errorData || {})
           .map(([key, value]) => `${key}: ${Array.isArray(value) ? value[0] : value}`)
           .join(", ") ||
         t("account.updateFailed") || "Profilni yangilash muvaffaqiyatsiz yakunlandi";

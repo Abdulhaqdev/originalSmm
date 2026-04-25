@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.originalsmm.uz';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL 
 
-// Utility function to update tokens in both localStorage and cookies
+
 const updateAuthTokens = (access: string) => {
   if (typeof window !== 'undefined') {
     localStorage.setItem('access_token', access);
@@ -105,7 +105,7 @@ export interface LoginResponse {
 export interface GoogleAuthResponse {
   access: string;
   refresh: string;
-  user: any;
+  user: User;
 }
 
 export interface RegisterRequest {

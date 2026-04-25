@@ -7,20 +7,29 @@ import { Clock, Eye, ShoppingCart } from "lucide-react";
 import { useRouter } from "@/app/i18n/navigation";
 import SocialIcon from "../shared/SocialIcon";
 
+interface ServiceCardItem {
+  id: number | string;
+  name: string;
+  category: number | string;
+  price: string | number;
+  min: number;
+  max: number;
+  duration: number;
+}
+
+type Translator = (key: string) => string;
 
 interface MobileServiceCardProps {
-  service: any;
-  locale: string;
-  getServiceName: (s: any) => string;
-  getServiceDescription: (s: any) => string;
+  service: ServiceCardItem;
+  getServiceName: (s: ServiceCardItem) => string;
+  getServiceDescription: (s: ServiceCardItem) => string;
   getCategoryIcon: (categoryId: number | string) => string | undefined; // number | string qabul qiladi
-  t: any;
+  t: Translator;
 }
 
 
 export function MobileServiceCard({
   service,
-  locale,
   getServiceName,
   getServiceDescription,
   getCategoryIcon,

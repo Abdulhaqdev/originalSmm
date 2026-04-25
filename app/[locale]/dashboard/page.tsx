@@ -11,7 +11,7 @@ import { useUser } from "@/hooks/useUser";
 import { toast } from "sonner";
 import OrderList from "@/components/dashboard/OrderList";
 import AccountInfo from "@/components/dashboard/AccountInfo";
-import NewOrderForm from "@/components/dashboard/NewOrderForm";
+import NewOrderForm, { type Service } from "@/components/dashboard/NewOrderForm";
 
 export default function DashboardPage() {
   const t = useTranslations("dashboard");
@@ -72,17 +72,7 @@ export default function DashboardPage() {
     return null; // Prevent rendering until redirect
   }
 
-  type Order = {
-    id: number;
-    service: string;
-    status: string;
-    quantity: number;
-    price: number;
-    createdAt: string;
-  };
-
   const categories = Array.isArray(categoriesData) ? categoriesData.filter((cat) => cat.is_active !== false) : [];
-  const services = servicesData
   const orders = ordersData || [];
 
   return (
@@ -114,7 +104,7 @@ export default function DashboardPage() {
               <NewOrderForm 
                 locale={locale} 
                 categories={categories} 
-                services={(servicesData ?? []) as any} 
+                services={(servicesData ?? []) as Service[]} 
                 user={user ?? null}
                 initialServiceId={serviceIdFromUrl}
                 initialCategoryId={categoryIdFromUrl}

@@ -1,32 +1,18 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { Separator } from '@/components/ui/separator';
-import { Zap, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
+import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { toast } from 'sonner';
 import Image from 'next/image'
 
 export default function Footer() {
   const t = useTranslations('footer');
-  const [email, setEmail] = useState('');
-
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) {
-      toast.success(t('newsletter.successMessage'));
-      setEmail('');
-    }
-  };
 
   const socialIcons = { Facebook, Twitter, Instagram, Youtube };
 
   // Split footer links into two groups for mobile
   const footerLinks = Object.entries(t.raw('links') as Record<string, { title: string; items: Array<{ name: string; href: string }> }>);
-  const midPoint = Math.ceil(footerLinks.length / 2);
-  const firstColumnLinks = footerLinks.slice(0, midPoint);
-  const secondColumnLinks = footerLinks.slice(midPoint);
 
   return (
     <footer className="bg-gray-900 text-white">

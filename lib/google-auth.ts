@@ -2,7 +2,27 @@
 export interface GoogleAuthResponse {
   access: string;
   refresh: string;
-  user: any;
+  user: {
+    id: number;
+    email?: string;
+    [key: string]: unknown;
+  };
+}
+
+interface GoogleCredentialResponse {
+  credential?: string;
+}
+
+interface GoogleButtonConfig {
+  theme: "outline" | "filled_blue" | "filled_black";
+  size: "large" | "medium" | "small";
+  text: "signin_with" | "signup_with" | "continue_with" | "signin";
+  width: string;
+}
+
+interface GoogleInitConfig {
+  client_id: string;
+  callback: (response: GoogleCredentialResponse) => void;
 }
 
 export class GoogleAuth {
@@ -51,7 +71,7 @@ export class GoogleAuth {
 
   static async setupGoogleButton(
     buttonElement: HTMLElement,
-    onCredentialResponse: (response: any) => void
+    onCredentialResponse: (response: GoogleCredentialResponse) => void
   ): Promise<void> {
     if (!window.google?.accounts?.id) {
       throw new Error('Google Auth not initialized');
@@ -70,7 +90,7 @@ export class GoogleAuth {
     });
   }
 
-  static parseJwt(token: string): any {
+  static parseJwt(token: string): Record<string, unknown> | null {
     try {
       const base64Url = token.split('.')[1];
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -81,7 +101,7 @@ export class GoogleAuth {
           .join('')
       );
       return JSON.parse(jsonPayload);
-    } catch (e) {
+    } catch {
       return null;
     }
   }
@@ -93,8 +113,8 @@ declare global {
     google?: {
       accounts: {
         id: {
-          initialize: (config: any) => void;
-          renderButton: (element: HTMLElement, config: any) => void;
+          initialize: (config: GoogleInitConfig) => void;
+          renderButton: (element: HTMLElement, config: GoogleButtonConfig) => void;
           prompt: () => void;
           disableAutoSelect: () => void;
         };

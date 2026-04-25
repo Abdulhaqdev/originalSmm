@@ -77,7 +77,7 @@ export default function ServicesPage() {
   ) as { data: Service[] | undefined, isLoading: boolean };
 
   // Faqat active kategoriyalarni olish
-  const { data: categoriesData, isLoading: categoriesLoading } = getCategories(
+  const { data: categoriesData } = getCategories(
     locale,
     true
   ) as { data: Category[] | undefined, isLoading: boolean };
@@ -345,9 +345,8 @@ export default function ServicesPage() {
                   <MobileServiceCard
                     key={service.id}
                     service={service}
-                    locale={locale}
-                    getServiceName={getServiceName}
-                    getServiceDescription={getServiceDescription}
+                    getServiceName={(s) => getServiceName(s as Service)}
+                    getServiceDescription={(s) => getServiceDescription(s as Service)}
                     getCategoryIcon={getCategoryIcon}
                     t={t}
                   />

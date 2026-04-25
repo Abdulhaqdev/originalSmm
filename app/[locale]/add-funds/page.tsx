@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CreditCard, Wallet, Plus, Minus, ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 
 import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
@@ -16,30 +15,13 @@ import { useAuth } from '@/hooks/useAuth'
 import { useUser } from '@/hooks/useUser'
 import { useTranslations } from "next-intl";
 
-interface Transaction {
-  id: number;
-  price: string;
-  payment_type: {
-    id: number;
-    name: string;
-    created_at: string;
-    updated_at: string;
-    is_active: boolean;
-  };
-  created_at: string;
-  updated_at: string;
-  is_active: boolean;
-}
-
 export default function AddFundsPage() {
-  const pathname = usePathname();
   const t = useTranslations("addFunds");
   const { user } = useAuth();
   const { createPayeerPayment, isCreatingPayeerPayment } = useUser();
 
   const [amount, setAmount] = useState<string>("10000");
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string | null>(null);
-  const [payHistory, setPayHistory] = useState<Transaction[]>([]);
 
   const predefinedAmounts = [10000, 50000, 100000];
   const paymentMethods = [

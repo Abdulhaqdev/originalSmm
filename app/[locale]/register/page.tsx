@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Zap, Mail, Lock, User, Eye, EyeOff, Phone } from 'lucide-react'
+import { Mail, Lock, User, Eye, EyeOff, Phone } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import Navbar from "@/components/navbar"
 
@@ -59,7 +59,14 @@ export default function RegisterPage() {
     }
 
     // Remove confirmPassword from the data sent to API
-    const { confirmPassword, ...registerData } = formData
+    const registerData = {
+      first_name: formData.first_name,
+      last_name: formData.last_name,
+      username: formData.username,
+      email: formData.email,
+      phone_number: formData.phone_number,
+      password: formData.password,
+    }
     register(registerData)
   }
 

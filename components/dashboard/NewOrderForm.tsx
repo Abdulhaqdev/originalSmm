@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import { useUser } from "@/hooks/useUser";
 import SocialIcon from "@/components/shared/SocialIcon";
-import { formatCurrency, getTimeColor, formatDuration } from "@/lib/utils";
+import { getTimeColor, formatDuration } from "@/lib/utils";
 import { Category, User } from '@/lib/api'
 
 // Extend Service type to include localized fields
@@ -20,7 +20,7 @@ export interface Service {
   category: number | string;
   name: string;
   description: string;
-  price: number;
+  price: number | string;
   min: number;
   max: number;
   duration: number;
@@ -30,7 +30,7 @@ export interface Service {
   description_uz?: string;
   description_ru?: string;
   description_en?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface NewOrderFormProps {
@@ -100,7 +100,7 @@ export default function NewOrderForm({
     name_ru?: string;
     name_en?: string;
     icon?: string;
-    [key: string]: any;
+    [key: string]: unknown;
   }
 
   const getCategoryName = (category: LocalizedCategory): string => {
@@ -231,7 +231,7 @@ export default function NewOrderForm({
     try {
       new URL(link);
       return true;
-    } catch (e) {
+    } catch {
       setLinkError(t("newOrder.invalidLink"));
       return false;
     }
