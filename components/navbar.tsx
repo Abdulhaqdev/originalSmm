@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import {  LogOut, CreditCard, Briefcase, LayoutDashboard, Sun, Moon, Home, Users } from "lucide-react";
+import {  LogOut, CreditCard, Briefcase, LayoutDashboard, Sun, Moon, Home, Users, Code2 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
@@ -41,11 +41,13 @@ export default function Navbar() {
       { name: t("services"), href: "/services", icon: Briefcase },
       { name: t("dashboard"), href: "/dashboard", icon: LayoutDashboard },
       { name: t("addFunds"), href: "/add-funds", icon: CreditCard },
+      { name: t("api"), href: "/api", icon: Code2 },
     ]
     : [
       { name: t("home"), href: "/", icon: Home },
       { name: t("services"), href: "/services", icon: Briefcase },
       { name: t("about"), href: "/about", icon: Users },
+      { name: t("api"), href: "/api", icon: Code2 },
     ];
 
   const getUserInitials = (user: { first_name?: string; last_name?: string; username?: string; email?: string }) => {

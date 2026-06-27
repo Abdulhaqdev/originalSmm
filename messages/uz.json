@@ -68,6 +68,7 @@
     "home": "Bosh sahifa",
     "services": "Xizmatlar",
     "about": "Haqida",
+    "api": "API",
     "support": "Yordam",
     "dashboard": "Boshqaruv paneli",
     "accountSettings": "Hisob sozlamalari",
@@ -208,6 +209,10 @@
             "href": "/terms"
           },
           {
+            "name": "API dan foydalanish",
+            "href": "/api"
+          },
+          {
             "name": "Maxfiylik Siyosati",
             "href": "/privacy"
           }
@@ -337,6 +342,83 @@
       "description": "OriginalSMM'ga ijtimoiy tarmoq marketingi ehtiyojlari uchun ishonadigan minglab mamnun mijozlar qatoriga qo'shiling.",
       "browseServices": "Xizmatlarni Ko'rib Chiqish",
       "getStarted": "Hozir Boshlash"
+    }
+  },
+  "api": {
+    "hero": {
+      "badge": "Developer API",
+      "title": "API dan foydalanish",
+      "description": "OriginalSMM API orqali xizmatlar ro'yxatini olish, buyurtma berish, buyurtma holatini tekshirish va balansni ko'rish mumkin. Barcha so'rovlar POST orqali yuboriladi."
+    },
+    "nav": {
+      "title": "Bo'limlar"
+    },
+    "overview": {
+      "title": "API hujjatlari",
+      "field": "Maydon",
+      "value": "Qiymat",
+      "httpMethod": "HTTP usuli",
+      "apiUrl": "API manzili",
+      "responseFormat": "Javob formati",
+      "note": "Har bir so'rovda key (API kalit) va action (harakat nomi) parametrlari yuboriladi. API kalitingizni boshqaruv panelidagi hisob bo'limidan olishingiz mumkin."
+    },
+    "apiKey": {
+      "title": "API kaliti",
+      "description": "API kaliti barcha so'rovlarda avtorizatsiya uchun ishlatiladi. Kalitni hech kimga bermang.",
+      "loginPrompt": "API kalitingizni ko'rish uchun tizimga kiring yoki ro'yxatdan o'ting.",
+      "loginLink": "Kirish",
+      "dashboardLink": "Boshqaruv paneli"
+    },
+    "table": {
+      "parameters": "Parametrlar",
+    "parameter": "Parametr",
+    "description": "Tavsif",
+    "optional": "ixtiyoriy"
+    },
+    "parameters": {
+      "key": "Sizning API kalitingiz",
+      "actionServices": "services — xizmatlar ro'yxati",
+      "actionAdd": "add — yangi buyurtma",
+      "actionStatus": "status — buyurtma holati",
+      "actionBalance": "balance — balans",
+      "service": "Xizmat ID raqami",
+      "link": "Sahifa havolasi (URL)",
+      "quantity": "Kerakli miqdor",
+      "runs": "Yetkazib berish bosqichlari soni",
+      "interval": "Bosqichlar orasidagi interval (daqiqa)",
+      "order": "Buyurtma ID raqami",
+      "orders": "Buyurtma ID lari (vergul bilan, maksimum 100 ta)"
+    },
+    "sections": {
+      "services": {
+        "title": "Xizmatlar ro'yxati",
+        "description": "Barcha mavjud xizmatlar, narxlari va limitlarini olish."
+      },
+      "addOrder": {
+        "title": "Buyurtma berish",
+        "description": "Yangi buyurtma yaratish uchun service, link va quantity parametrlarini yuboring."
+      },
+      "orderStatus": {
+        "title": "Buyurtma holati",
+        "description": "Bitta buyurtmaning joriy holatini tekshirish."
+      },
+      "multipleOrdersStatus": {
+        "title": "Bir nechta buyurtma holati",
+        "description": "Bir vaqtning o'zida bir nechta buyurtma holatini tekshirish (100 tagacha)."
+      },
+      "balance": {
+        "title": "Foydalanuvchi balansi",
+        "description": "Hisobingizdagi joriy balansni olish."
+      }
+    },
+    "exampleRequest": "So'rov namunasi",
+    "exampleResponse": "Javob namunasi",
+    "copy": "Nusxa olish",
+    "copied": "Nusxa olindi",
+    "copyFailed": "Nusxa olish muvaffaqiyatsiz",
+    "phpExample": {
+      "title": "PHP kod namunasi",
+      "description": "Xizmatlar ro'yxatini olish uchun oddiy PHP misoli."
     }
   },
   "addFunds": {

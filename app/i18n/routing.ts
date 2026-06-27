@@ -16,6 +16,11 @@ export const routing = defineRouting({
       uz: '/haqida',
       ru: '/о-нас'
     },
+    '/api': {
+      en: '/api',
+      uz: '/api',
+      ru: '/api'
+    },
     '/dashboard': '/dashboard',
     '/login': '/login',
     '/add-funds': '/add-funds'

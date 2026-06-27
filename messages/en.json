@@ -68,6 +68,7 @@
     "home": "Home",
     "services": "Services",
     "about": "About",
+    "api": "API",
     "support": "Support",
     "dashboard": "Dashboard",
     "accountSettings": "Account Settings",
@@ -223,6 +224,7 @@
           { "name": "About Us", "href": "/about" },
           { "name": "Contact", "href": "/contact" },
           { "name": "Terms of Service", "href": "/terms" },
+          { "name": "API Documentation", "href": "/api" },
           { "name": "Privacy Policy", "href": "/privacy" }
         ]
       },
@@ -326,6 +328,83 @@
       "description": "Join thousands of satisfied customers who trust OriginalSMM for their social media marketing needs.",
       "browseServices": "Browse Services",
       "getStarted": "Get Started Now"
+    }
+  },
+  "api": {
+    "hero": {
+      "badge": "Developer API",
+      "title": "API Documentation",
+      "description": "Use the OriginalSMM API to list services, place orders, check order status, and view your balance. All requests are sent via POST."
+    },
+    "nav": {
+      "title": "Sections"
+    },
+    "overview": {
+      "title": "API Docs",
+      "field": "Field",
+      "value": "Value",
+      "httpMethod": "HTTP Method",
+      "apiUrl": "API URL",
+      "responseFormat": "Response format",
+      "note": "Every request requires key (your API key) and action (operation name). You can find your API key in the account section of your dashboard."
+    },
+    "apiKey": {
+      "title": "API Key",
+      "description": "Your API key is used for authorization on every request. Never share it with anyone.",
+      "loginPrompt": "Sign in or register to view your API key.",
+      "loginLink": "Login",
+      "dashboardLink": "Dashboard"
+    },
+    "table": {
+      "parameters": "Parameters",
+      "parameter": "Parameter",
+      "description": "Description",
+      "optional": "optional"
+    },
+    "parameters": {
+      "key": "Your API key",
+      "actionServices": "services — service list",
+      "actionAdd": "add — create order",
+      "actionStatus": "status — order status",
+      "actionBalance": "balance — account balance",
+      "service": "Service ID",
+      "link": "Link to page (URL)",
+      "quantity": "Required quantity",
+      "runs": "Number of delivery runs",
+      "interval": "Interval between runs (minutes)",
+      "order": "Order ID",
+      "orders": "Order IDs (comma-separated, up to 100)"
+    },
+    "sections": {
+      "services": {
+        "title": "Service list",
+        "description": "Get all available services with rates and limits."
+      },
+      "addOrder": {
+        "title": "Add order",
+        "description": "Create a new order by sending service, link, and quantity parameters."
+      },
+      "orderStatus": {
+        "title": "Order status",
+        "description": "Check the current status of a single order."
+      },
+      "multipleOrdersStatus": {
+        "title": "Multiple orders status",
+        "description": "Check the status of multiple orders at once (up to 100)."
+      },
+      "balance": {
+        "title": "User balance",
+        "description": "Get your current account balance."
+      }
+    },
+    "exampleRequest": "Example request",
+    "exampleResponse": "Example response",
+    "copy": "Copy",
+    "copied": "Copied",
+    "copyFailed": "Failed to copy",
+    "phpExample": {
+      "title": "Example of PHP code",
+      "description": "A simple PHP example to fetch the service list."
     }
   },
   "services": {
