@@ -197,17 +197,21 @@ export interface Order {
   external_order_id: string;
 }
 
-// Payeer Payment interfaces
-export interface PayeerPaymentRequest {
+// Heleket (Crypto) Payment interfaces
+export interface HeleketPaymentRequest {
   amount: string;
-  user_id: string;
   currency: string;
-  description: string;
 }
 
-export interface PayeerPaymentResponse {
-  redirect_url: string;
+export interface HeleketPaymentResponse {
+  payment_url: string;
+  order_id: string;
+  uuid: string;
+  expired_at: string;
 }
+
+export const HELEKET_CURRENCIES = ["USDT", "BTC", "ETH", "LTC", "TRX"] as const;
+export type HeleketCurrency = (typeof HELEKET_CURRENCIES)[number];
 
 const userId = typeof window !== 'undefined' ? localStorage.getItem('user_id') : null;
 
@@ -296,9 +300,9 @@ export const authApi = {
     return response.data;
   },
 
-  // Payeer payment method
-  createPayeerPayment: async (data: PayeerPaymentRequest): Promise<PayeerPaymentResponse> => {
-    const response = await api.post('/api/payeer-payment/', data);
+  // Heleket (crypto) payment
+  createHeleketPayment: async (data: HeleketPaymentRequest): Promise<HeleketPaymentResponse> => {
+    const response = await api.post('/api/heleket-payment/', data);
     return response.data;
   },
 };

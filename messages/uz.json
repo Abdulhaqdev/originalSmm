@@ -431,6 +431,10 @@
     "amountLabel": "Miqdor (UZS)",
     "amountPlaceholder": "Miqdorni kiriting",
     "amountEstimate": "{amount} UZS",
+    "amountLabelCrypto": "Miqdor (kripto)",
+    "amountEstimateCrypto": "{amount} {currency}",
+    "currencyLabel": "Kriptovalyuta",
+    "heleketHint": "To'lov 1 soat ichida bajarilishi kerak. Balans so'mda to'ldiriladi.",
     "paymentMethodLabel": "To'lov usuli",
     "maintenance": "Texnik xizmat",
     "submitButton": "To'ldirish",
@@ -640,7 +644,7 @@
       },
       "payments": {
         "title": "To'lovlar",
-        "content": "Biz Payme, Click va Payeer orqali to'lovlarni qabul qilamiz. Barcha to'lovlar yakuniy va qaytarilmaydi, agar boshqacha ko'rsatilmagan bo'lsa. Siz xaridlaringiz bilan bog'liq barcha to'lovlarni to'lashingizga rozisiz."
+        "content": "Biz Payme, Click va Heleket orqali to'lovlarni qabul qilamiz. Barcha to'lovlar yakuniy va qaytarilmaydi, agar boshqacha ko'rsatilmagan bo'lsa. Siz xaridlaringiz bilan bog'liq barcha to'lovlarni to'lashingizga rozisiz."
       },
       "refunds": {
         "title": "Qaytarish va Bekor Qilish",
@@ -690,7 +694,7 @@
       },
       "sharingInformation": {
         "title": "Ma'lumotlaringizni Baham Ko'rish",
-        "content": "Biz ma'lumotni to'lov protsessorlari (Payme, Click, Payeer) va xizmat taqdim etuvchilar bilan baham ko'ramiz. Biz ma'lumotlaringizni sotmaymiz."
+        "content": "Biz ma'lumotni to'lov protsessorlari (Payme, Click, Heleket) va xizmat taqdim etuvchilar bilan baham ko'ramiz. Biz ma'lumotlaringizni sotmaymiz."
       },
       "security": {
         "title": "Xavfsizlik",

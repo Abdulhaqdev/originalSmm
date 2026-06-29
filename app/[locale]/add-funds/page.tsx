@@ -4,34 +4,42 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CreditCard, Wallet, Plus, Minus, ArrowRight } from "lucide-react";
+import { CreditCard, Wallet, Plus, Minus, ArrowRight, Coins } from "lucide-react";
 import Image from "next/image";
 
 import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from '@/hooks/useAuth'
 import { useUser } from '@/hooks/useUser'
 import { useTranslations } from "next-intl";
+import { HELEKET_CURRENCIES, type HeleketCurrency } from "@/lib/api";
+
+const UZS_PREDEFINED_AMOUNTS = [10000, 50000, 100000];
+const CRYPTO_PREDEFINED_AMOUNTS = [10, 25, 50];
 
 export default function AddFundsPage() {
   const t = useTranslations("addFunds");
   const { user } = useAuth();
-  const { createPayeerPayment, isCreatingPayeerPayment } = useUser();
+  const { createHeleketPayment, isCreatingHeleketPayment } = useUser();
 
   const [amount, setAmount] = useState<string>("10000");
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string | null>(null);
+  const [heleketCurrency, setHeleketCurrency] = useState<HeleketCurrency>("USDT");
 
-  const predefinedAmounts = [10000, 50000, 100000];
   const paymentMethods = [
-    { id: "click", name: "Click", icon: "/click.png", isUnderMaintenance: false}, // Click yoqildi
-    { id: "payme", name: "Payme", icon: "/payme.png", isUnderMaintenance: true},
-    { id: "payeer", name: "Payeer", icon: "/payeer.png", isUnderMaintenance: false },
+    { id: "click", name: "Click", icon: "/click.png", isUnderMaintenance: false },
+    { id: "payme", name: "Payme", icon: "/payme.png", isUnderMaintenance: true },
+    { id: "heleket", name: "Heleket", icon: null, isUnderMaintenance: false },
   ];
 
+  const isHeleket = selectedPaymentMethod === "heleket";
+  const predefinedAmounts = isHeleket ? CRYPTO_PREDEFINED_AMOUNTS : UZS_PREDEFINED_AMOUNTS;
+
   const handleAmountChange = (value: string) => {
-    const regex = /^[0-9]*/;
+    const regex = isHeleket ? /^[0-9]*\.?[0-9]*$/ : /^[0-9]*/;
     if (value === "" || regex.test(value)) {
       setAmount(value);
     }
@@ -42,14 +50,16 @@ export default function AddFundsPage() {
   };
 
   const handleIncrement = () => {
-    const currentAmount = Number.parseInt(amount) || 0;
-    setAmount((currentAmount + 5000).toString());
+    const step = isHeleket ? 5 : 5000;
+    const currentAmount = isHeleket ? Number.parseFloat(amount) || 0 : Number.parseInt(amount) || 0;
+    setAmount((currentAmount + step).toString());
   };
 
   const handleDecrement = () => {
-    const currentAmount = Number.parseInt(amount) || 0;
-    if (currentAmount >= 5000) {
-      setAmount((currentAmount - 5000).toString());
+    const step = isHeleket ? 5 : 5000;
+    const currentAmount = isHeleket ? Number.parseFloat(amount) || 0 : Number.parseInt(amount) || 0;
+    if (currentAmount >= step) {
+      setAmount((currentAmount - step).toString());
     }
   };
 
@@ -58,49 +68,47 @@ export default function AddFundsPage() {
       return;
     }
     setSelectedPaymentMethod(methodId);
+    if (methodId === "heleket") {
+      setAmount("10");
+    } else {
+      setAmount("10000");
+    }
   };
 
-  // Click to'lovi uchun URL yaratish funksiyasi
-  const generateClickPaymentUrl = (amount: string, userId: string) => {
+  const generateClickPaymentUrl = (paymentAmount: string, userId: string) => {
     const baseUrl = "https://my.click.uz/services/pay";
     const params = new URLSearchParams({
       service_id: "82883",
       merchant_id: "46110",
-      amount: amount,
+      amount: paymentAmount,
       transaction_param: userId,
-      return_url: `https://www.originalsmm.uz/dashboard`, // To'lovdan keyingi qaytish URL manzili
-    })
+      return_url: "https://www.originalsmm.uz/dashboard",
+    });
     return `${baseUrl}?${params.toString()}`;
   };
-  console.log(generateClickPaymentUrl("10000", "1")); // Test uchun
 
   const handleAddFunds = () => {
     if (!amount || !selectedPaymentMethod || !user) {
       return;
     }
 
-    const amountNum = Number.parseInt(amount);
-    if (isNaN(amountNum) || amountNum <= 0) {
-      return;
-    }
-
     if (selectedPaymentMethod === "click") {
-      // Click to'lovi uchun URL yaratish va sahifaga o'tish
+      const amountNum = Number.parseInt(amount);
+      if (isNaN(amountNum) || amountNum <= 0) {
+        return;
+      }
       const clickUrl = generateClickPaymentUrl(amount, user.id.toString());
-      window.open(clickUrl, '_blank');
-      
-      // Yoki hozirgi sahifada ochish uchun:
-      // window.location.href = clickUrl;
-      
-    } else if (selectedPaymentMethod === "payeer") {
-      createPayeerPayment({
+      window.open(clickUrl, "_blank");
+    } else if (selectedPaymentMethod === "heleket") {
+      const amountNum = Number.parseFloat(amount);
+      if (isNaN(amountNum) || amountNum <= 0) {
+        return;
+      }
+      createHeleketPayment({
         amount: amount,
-        user_id: user.id.toString(),
-        currency: "USD",
-        description: "Balans to'ldirish"
+        currency: heleketCurrency,
       });
     }
-    // Payme uchun ham shunga o'xshash qo'shish mumkin
   };
 
   return (
@@ -108,7 +116,6 @@ export default function AddFundsPage() {
       <Navbar />
       <main className="flex-1 container mx-auto px-4 py-4 max-w-2xl">
         <div className="space-y-4">
-          {/* Balance Section */}
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 space-y-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -124,11 +131,10 @@ export default function AddFundsPage() {
             </p>
           </div>
 
-          {/* Add Funds Form */}
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 space-y-6">
             <div className="space-y-2">
               <Label htmlFor="amount" className="text-sm font-medium">
-                {t("amountLabel")}
+                {isHeleket ? t("amountLabelCrypto") : t("amountLabel")}
               </Label>
               <div className="flex items-center gap-2 bg-muted/50 rounded-xl p-1">
                 <Button variant="ghost" size="icon" onClick={handleDecrement} className="hover:bg-muted">
@@ -146,9 +152,30 @@ export default function AddFundsPage() {
                 </Button>
               </div>
               <p className="text-xs text-muted-foreground text-center">
-                {t("amountEstimate", { amount: (Number(amount) || 0) })}
+                {isHeleket
+                  ? t("amountEstimateCrypto", { amount: amount || "0", currency: heleketCurrency })
+                  : t("amountEstimate", { amount: Number(amount) || 0 })}
               </p>
             </div>
+
+            {isHeleket && (
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">{t("currencyLabel")}</Label>
+                <Select value={heleketCurrency} onValueChange={(v) => setHeleketCurrency(v as HeleketCurrency)}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {HELEKET_CURRENCIES.map((currency) => (
+                      <SelectItem key={currency} value={currency}>
+                        {currency}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-muted-foreground">{t("heleketHint")}</p>
+              </div>
+            )}
 
             <div className="flex flex-wrap gap-2 justify-center">
               {predefinedAmounts.map((value) => (
@@ -159,7 +186,7 @@ export default function AddFundsPage() {
                   className={`rounded-full ${amount === value.toString() ? "bg-primary hover:bg-primary/90 text-white text-sm md:text-base py-2.5" : ""}`}
                   onClick={() => handlePredefinedAmount(value)}
                 >
-                  {value}
+                  {isHeleket ? `${value} ${heleketCurrency}` : value}
                 </Button>
               ))}
             </div>
@@ -173,15 +200,22 @@ export default function AddFundsPage() {
                   <div
                     key={method.id}
                     className={`border rounded-xl p-3 cursor-pointer transition-all ${
-                      selectedPaymentMethod === method.id 
-                        ? "border-indigo-600 bg-indigo-50 dark:bg-indigo-900/50" 
+                      selectedPaymentMethod === method.id
+                        ? "border-indigo-600 bg-indigo-50 dark:bg-indigo-900/50"
                         : "hover:border-indigo-300"
                     } ${method.isUnderMaintenance ? "opacity-50 cursor-not-allowed" : ""}`}
                     onClick={() => !method.isUnderMaintenance && handlePaymentMethodSelect(method.id)}
                   >
                     <div className="flex flex-col items-center gap-2">
-                      <div className="w-28 h-28 relative">
-                        <Image src={method.icon} alt={method.name} fill className="object-contain rounded-md" />
+                      <div className="w-28 h-28 relative flex items-center justify-center">
+                        {method.icon ? (
+                          <Image src={method.icon} alt={method.name} fill className="object-contain rounded-md" />
+                        ) : (
+                          <div className="flex flex-col items-center justify-center gap-2 text-primary">
+                            <Coins className="h-16 w-16" />
+                            <span className="text-xs font-semibold uppercase tracking-wide">Crypto</span>
+                          </div>
+                        )}
                       </div>
                       <span className="text-sm font-medium">{method.name}</span>
                       {method.isUnderMaintenance && (
@@ -198,14 +232,13 @@ export default function AddFundsPage() {
             <Button
               className="w-full rounded-full bg-primary hover:bg-primary/90 text-white text-sm md:text-base py-2.5"
               onClick={handleAddFunds}
-              disabled={isCreatingPayeerPayment || !amount || !selectedPaymentMethod}
+              disabled={isCreatingHeleketPayment || !amount || !selectedPaymentMethod}
             >
-              {isCreatingPayeerPayment ? t("submitProcessing") : t("submitButton")}
+              {isCreatingHeleketPayment ? t("submitProcessing") : t("submitButton")}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
 
-          {/* Transaction History */}
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 space-y-4">
             <div className="flex items-center gap-2">
               <CreditCard className="h-5 w-5 text-primary" />

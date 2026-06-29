@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { AxiosError } from 'axios';
-import { authApi, Category, Order, PayeerPaymentRequest, PayeerPaymentResponse } from '@/lib/api'
+import { authApi, Category, Order, HeleketPaymentRequest, HeleketPaymentResponse } from '@/lib/api'
 
 interface Service {
   id: number;
@@ -103,14 +103,14 @@ export const useUser = () => {
     },
   });
 
-  // Payeer payment mutation
-  const payeerPaymentMutation = useMutation<PayeerPaymentResponse, AxiosError<{ detail?: string }>, PayeerPaymentRequest>({
-    mutationFn: (data) => authApi.createPayeerPayment(data),
+  // Heleket payment mutation
+  const heleketPaymentMutation = useMutation<HeleketPaymentResponse, AxiosError<{ error?: string; detail?: string }>, HeleketPaymentRequest>({
+    mutationFn: (data) => authApi.createHeleketPayment(data),
     onSuccess: (response) => {
-      window.location.href = response.redirect_url;
+      window.location.href = response.payment_url;
     },
     onError: (error) => {
-      const errorMessage = error.response?.data?.detail || 'To\'lovni boshlashda xato yuz berdi.';
+      const errorMessage = error.response?.data?.error || error.response?.data?.detail || 'To\'lovni boshlashda xato yuz berdi.';
       toast.error(errorMessage);
     },
   });
@@ -123,7 +123,7 @@ export const useUser = () => {
     isUpdatingProfile: updateProfileMutation.isPending,
     createOrder: (data: NewOrderRequest) => createOrderMutation.mutate(data),
     isCreatingOrder: createOrderMutation.isPending,
-    createPayeerPayment: (data: PayeerPaymentRequest) => payeerPaymentMutation.mutate(data),
-    isCreatingPayeerPayment: payeerPaymentMutation.isPending,
+    createHeleketPayment: (data: HeleketPaymentRequest) => heleketPaymentMutation.mutate(data),
+    isCreatingHeleketPayment: heleketPaymentMutation.isPending,
   };
 };

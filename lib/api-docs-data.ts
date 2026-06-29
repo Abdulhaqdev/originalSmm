@@ -1,5 +1,16 @@
-export const API_V2_URL =
-  `${process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://api.orginal-smm.com/api"}/v2/`;
+function buildApiV2Url(): string {
+  const rawBase =
+    process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://api.orginal-smm.com/api";
+  const base = rawBase.replace(/\/+$/, "");
+
+  if (base.endsWith("/v2")) {
+    return `${base}/`;
+  }
+
+  return `${base}/v2/`;
+}
+
+export const API_V2_URL = buildApiV2Url();
 
 export type ApiDocSectionId =
   | "services"
