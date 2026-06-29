@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { useRouter, usePathname } from 'next/navigation';
 import { authApi, LoginRequest, RegisterRequest } from '@/lib/api';
@@ -61,21 +62,17 @@ export const useAuth = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const pathname = usePathname();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Check if user is authenticated
-  const isAuthenticated = () => {
-    if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('access_token');
-      return !!token;
-    }
-    return false;
-  };
+  useEffect(() => {
+    setIsAuthenticated(!!localStorage.getItem('access_token'));
+  }, []);
 
   // Get current user
   const { data: user, isLoading: isLoadingUser } = useQuery({
     queryKey: ['user'],
     queryFn: authApi.getProfile,
-    enabled: isAuthenticated(),
+    enabled: isAuthenticated,
     retry: false,
   });
 
@@ -169,6 +166,7 @@ export const useAuth = () => {
   // Logout function
   const logout = () => {
     removeAuthTokens();
+    setIsAuthenticated(false);
     queryClient.clear();
     
     // Google Sign-Out
@@ -184,7 +182,7 @@ export const useAuth = () => {
   return {
     user,
     isLoadingUser,
-    isAuthenticated: isAuthenticated(),
+    isAuthenticated,
     login: loginMutation.mutate,
     googleAuth: googleAuthMutation.mutate,
     register: registerMutation.mutate,

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
+import { useState, useEffect } from "react";
+import { Link } from "@/app/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import {
@@ -98,6 +98,11 @@ export default function ApiDocumentation() {
   const t = useTranslations("api");
   const { user, isAuthenticated } = useAuth();
   const [apiKeyCopied, setApiKeyCopied] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const copyApiKey = async () => {
     if (!user?.api_key) return;
@@ -211,7 +216,9 @@ export default function ApiDocumentation() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <p className="text-sm text-muted-foreground">{t("apiKey.description")}</p>
-                  {isAuthenticated && user?.api_key ? (
+                  {!mounted ? (
+                    <div className="h-12 rounded-xl bg-muted/60 animate-pulse" />
+                  ) : isAuthenticated && user?.api_key ? (
                     <div className="flex flex-col sm:flex-row gap-3">
                       <code className="flex-1 rounded-xl border bg-background px-4 py-3 text-sm break-all">
                         {user.api_key}
@@ -253,7 +260,8 @@ Content-Type: application/x-www-form-urlencoded
 key=YOUR_API_KEY&action=${section.action}${section.id === "addOrder" ? "&service=SERVICE_ID&link=https://example.com&quantity=1000" : ""}${section.id === "orderStatus" ? "&order=ORDER_ID" : ""}${section.id === "multipleOrdersStatus" ? "&orders=1,10,100" : ""}`;
 
                 return (
-                  <Card key={section.id} id={section.id} className="scroll-mt-24 shadow-sm">
+                  <div key={section.id} id={section.id} className="scroll-mt-24">
+                  <Card className="shadow-sm">
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2 text-xl">
                         <Icon className="h-5 w-5 text-primary" />
@@ -306,10 +314,12 @@ key=YOUR_API_KEY&action=${section.action}${section.id === "addOrder" ? "&service
                       />
                     </CardContent>
                   </Card>
+                  </div>
                 );
               })}
 
-              <Card id="php-example" className="scroll-mt-24 shadow-sm">
+              <div id="php-example" className="scroll-mt-24">
+              <Card className="shadow-sm">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-xl">
                     <Code2 className="h-5 w-5 text-primary" />
@@ -321,6 +331,7 @@ key=YOUR_API_KEY&action=${section.action}${section.id === "addOrder" ? "&service
                   <CodeBlock code={PHP_EXAMPLE} label={t("phpExample.title")} />
                 </CardContent>
               </Card>
+              </div>
             </div>
           </div>
         </div>

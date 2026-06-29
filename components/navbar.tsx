@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { usePathname } from "@/app/i18n/navigation";
+import { Link, usePathname } from "@/app/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -19,6 +18,15 @@ import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import LocaleSwitcher from "./shared/LanguageSwitcher";
 import Image from 'next/image'
+import type { ComponentType } from "react";
+
+type NavHref = "/" | "/services" | "/dashboard" | "/add-funds" | "/about" | "/api";
+
+type NavItem = {
+  name: string;
+  href: NavHref;
+  icon: ComponentType<{ className?: string }>;
+};
 
 export default function Navbar() {
   const t = useTranslations("navbar");
@@ -31,12 +39,8 @@ export default function Navbar() {
     setMounted(true);
   }, []);
 
-  if (!mounted) {
-    return null;
-  }
-
   // Navigatsiya elementlari: faqat login qilinganda Dashboard, Services, Add Funds ko'rinadi
-  const navItems = isAuthenticated
+  const navItems: NavItem[] = mounted && isAuthenticated
     ? [
       { name: t("services"), href: "/services", icon: Briefcase },
       { name: t("dashboard"), href: "/dashboard", icon: LayoutDashboard },
@@ -115,14 +119,21 @@ export default function Navbar() {
                 variant="ghost"
                 size="icon"
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="text-gray-600 x dark:text-gray-300 dark:hover:text-primary h-9 w-9"
+                className="text-gray-600 dark:text-gray-300 dark:hover:text-primary h-9 w-9"
+                aria-label={t("themeToggle")}
               >
-                <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                {mounted ? (
+                  <>
+                    <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                    <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                  </>
+                ) : (
+                  <span className="h-4 w-4" aria-hidden />
+                )}
               </Button>
               {isLoadingUser ? (
                 <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse" />
-              ) : isAuthenticated && user ? (
+              ) : mounted && isAuthenticated && user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="relative h-8 w-8 rounded-full">
@@ -133,7 +144,7 @@ export default function Navbar() {
                       </Avatar>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-56" align="end" forceMount>
+                  <DropdownMenuContent className="w-56" align="end">
                     <div className="flex items-center justify-start gap-2 p-2">
                       <div className="flex flex-col space-y-1 leading-none">
                         <p className="font-medium">{user.first_name} {user.last_name}</p>
@@ -165,11 +176,9 @@ export default function Navbar() {
                 </DropdownMenu>
               ) : (
                 <div className="flex items-center space-x-2">
-                  <Link href="/login">
-                    <Button variant="ghost" size="sm">
-                      {t("login")}
-                    </Button>
-                  </Link>
+                  <Button asChild variant="ghost" size="sm">
+                    <Link href="/login">{t("login")}</Link>
+                  </Button>
                 </div>
               )}
             </div>

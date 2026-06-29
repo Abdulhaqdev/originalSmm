@@ -114,12 +114,12 @@ export default function ServicesPreview() {
 
             {/* View All Services Button */}
             <div className="text-center">
-              <Link href="/services">
-                <Button size="lg" className="bg-primary hover:bg-primary/90 text-white group">
+              <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-white group">
+                <Link href="/services">
                   {t('viewAllServices')}
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </>
         )}

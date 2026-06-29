@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useUser } from "@/hooks/useUser";
 import { toast } from "sonner";
-import { CreditCard, DollarSign } from 'lucide-react';
+import { CreditCard } from 'lucide-react';
 import { User } from '@/lib/api'
 import Link from "next/link";
 
@@ -131,12 +131,14 @@ export default function AccountInfo({ user }: AccountInfoProps) {
           </div>
         </div>
         <div className="flex flex-col sm:flex-row gap-4 mt-6">
-          <Button className="w-full bg-primary hover:bg-primary/90 text-white text-sm md:text-base py-2.5">
-            <DollarSign className="w-4 h-4 mr-2" />
-            <Link href="/add-funds" className="flex items-center">
-                        <CreditCard className="mr-2 h-4 w-4" />
-            {t("actions.addFunds") || "Pul qo'shish"}
-                      </Link>
+          <Button
+            asChild
+            className="w-full bg-primary hover:bg-primary/90 text-white text-sm md:text-base py-2.5"
+          >
+            <Link href="/add-funds" className="flex items-center justify-center">
+              <CreditCard className="mr-2 h-4 w-4" />
+              {t("actions.addFunds") || "Pul qo'shish"}
+            </Link>
           </Button>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>

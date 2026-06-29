@@ -47,11 +47,9 @@ export default function AboutPage() {
               {t('hero.description')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/services">
-                <Button size="lg" className="bg-primary hover:bg-primary/90 text-white">
-                  {t('hero.exploreServices')}
-                </Button>
-              </Link>
+              <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-white">
+                <Link href="/services">{t('hero.exploreServices')}</Link>
+              </Button>
     
             </div>
           </div>
@@ -191,20 +189,17 @@ export default function AboutPage() {
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">{t('cta.title')}</h2>
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">{t('cta.description')}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/services">
-              <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-gray-100">
-                {t('cta.browseServices')}
-              </Button>
-            </Link>
-            <Link href="/dashboard">
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-white text-white hover:bg-white hover:text-primary bg-transparent"
-              >
-                {t('cta.getStarted')}
-              </Button>
-            </Link>
+            <Button asChild size="lg" variant="secondary" className="bg-white text-primary hover:bg-gray-100">
+              <Link href="/services">{t('cta.browseServices')}</Link>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="border-white text-white hover:bg-white hover:text-primary bg-transparent"
+            >
+              <Link href="/dashboard">{t('cta.getStarted')}</Link>
+            </Button>
           </div>
         </div>
       </section>
