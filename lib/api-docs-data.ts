@@ -1,13 +1,10 @@
 function buildApiV2Url(): string {
   const rawBase =
-    process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://api.orginal-smm.com/api";
+    process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://api.orginal-smm.com/";
   const base = rawBase.replace(/\/+$/, "");
+  const root = base.replace(/\/api\/v2\/?$/, "").replace(/\/v2\/?$/, "").replace(/\/api\/?$/, "");
 
-  if (base.endsWith("/v2")) {
-    return `${base}/`;
-  }
-
-  return `${base}/v2/`;
+  return `${root}/api/v2/`;
 }
 
 export const API_V2_URL = buildApiV2Url();
