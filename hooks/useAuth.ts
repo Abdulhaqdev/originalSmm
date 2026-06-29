@@ -63,9 +63,11 @@ export const useAuth = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthReady, setIsAuthReady] = useState(false);
 
   useEffect(() => {
     setIsAuthenticated(!!localStorage.getItem('access_token'));
+    setIsAuthReady(true);
   }, []);
 
   // Get current user
@@ -182,6 +184,7 @@ export const useAuth = () => {
   return {
     user,
     isLoadingUser,
+    isAuthReady,
     isAuthenticated,
     login: loginMutation.mutate,
     googleAuth: googleAuthMutation.mutate,

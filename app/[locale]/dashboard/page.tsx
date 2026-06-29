@@ -15,7 +15,7 @@ import NewOrderForm, { type Service } from "@/components/dashboard/NewOrderForm"
 
 export default function DashboardPage() {
   const t = useTranslations("dashboard");
-  const { user, isAuthenticated, isLoadingUser } = useAuth();
+  const { user, isAuthenticated, isLoadingUser, isAuthReady } = useAuth();
   const { getServices, getCategories, getOrders} = useUser();
   const [activeTab, setActiveTab] = useState("new-orders");
   const router = useRouter();
@@ -52,15 +52,17 @@ export default function DashboardPage() {
     }
   }, [categoriesError, servicesError, ordersError, t]);
 
-  // Redirect unauthenticated users
+  // Redirect unauthenticated users (only after auth state is checked)
   useEffect(() => {
-    if (!isLoadingUser && !isAuthenticated) {
+    if (!isAuthReady) return;
+
+    if (!isAuthenticated) {
       toast.error("Boshqaruv paneliga kirish uchun tizimga kirishingiz kerak");
       router.push(`/${locale}/login?redirect=${encodeURIComponent(pathname)}`);
     }
-  }, [isAuthenticated, isLoadingUser, router, locale, pathname]);
+  }, [isAuthenticated, isAuthReady, router, locale, pathname]);
 
-  if (isLoadingUser || categoriesLoading || servicesLoading || ordersLoading) {
+  if (!isAuthReady || isLoadingUser || categoriesLoading || servicesLoading || ordersLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         {"Yuklanmoqda..."}
