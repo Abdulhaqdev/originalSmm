@@ -13,6 +13,8 @@ import { useUser } from "@/hooks/useUser";
 import SocialIcon from "@/components/shared/SocialIcon";
 import { getTimeColor, formatDuration } from "@/lib/utils";
 import { Category, User } from '@/lib/api'
+import { useCurrency } from '@/components/provider/currency-provider'
+import { lineTotal, moneyNumber } from '@/lib/currency'
 
 // Extend Service type to include localized fields
 export interface Service {
@@ -21,6 +23,7 @@ export interface Service {
   name: string;
   description: string;
   price: number | string;
+  currency?: string;
   min: number;
   max: number;
   duration: number;
@@ -52,6 +55,7 @@ export default function NewOrderForm({
 }: NewOrderFormProps) {
   const t = useTranslations("dashboard");
   const { createOrder, isCreatingOrder } = useUser();
+  const { formatMoney, toUzs } = useCurrency();
   const router = useRouter();
   const [categoryId, setCategoryId] = useState<string>("");
   const [serviceId, setServiceId] = useState<string>("");
@@ -179,13 +183,12 @@ export default function NewOrderForm({
     calculateTotalPrice(service, service ? service.min.toString() : "0");
   };
 
-  // Calculate total price
+  // Calculate total price in the currency returned with the service
   const calculateTotalPrice = (service: Service | null = selectedService, currentQuantity: string = quantity) => {
     if (service && currentQuantity) {
       const quantityNum = Number.parseInt(currentQuantity);
       if (!isNaN(quantityNum) && quantityNum > 0) {
-        const price = Math.round((Number(service.price) * quantityNum) / 1000);
-        setTotalPrice(price);
+        setTotalPrice(lineTotal(moneyNumber(service.price), quantityNum, service.currency || "UZS"));
       } else {
         setTotalPrice(0);
       }
@@ -193,6 +196,16 @@ export default function NewOrderForm({
       setTotalPrice(0);
     }
   };
+
+  useEffect(() => {
+    if (!serviceId) return;
+    const service = services.find((item) => String(item.id) === serviceId);
+    if (!service) return;
+    setSelectedService(service);
+    calculateTotalPrice(service, quantity);
+    // Recalculate when converted prices arrive after a currency change.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [services, serviceId]);
 
   // Validation functions
   const validateQuantity = (currentServiceId: string = serviceId): boolean => {
@@ -266,9 +279,14 @@ export default function NewOrderForm({
 
     const quantityNum = Number.parseInt(quantity);
 
-    if (Number(user.balance) < totalPrice) {
+    const priceCurrency = selectedService?.currency || "UZS";
+    const balanceCurrency = user.currency || "UZS";
+    if (toUzs(moneyNumber(user.balance), balanceCurrency) < toUzs(totalPrice, priceCurrency)) {
       toast.error(
-        t("newOrder.insufficientBalance", { balance: user.balance ?? 0, totalPrice: totalPrice ?? 0 })
+        t("newOrder.insufficientBalance", {
+          balance: formatMoney(user.balance ?? 0, balanceCurrency),
+          totalPrice: formatMoney(totalPrice, priceCurrency),
+        })
       );
       router.push(`/${locale.split("-")[0]}/dashboard/add-funds`);
       return;
@@ -353,7 +371,7 @@ export default function NewOrderForm({
                   <div className="flex flex-col gap-1 w-full">
                     <span className="break-words line-clamp-2">{getServiceName(service)}</span>
                     <span className="text-xs text-muted-foreground break-words">
-                      {service.price} / 1000 • Min: {service.min} • Max: {service.max}
+                      {formatMoney(service.price, service.currency)} / 1000 • Min: {service.min} • Max: {service.max}
                     </span>
                   </div>
                 </SelectItem>
@@ -450,11 +468,13 @@ export default function NewOrderForm({
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     <span className="text-muted-foreground">{t("newOrder.price")}:</span>
-                    <span>{selectedService.price} UZS / 1000</span>
+                    <span>{formatMoney(selectedService.price, selectedService.currency)} / 1000</span>
                   </div>
                   <div className="border-t pt-4 flex items-center justify-between">
                     <span className="text-muted-foreground font-medium">{t("newOrder.totalPrice")}</span>
-                    <span className="text-xl font-bold">{totalPrice} UZS</span>
+                    <span className="text-xl font-bold">
+                      {formatMoney(totalPrice, selectedService.currency)}
+                    </span>
                   </div>
                 </div>
               ) : (

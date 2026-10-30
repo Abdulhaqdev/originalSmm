@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
 import { DollarSign, ShoppingCart, CheckCircle, Clock } from "lucide-react";
 import { User } from '@/lib/api'
+import { useCurrency } from '@/components/provider/currency-provider'
 
 type Order = {
   id: number;
@@ -21,11 +22,12 @@ interface StatsCardProps {
 
 export default function StatsCard({ user, orders }: StatsCardProps) {
   const t = useTranslations("dashboard");
+  const { formatMoney } = useCurrency();
 
   const dashboardStats = [
     {
       title: t("stats.accountBalance") || "Account Balance",
-      value: `$${user?.balance || 0}`,
+      value: formatMoney(user?.balance || 0, user?.currency),
       icon: DollarSign,
       color: "text-green-600",
       bgColor: "bg-green-100 dark:bg-green-900/20",

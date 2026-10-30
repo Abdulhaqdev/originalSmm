@@ -76,7 +76,8 @@
     "login": "Войти",
     "signUp": "Зарегистрироваться",
     "logout": "Выйти",
-    "themeToggle": "Тема"
+    "themeToggle": "Тема",
+    "currency": "Валюта"
   },
   "stats": {
     "title": "Доверяют тысячи",
@@ -123,7 +124,8 @@
     "currentBalanceDescription": "Ваш доступный баланс для услуг",
     "addFundsTitle": "Пополнить счет",
     "addFundsDescription": "Пополните баланс вашего аккаунта",
-    "amountLabel": "Сумма (UZS)",
+    "amountLabel": "Сумма ({currency})",
+    "amountCharged": "К оплате: {amount}",
     "amountPlaceholder": "Введите сумму",
     "amountEstimate": "{amount} UZS",
     "amountLabelCrypto": "Сумма (крипто)",

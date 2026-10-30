@@ -6,12 +6,14 @@ import { Badge } from "@/components/ui/badge";
 import { Clock, Eye, ShoppingCart } from "lucide-react";
 import { useRouter } from "@/app/i18n/navigation";
 import SocialIcon from "../shared/SocialIcon";
+import { Money } from "@/components/provider/currency-provider";
 
 interface ServiceCardItem {
   id: number | string;
   name: string;
   category: number | string;
   price: string | number;
+  currency?: string;
   min: number;
   max: number;
   duration: number;
@@ -23,10 +25,9 @@ interface MobileServiceCardProps {
   service: ServiceCardItem;
   getServiceName: (s: ServiceCardItem) => string;
   getServiceDescription: (s: ServiceCardItem) => string;
-  getCategoryIcon: (categoryId: number | string) => string | undefined; // number | string qabul qiladi
+  getCategoryIcon: (categoryId: number | string) => string | undefined;
   t: Translator;
 }
-
 
 export function MobileServiceCard({
   service,
@@ -36,106 +37,95 @@ export function MobileServiceCard({
   t,
 }: MobileServiceCardProps) {
   const router = useRouter();
+  const name = getServiceName(service);
+  const description = getServiceDescription(service).trim();
+  const shortDescription = description.split("\n")[0]?.trim() || "";
+  const showDescription =
+    shortDescription.length > 0 &&
+    shortDescription.toLowerCase() !== name.toLowerCase();
 
   return (
-    <Card className="overflow-hidden border shadow-sm">
-      <div className="p-4 space-y-4">
+    <Card className="overflow-hidden rounded-2xl">
+      <div className="p-3 space-y-2.5">
         {/* Header: ID + Exclusive badge */}
-        <div className="flex items-center justify-between">
-          <span className="text-sm font-semibold text-muted-foreground">#{service.id}</span>
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-xs font-semibold text-muted-foreground">#{service.id}</span>
           {service.name.toLowerCase().includes("exclusive") && (
-            <Badge className="bg-red-500 text-white">Exclusive</Badge>
+            <Badge className="bg-red-500 text-white text-[10px] px-1.5 py-0">Exclusive</Badge>
           )}
         </div>
 
-        {/* Title + Short Description */}
-        <div>
-                    <div className="flex items-center gap-2">
-
-              <SocialIcon 
-              iconName={getCategoryIcon(service.category) || ''} 
-              className="h-5 w-5 flex-shrink-0" 
+        {/* Title (once) + optional short description */}
+        <div className="space-y-1">
+          <div className="flex items-start gap-2">
+            <SocialIcon
+              iconName={getCategoryIcon(service.category) || ""}
+              className="h-5 w-5 flex-shrink-0 mt-0.5"
             />
-            <span className="font-medium">{getServiceName(service)}</span>
+            <h3 className="font-semibold text-sm leading-snug">{name}</h3>
           </div>
-          <h3 className="font-bold text-lg leading-tight">{getServiceName(service)}</h3>
-          <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
-            {getServiceDescription(service).split("\n")[0]}
-          </p>
+          {showDescription && (
+            <p className="text-xs text-muted-foreground line-clamp-2 pl-7">
+              {shortDescription}
+            </p>
+          )}
         </div>
 
-        {/* Price Box (katta va markazda) */}
-        <div className="bg-primary/5 rounded-xl p-4 text-center">
-          <div className="text-3xl font-bold text-primary">
-            {service.price}
+        {/* Price + Min/Max in one compact row */}
+        <div className="grid grid-cols-3 gap-2">
+          <div className="col-span-1 bg-primary/5 rounded-xl px-2 py-2 text-center">
+            <div className="text-base font-bold text-primary leading-tight">
+              <Money value={service.price} currency={service.currency} />
+            </div>
+            <div className="text-[10px] text-muted-foreground">{t("serviceDetails.per1000")}</div>
           </div>
-          <div className="text-xs text-muted-foreground mt-1">
-            {t("serviceDetails.per1000")}
+          <div className="bg-muted/50 rounded-xl px-2 py-2 text-center">
+            <div className="text-[10px] text-muted-foreground">Min</div>
+            <div className="text-xs font-semibold">{service.min.toLocaleString()}</div>
           </div>
-        </div>
-
-        {/* Min/Max + Average Time */}
-        <div className="grid grid-cols-2 gap-3 text-sm">
-          <div className="bg-muted/50 rounded-lg p-3 text-center">
-            <div className="text-muted-foreground">Min</div>
-            <div className="font-semibold">{service.min.toLocaleString()}</div>
-          </div>
-          <div className="bg-muted/50 rounded-lg p-3 text-center">
-            <div className="text-muted-foreground">Max</div>
-            <div className="font-semibold">{service.max.toLocaleString()}</div>
+          <div className="bg-muted/50 rounded-xl px-2 py-2 text-center">
+            <div className="text-[10px] text-muted-foreground">Max</div>
+            <div className="text-xs font-semibold">{service.max.toLocaleString()}</div>
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-          <Clock className="w-4 h-4" />
+        <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
+          <Clock className="w-3.5 h-3.5" />
           <span>
             ~{Math.ceil(service.duration / 3600)} {t("serviceDetails.hours")}
           </span>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-2 pt-2">
+        <div className="flex gap-2">
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outline" size="sm" className="flex-1">
-                <Eye className="w-4 h-4 mr-1" />
+              <Button variant="outline" size="sm" className="flex-1 h-8 text-xs">
+                <Eye className="w-3.5 h-3.5 mr-1" />
                 {t("serviceDetails.showDescription")}
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-lg">
               <DialogHeader>
-                <DialogTitle>#{service.id}</DialogTitle>
+                <DialogTitle className="flex items-center gap-2 text-base">
+                  <SocialIcon
+                    iconName={getCategoryIcon(service.category) || ""}
+                    className="h-5 w-5 flex-shrink-0"
+                  />
+                  <span className="leading-snug">#{service.id} · {name}</span>
+                </DialogTitle>
               </DialogHeader>
-              <div className="space-y-4 mt-4">
-                {/* <div className="text-3xl font-bold text-primary text-center">
-                  {service.price}
-                </div> */}
-                {/* <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div className="text-center">
-                    <div className="text-muted-foreground">Min</div>
-                    <div className="font-bold">{service.min}</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-muted-foreground">Max</div>
-                    <div className="font-bold">{service.max}</div>
-                  </div>
-                </div> */}
-                {/* <div className="text-center text-sm text-muted-foreground">
-                  <Clock className="inline w-4 h-4 mr-1" />
-                  ~{Math.ceil(service.duration / 3600)} soat
-                </div> */}
-                <div className="prose dark:prose-invert text-sm">
-                  <p className="whitespace-pre-line text-muted-foreground">
-                    {getServiceDescription(service)}
-                  </p>
-                </div>
+              <div className="mt-3">
+                <p className="whitespace-pre-line text-sm text-muted-foreground">
+                  {description || name}
+                </p>
               </div>
             </DialogContent>
           </Dialog>
 
           <Button
             size="sm"
-            className="flex-1"
+            className="flex-1 h-8 text-xs"
             onClick={() =>
               router.push({
                 pathname: "/dashboard",
@@ -147,7 +137,7 @@ export function MobileServiceCard({
               })
             }
           >
-            <ShoppingCart className="w-4 h-4 mr-1" />
+            <ShoppingCart className="w-3.5 h-3.5 mr-1" />
             {t("serviceDetails.orderNow")}
           </Button>
         </div>

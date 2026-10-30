@@ -76,7 +76,8 @@
     "login": "Login",
     "signUp": "Sign Up",
     "logout": "Logout",
-    "themeToggle": "Theme"
+    "themeToggle": "Theme",
+    "currency": "Currency"
   },
   "stats": {
     "title": "Trusted by Thousands",
@@ -171,7 +172,8 @@
     "currentBalanceDescription": "Your available balance for services",
     "addFundsTitle": "Add Funds",
     "addFundsDescription": "Top up your account balance",
-    "amountLabel": "Amount (UZS)",
+    "amountLabel": "Amount ({currency})",
+    "amountCharged": "Charged amount: {amount}",
     "amountPlaceholder": "Enter amount",
     "amountEstimate": "{amount} UZS",
     "amountLabelCrypto": "Amount (crypto)",

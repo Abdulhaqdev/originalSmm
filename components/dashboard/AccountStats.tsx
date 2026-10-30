@@ -5,6 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { DollarSign,  } from "lucide-react";
 import { User } from '@/lib/api'
+import { Money } from '@/components/provider/currency-provider'
 
 interface AccountStatsProps {
   user: User | undefined;
@@ -21,7 +22,9 @@ export default function AccountStats({ user }: AccountStatsProps) {
       <CardContent className="space-y-4">
         <div className="flex justify-between items-center">
           <span className="text-gray-600 dark:text-gray-300">{t("account.currentBalance") || "Current Balance"}</span>
-          <span className="text-2xl font-bold text-primary">${user?.balance || "0.00"}</span>
+          <span className="text-2xl font-bold text-primary">
+            <Money value={user?.balance || "0.00"} currency={user?.currency} />
+          </span>
         </div>
         <div>
           <span className="text-gray-600 dark:text-gray-300">{t("account.apiKey") || "API Key"}</span>

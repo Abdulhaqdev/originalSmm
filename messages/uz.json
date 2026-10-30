@@ -76,7 +76,8 @@
     "login": "Kirish",
     "signUp": "Ro'yxatdan o'tish",
     "logout": "Chiqish",
-    "themeToggle": "Mavzu"
+    "themeToggle": "Mavzu",
+    "currency": "Valyuta"
   },
   "stats": {
     "title": "Minglab Ishonchli Mijozlar",
@@ -428,7 +429,8 @@
     "currentBalanceDescription": "Xizmatlar uchun mavjud balansingiz",
     "addFundsTitle": "Hisobni to'ldirish",
     "addFundsDescription": "Hisob balansingizni to'ldiring",
-    "amountLabel": "Miqdor (UZS)",
+    "amountLabel": "Miqdor ({currency})",
+    "amountCharged": "To'lov summasi: {amount}",
     "amountPlaceholder": "Miqdorni kiriting",
     "amountEstimate": "{amount} UZS",
     "amountLabelCrypto": "Miqdor (kripto)",

@@ -17,6 +17,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import LocaleSwitcher from "./shared/LanguageSwitcher";
+import CurrencySwitcher from "./shared/CurrencySwitcher";
 import Image from 'next/image'
 import type { ComponentType } from "react";
 
@@ -114,6 +115,7 @@ export default function Navbar() {
 
             {/* Auth Section */}
             <div className="flex items-center space-x-2">
+              <CurrencySwitcher />
               <LocaleSwitcher />
               <Button
                 variant="ghost"
@@ -197,7 +199,7 @@ export default function Navbar() {
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  "flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-all duration-200 min-w-[60px]",
+                  "flex flex-col items-center justify-center py-2 px-3 rounded-2xl transition-all duration-200 min-w-[60px]",
                   isActive
                     ? "text-primary bg-primary/10"
                     : "text-gray-400 hover:text-white hover:bg-gray-800/50"

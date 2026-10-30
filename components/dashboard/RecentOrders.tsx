@@ -6,6 +6,7 @@ import { Eye, CheckCircle, Clock, AlertCircle, XCircle } from "lucide-react";
 import Link from "next/link";
 import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
+import { Money } from '@/components/provider/currency-provider'
 
 type Order = {
   id: number;
@@ -81,7 +82,9 @@ export default function RecentOrders({ orders, setActiveTab }: RecentOrdersProps
                 </div>
               </div>
               <div className="text-right">
-                <p className="font-bold">${order.price.toFixed(2)}</p>
+                <p className="font-bold">
+                  <Money value={order.price} />
+                </p>
                 <Badge className={getStatusColor(order.status)}>
                   {t(`orders.status.${order.status}`) || order.status}
                 </Badge>

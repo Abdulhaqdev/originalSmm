@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { useRouter, usePathname } from 'next/navigation';
 import { authApi, LoginRequest, RegisterRequest } from '@/lib/api';
+import { useCurrency } from '@/components/provider/currency-provider';
 
 // Utility functions for handling tokens in both localStorage and cookies
 const setAuthTokens = (access: string, refresh: string, userId?: string) => {
@@ -64,6 +65,7 @@ export const useAuth = () => {
   const pathname = usePathname();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAuthReady, setIsAuthReady] = useState(false);
+  const { currency, isReady: currencyReady } = useCurrency();
 
   useEffect(() => {
     setIsAuthenticated(!!localStorage.getItem('access_token'));
@@ -71,10 +73,10 @@ export const useAuth = () => {
   }, []);
 
   // Get current user
-  const { data: user, isLoading: isLoadingUser } = useQuery({
-    queryKey: ['user'],
+  const { data: user, isPending: isUserPending } = useQuery({
+    queryKey: ['user', currency],
     queryFn: authApi.getProfile,
-    enabled: isAuthenticated,
+    enabled: isAuthenticated && currencyReady,
     retry: false,
   });
 
@@ -183,7 +185,7 @@ export const useAuth = () => {
 
   return {
     user,
-    isLoadingUser,
+    isLoadingUser: !isAuthReady || (isAuthenticated && (!currencyReady || isUserPending)),
     isAuthReady,
     isAuthenticated,
     login: loginMutation.mutate,

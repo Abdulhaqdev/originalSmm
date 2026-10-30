@@ -15,6 +15,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { MobileServiceCard } from "@/components/dashboard/ServicesCrad";
 import SocialIcon from "@/components/shared/SocialIcon";
+import { Money } from "@/components/provider/currency-provider";
 
 export default function ServicesPage() {
   const t = useTranslations("services");
@@ -36,6 +37,7 @@ export default function ServicesPage() {
     description_ru: string;
     description_en: string;
     price: string;
+    currency?: string;
     min: number;
     max: number;
     duration: number;
@@ -162,8 +164,8 @@ export default function ServicesPage() {
 
           {/* Filters */}
           <div className="max-w-6xl mx-auto">
-            <Card className="p-6 mb-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Card className="p-4 sm:p-6 mb-8 rounded-2xl">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                 {/* Search */}
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -171,7 +173,7 @@ export default function ServicesPage() {
                     placeholder={t("filters.searchPlaceholder")}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10"
+                    className="pl-10 h-11 rounded-xl"
                   />
                   {isLoadingServices && debouncedSearch && (
                     <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
@@ -181,7 +183,7 @@ export default function ServicesPage() {
                 </div>
                 {/* Category Filter */}
                 <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <SelectTrigger>
+                  <SelectTrigger className="h-11 rounded-xl">
                     <SelectValue placeholder={t("filters.categoryLabel")} />
                   </SelectTrigger>
                   <SelectContent className="max-w-[calc(100vw-2rem)]">
@@ -257,7 +259,9 @@ export default function ServicesPage() {
                             </div>
                           </TableCell>
                           <TableCell className="text-center">
-                            <div className="font-bold text-primary">{service.price}</div>
+                            <div className="font-bold text-primary">
+                              <Money value={service.price} currency={service.currency} />
+                            </div>
                             <div className="text-xs text-gray-500">{t("serviceDetails.per1000")}</div>
                           </TableCell>
                           <TableCell className="text-center">{service.min}</TableCell>
@@ -290,7 +294,7 @@ export default function ServicesPage() {
                                     <div className="flex items-center justify-between p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
                                       <div>
                                         <div className="text-2xl font-bold text-primary">
-                                          {service.price}
+                                          <Money value={service.price} currency={service.currency} />
                                         </div>
                                         <div className="text-sm text-gray-500">{t("serviceDetails.per1000")}</div>
                                       </div>
@@ -340,7 +344,7 @@ export default function ServicesPage() {
                   </Table>
                 </div>
               </Card>
-              <div className="sm:hidden space-y-4">
+              <div className="sm:hidden space-y-3">
                 {services.map((service) => (
                   <MobileServiceCard
                     key={service.id}

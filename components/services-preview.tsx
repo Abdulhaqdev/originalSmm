@@ -6,6 +6,7 @@ import { ArrowRight, Clock } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useUser } from '@/hooks/useUser'
+import { Money } from '@/components/provider/currency-provider'
 import { usePathname } from 'next/navigation'
 
 interface Service {
@@ -16,6 +17,7 @@ interface Service {
   min: number;
   max: number;
   price: string;
+  currency?: string;
   site_id: number;
   category: number;
   api: number;
@@ -77,7 +79,9 @@ export default function ServicesPreview() {
                         </h3>
                       </div>
                       <div className="text-right">
-                        <div className="text-2xl font-bold text-primary">{service.price}</div>
+                        <div className="text-2xl font-bold text-primary">
+                          <Money value={service.price} currency={service.currency} />
+                        </div>
                         <div className="text-sm text-gray-500">{t2("serviceDetails.per1000")}</div>
                       </div>
                     </div>

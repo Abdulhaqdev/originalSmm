@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { AxiosError } from 'axios';
 import { authApi, Category, Order, HeleketPaymentRequest, HeleketPaymentResponse } from '@/lib/api'
+import { useCurrency } from '@/components/provider/currency-provider'
 
 interface Service {
   id: number;
@@ -11,6 +12,7 @@ interface Service {
   min: number;
   max: number;
   price: string;
+  currency?: string;
   site_id: number;
   category: number;
   api: number;
@@ -44,6 +46,7 @@ interface NewOrderRequest {
 
 export const useUser = () => {
   const queryClient = useQueryClient();
+  const { currency, isReady } = useCurrency();
 
      const getServices = (
     limit: number, 
@@ -53,12 +56,16 @@ export const useUser = () => {
     is_active?: boolean,
     search?: string
   ) =>
-    useQuery<Service, AxiosError<{ detail?: string }>>({
-      queryKey: ['services', limit, offset, locale, category, is_active, search],
-      queryFn: () => authApi.getServices( locale, category, is_active, search),
-      retry: false,
-      staleTime: 0,
-    });
+    {
+      const query = useQuery<Service, AxiosError<{ detail?: string }>>({
+        queryKey: ['services', limit, offset, locale, category, is_active, search, currency],
+        queryFn: () => authApi.getServices( locale, category, is_active, search),
+        enabled: isReady,
+        retry: false,
+        staleTime: 0,
+      });
+      return { ...query, isLoading: !isReady || query.isPending };
+    };
 
   // Fetch categories with locale and is_active filter
   const getCategories = (locale: string, is_active?: boolean) =>
@@ -70,12 +77,16 @@ export const useUser = () => {
     });
 
   const getOrders = ( locale: string) =>
-    useQuery<Order[], AxiosError<{ detail?: string }>>({
-      queryKey: ['orders',  locale],
-      queryFn: () => authApi.getOrders( locale),
-      retry: false,
-      staleTime: 0, // Disable cache
-    });
+    {
+      const query = useQuery<Order[], AxiosError<{ detail?: string }>>({
+        queryKey: ['orders',  locale, currency],
+        queryFn: () => authApi.getOrders( locale),
+        enabled: isReady,
+        retry: false,
+        staleTime: 0,
+      });
+      return { ...query, isLoading: !isReady || query.isPending };
+    };
 
   // Update profile mutation
   const updateProfileMutation = useMutation<void, AxiosError<{ detail?: string }>, UpdateProfileRequest>({
@@ -95,6 +106,7 @@ export const useUser = () => {
     mutationFn: (data) => authApi.createOrder(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['orders'] });
+      queryClient.invalidateQueries({ queryKey: ['user'] });
       toast.success('Buyurtma muvaffaqiyatli yaratildi');
     },
     onError: (error) => {

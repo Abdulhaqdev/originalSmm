@@ -5,6 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { CheckCircle, Clock, AlertCircle, XCircle } from "lucide-react";
 import { Badge } from '../ui/badge'
 import { Order } from '@/lib/api'
+import { Money } from '@/components/provider/currency-provider'
 
 
 
@@ -69,7 +70,9 @@ export default function OrderList({ orders }: OrderListProps) {
                 </div>
               </div>
               <div className="text-right">
-                <p className="font-bold">{order.price}</p>
+                <p className="font-bold">
+                  <Money value={order.price} currency={order.currency} />
+                </p>
                 <Badge className={getStatusColor(order.status)}>
                   {t(`orders.status.${order.status}`) || order.status}
                 </Badge>

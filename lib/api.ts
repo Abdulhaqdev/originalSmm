@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { attachDisplayCurrency } from './currency';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL 
 
@@ -36,6 +37,7 @@ export const api = axios.create({
 // Request interceptor to add auth token and Accept-Language
 api.interceptors.request.use(
   (config) => {
+    attachDisplayCurrency(config);
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('access_token');
       // /all-services/ uchun token qo'shmaymiz
@@ -142,6 +144,7 @@ export interface User {
   last_name: string;
   phone_number: string;
   balance?: string;
+  currency?: string;
   api_key: string;
 }
 
@@ -153,6 +156,7 @@ export interface Service {
   min: number;
   max: number;
   price: string;
+  currency?: string;
   site_id: number;
   category: number;
   api: number;
@@ -188,6 +192,7 @@ export interface Order {
   id: number;
   service: Service;
   price: string;
+  currency?: string;
   url: string;
   status: string;
   quantity: number;

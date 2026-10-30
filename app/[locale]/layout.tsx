@@ -8,6 +8,7 @@ import {NextIntlClientProvider, hasLocale} from 'next-intl';
 import {notFound} from 'next/navigation';
 import { routing } from '../i18n/routing'
 import QueryProvider from '@/components/provider/queryprovider'
+import { CurrencyProvider } from '@/components/provider/currency-provider'
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -50,10 +51,12 @@ export default async  function RootLayout({
     <html lang={locale} suppressHydrationWarning>
       <body className={inter.className}>
       <QueryProvider>
+        <CurrencyProvider>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
           <Toaster />
         </ThemeProvider>
+        </CurrencyProvider>
       </QueryProvider>
       </body>
     </html>

@@ -11,6 +11,7 @@ import { useUser } from "@/hooks/useUser";
 import { toast } from "sonner";
 import { CreditCard } from 'lucide-react';
 import { User } from '@/lib/api'
+import { Money } from '@/components/provider/currency-provider'
 import Link from "next/link";
 
 interface ApiErrorPayload {
@@ -120,7 +121,7 @@ export default function AccountInfo({ user }: AccountInfoProps) {
               {t("account.currentBalance") || "Joriy balans"}
             </Label>
             <p className="text-sm md:text-base font-bold text-primary flex items-center">
-              {user?.balance || "0.00"}
+              <Money value={user?.balance || "0.00"} currency={user?.currency} />
             </p>
           </div>
           <div className="space-y-2">

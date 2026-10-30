@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,6 +16,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useUser } from '@/hooks/useUser'
 import { useTranslations } from "next-intl";
 import { HELEKET_CURRENCIES, type HeleketCurrency } from "@/lib/api";
+import { Money, useCurrency } from "@/components/provider/currency-provider";
 
 const UZS_PREDEFINED_AMOUNTS = [10000, 50000, 100000];
 const CRYPTO_PREDEFINED_AMOUNTS = [10, 25, 50];
@@ -24,10 +25,17 @@ export default function AddFundsPage() {
   const t = useTranslations("addFunds");
   const { user } = useAuth();
   const { createHeleketPayment, isCreatingHeleketPayment } = useUser();
+  const { currency, currencies, formatMoney, toUzs, isReady } = useCurrency();
+  const rateKnown = currencies.some((item) => item.code === currency);
 
   const [amount, setAmount] = useState<string>("10000");
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string | null>(null);
   const [heleketCurrency, setHeleketCurrency] = useState<HeleketCurrency>("USDT");
+
+  useEffect(() => {
+    if (!isReady || selectedPaymentMethod === "heleket") return;
+    setAmount(currency === "UZS" ? "10000" : "10");
+  }, [currency, isReady, selectedPaymentMethod]);
 
   const paymentMethods = [
     { id: "click", name: "Click", icon: "/click.png", isUnderMaintenance: false },
@@ -36,10 +44,12 @@ export default function AddFundsPage() {
   ];
 
   const isHeleket = selectedPaymentMethod === "heleket";
-  const predefinedAmounts = isHeleket ? CRYPTO_PREDEFINED_AMOUNTS : UZS_PREDEFINED_AMOUNTS;
+  const allowsDecimals = isHeleket || currency !== "UZS";
+  const fiatPresets = currency === "UZS" ? UZS_PREDEFINED_AMOUNTS : [5, 10, 25, 50];
+  const predefinedAmounts = isHeleket ? CRYPTO_PREDEFINED_AMOUNTS : fiatPresets;
 
   const handleAmountChange = (value: string) => {
-    const regex = isHeleket ? /^[0-9]*\.?[0-9]*$/ : /^[0-9]*/;
+    const regex = allowsDecimals ? /^[0-9]*\.?[0-9]{0,2}$/ : /^[0-9]*$/;
     if (value === "" || regex.test(value)) {
       setAmount(value);
     }
@@ -50,14 +60,14 @@ export default function AddFundsPage() {
   };
 
   const handleIncrement = () => {
-    const step = isHeleket ? 5 : 5000;
-    const currentAmount = isHeleket ? Number.parseFloat(amount) || 0 : Number.parseInt(amount) || 0;
+    const step = isHeleket ? 5 : currency === "UZS" ? 5000 : 1;
+    const currentAmount = allowsDecimals ? Number.parseFloat(amount) || 0 : Number.parseInt(amount) || 0;
     setAmount((currentAmount + step).toString());
   };
 
   const handleDecrement = () => {
-    const step = isHeleket ? 5 : 5000;
-    const currentAmount = isHeleket ? Number.parseFloat(amount) || 0 : Number.parseInt(amount) || 0;
+    const step = isHeleket ? 5 : currency === "UZS" ? 5000 : 1;
+    const currentAmount = allowsDecimals ? Number.parseFloat(amount) || 0 : Number.parseInt(amount) || 0;
     if (currentAmount >= step) {
       setAmount((currentAmount - step).toString());
     }
@@ -71,7 +81,7 @@ export default function AddFundsPage() {
     if (methodId === "heleket") {
       setAmount("10");
     } else {
-      setAmount("10000");
+      setAmount(currency === "UZS" ? "10000" : "10");
     }
   };
 
@@ -93,11 +103,11 @@ export default function AddFundsPage() {
     }
 
     if (selectedPaymentMethod === "click") {
-      const amountNum = Number.parseInt(amount);
-      if (isNaN(amountNum) || amountNum <= 0) {
+      const amountNum = Number.parseFloat(amount);
+      if (isNaN(amountNum) || amountNum <= 0 || !rateKnown) {
         return;
       }
-      const clickUrl = generateClickPaymentUrl(amount, user.id.toString());
+      const clickUrl = generateClickPaymentUrl(String(toUzs(amountNum, currency)), user.id.toString());
       window.open(clickUrl, "_blank");
     } else if (selectedPaymentMethod === "heleket") {
       const amountNum = Number.parseFloat(amount);
@@ -123,7 +133,7 @@ export default function AddFundsPage() {
                 <span className="font-semibold">{t("currentBalance")}</span>
               </div>
               <Badge variant="secondary" className="text-sm md:text-base font-bold text-primary">
-                {user?.balance || 0} UZS
+                <Money value={user?.balance || 0} currency={user?.currency} />
               </Badge>
             </div>
             <p className="text-xs text-muted-foreground text-center">
@@ -134,7 +144,7 @@ export default function AddFundsPage() {
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 space-y-6">
             <div className="space-y-2">
               <Label htmlFor="amount" className="text-sm font-medium">
-                {isHeleket ? t("amountLabelCrypto") : t("amountLabel")}
+                {isHeleket ? t("amountLabelCrypto") : t("amountLabel", { currency })}
               </Label>
               <div className="flex items-center gap-2 bg-muted/50 rounded-xl p-1">
                 <Button variant="ghost" size="icon" onClick={handleDecrement} className="hover:bg-muted">
@@ -154,7 +164,12 @@ export default function AddFundsPage() {
               <p className="text-xs text-muted-foreground text-center">
                 {isHeleket
                   ? t("amountEstimateCrypto", { amount: amount || "0", currency: heleketCurrency })
-                  : t("amountEstimate", { amount: Number(amount) || 0 })}
+                  : formatMoney(amount || 0, currency)}
+                {!isHeleket && currency !== "UZS" && rateKnown && (
+                  <span className="block">
+                    {t("amountCharged", { amount: formatMoney(toUzs(Number(amount) || 0, currency), "UZS") })}
+                  </span>
+                )}
               </p>
             </div>
 
@@ -186,7 +201,7 @@ export default function AddFundsPage() {
                   className={`rounded-full ${amount === value.toString() ? "bg-primary hover:bg-primary/90 text-white text-sm md:text-base py-2.5" : ""}`}
                   onClick={() => handlePredefinedAmount(value)}
                 >
-                  {isHeleket ? `${value} ${heleketCurrency}` : value}
+                  {isHeleket ? `${value} ${heleketCurrency}` : formatMoney(value, currency)}
                 </Button>
               ))}
             </div>
@@ -232,7 +247,7 @@ export default function AddFundsPage() {
             <Button
               className="w-full rounded-full bg-primary hover:bg-primary/90 text-white text-sm md:text-base py-2.5"
               onClick={handleAddFunds}
-              disabled={isCreatingHeleketPayment || !amount || !selectedPaymentMethod}
+              disabled={isCreatingHeleketPayment || !amount || !selectedPaymentMethod || (!isHeleket && !rateKnown)}
             >
               {isCreatingHeleketPayment ? t("submitProcessing") : t("submitButton")}
               <ArrowRight className="ml-2 h-4 w-4" />
